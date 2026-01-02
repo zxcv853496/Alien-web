@@ -79,21 +79,21 @@ const Services = () => {
             delay: 0.25
         },
         {
-            title: t('services.static.title'),
-            description: t('services.static.desc'),
-            icon: <WebIcon sx={{ fontSize: 50 }} />,
+            title: t('services.webdev.title'),
+            description: t('services.webdev.desc'),
+            icon: <CodeIcon sx={{ fontSize: 50 }} />,
             delay: 0.3
         },
         {
-            title: t('services.vue.title'),
-            description: t('services.vue.desc'),
-            icon: <CodeIcon sx={{ fontSize: 50 }} />,
+            title: t('services.corporate.title'),
+            description: t('services.corporate.desc'),
+            icon: <WebIcon sx={{ fontSize: 50 }} />,
             delay: 0.4
         },
         {
-            title: t('services.react.title'),
-            description: t('services.react.desc'),
-            icon: <StorageIcon sx={{ fontSize: 50 }} />,
+            title: t('services.landing.title'),
+            description: t('services.landing.desc'),
+            icon: <RocketLaunchIcon sx={{ fontSize: 50 }} />, // Using Rocket for high conversion/launch
             delay: 0.5
         },
         {
