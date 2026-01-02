@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fab, Tooltip, Zoom } from '@mui/material';
+import { Fab, Tooltip, Zoom, Typography } from '@mui/material';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { motion } from 'framer-motion';
 
@@ -23,8 +23,7 @@ const FloatingCTA = () => {
             >
                 <Tooltip title="加 Line 立即諮詢" arrow placement="left">
                     <Fab
-                        color="primary"
-                        aria-label="chat"
+                        aria-label="line-chat"
                         href={lineLink}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -39,7 +38,9 @@ const FloatingCTA = () => {
                             }
                         }}
                     >
-                        <ChatBubbleIcon sx={{ fontSize: 32 }} />
+                        <Typography variant="h6" component="span" sx={{ fontWeight: 900, fontFamily: 'Arial, sans-serif', letterSpacing: 0.5 }}>
+                            LINE
+                        </Typography>
                     </Fab>
                 </Tooltip>
             </motion.div>
