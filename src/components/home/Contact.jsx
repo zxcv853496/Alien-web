@@ -57,21 +57,21 @@ const Contact = () => {
                             backdropFilter: 'blur(10px)'
                         }}
                     >
-                        <Typography variant="h3" component="h2" gutterBottom fontWeight="800" color="primary.main">
+                        <Typography variant="h3" component="h2" gutterBottom fontWeight="800" color="primary.main" sx={{ fontSize: { xs: '1.75rem', md: '2.5rem' } }}>
                             {t('cta.title')}
                         </Typography>
                         <Typography variant="h6" sx={{ mb: 6, color: 'text.secondary', fontWeight: 'normal' }}>
-                            「架站一條龍」服務，讓您省心又安心！
+                            {t('cta.subtitle')}
                         </Typography>
 
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, mb: 4, textAlign: 'left', justifyContent: 'center' }}>
                             <Box sx={{ width: { xs: '100%', sm: 'calc(50% - 12px)' } }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
-                                    姓名
+                                    {t('contact.name.label')}
                                 </Typography>
                                 <TextField
                                     fullWidth
-                                    placeholder="請輸入您的姓名"
+                                    placeholder={t('contact.name.placeholder')}
                                     variant="outlined"
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
@@ -86,11 +86,11 @@ const Contact = () => {
                             </Box>
                             <Box sx={{ width: { xs: '100%', sm: 'calc(50% - 12px)' } }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
-                                    電子郵件
+                                    {t('contact.email.label')}
                                 </Typography>
                                 <TextField
                                     fullWidth
-                                    placeholder="請輸入您的 Email"
+                                    placeholder={t('contact.email.placeholder')}
                                     variant="outlined"
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
@@ -105,11 +105,11 @@ const Contact = () => {
                             </Box>
                             <Box sx={{ width: '100%' }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
-                                    諮詢內容
+                                    {t('contact.message.label')}
                                 </Typography>
                                 <TextField
                                     fullWidth
-                                    placeholder="請輸入您想諮詢的內容..."
+                                    placeholder={t('contact.message.placeholder')}
                                     multiline
                                     rows={4}
                                     variant="outlined"
@@ -141,11 +141,14 @@ const Contact = () => {
                                     boxShadow: '0 8px 20px rgba(21, 101, 192, 0.4)',
                                     '&:hover': { bgcolor: 'primary.dark' }
                                 }}
-                                href="mailto:contact@alienfreelance.com"
+                                href="mailto:zxcv853496@gmail.com"
                             >
-                                立即聯繫我們
+                                {t('cta.button')}
                             </Button>
                         </motion.div>
+                        <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary', fontWeight: 'bold' }}>
+                            Email: zxcv853496@gmail.com
+                        </Typography>
                     </Paper>
                 </motion.div>
             </Container>

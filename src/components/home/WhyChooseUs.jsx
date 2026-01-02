@@ -7,10 +7,10 @@ const WhyChooseUs = () => {
     const { t } = useTranslation();
 
     const reasons = [
-        { title: "專業團隊", desc: "擁有豐富的網頁設計與開發經驗。" },
-        { title: "客製化方案", desc: "根據您的需求量身打造專屬網站。" },
-        { title: "品質保證", desc: "注重細節，確保每個環節都達到最高標準。" },
-        { title: "透明流程", desc: "讓您清楚掌握網站建置進度。" },
+        { title: t('why.professional.title'), desc: t('why.professional.desc') },
+        { title: t('why.custom.title'), desc: t('why.custom.desc') },
+        { title: t('why.quality.title'), desc: t('why.quality.desc') },
+        { title: t('why.transparent.title'), desc: t('why.transparent.desc') },
     ];
 
     return (

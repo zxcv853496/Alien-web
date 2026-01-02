@@ -53,7 +53,7 @@ const Header = () => {
                     Alien's
                 </Typography>
                 <Typography variant="subtitle2" sx={{ opacity: 0.8 }}>
-                    Freelance Website
+                    {t('drawer.subtitle')}
                 </Typography>
             </Box>
 
@@ -81,7 +81,7 @@ const Header = () => {
             {/* Drawer Footer decoration */}
             <Box sx={{ p: 2, bgcolor: 'grey.100' }}>
                 <Typography variant="caption" color="text.secondary">
-                    © 2026 Alien's Design
+                    {t('drawer.copyright')}
                 </Typography>
             </Box>
         </Box>
@@ -127,7 +127,7 @@ const Header = () => {
                     sx={{ flexGrow: { xs: 1, md: 0 }, mr: 2, display: 'flex', fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 >
-                    Alien's Freelance
+                    {t('nav.title')}
                 </Typography>
 
                 {/* Desktop Menu */}
