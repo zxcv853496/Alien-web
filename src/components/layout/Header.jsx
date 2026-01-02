@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from 'react-i18next';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
     const { t, i18n } = useTranslation();
@@ -13,6 +13,7 @@ const Header = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorElLang, setAnchorElLang] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -59,24 +60,29 @@ const Header = () => {
             </Box>
 
             <List sx={{ flexGrow: 1, pt: 2 }}>
-                {navItems.map((item) => (
-                    <ListItem key={item.label} disablePadding>
-                        <ListItemButton
-                            onClick={() => handleNavigation(item.path)}
-                            sx={{
-                                textAlign: 'center',
-                                py: 2,
-                                '&:hover': { bgcolor: 'primary.light', color: 'white' },
-                                transition: '0.3s'
-                            }}
-                        >
-                            <ListItemText
-                                primary={item.label}
-                                primaryTypographyProps={{ fontSize: '1.1rem', fontWeight: 500 }}
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                {navItems.map((item) => {
+                    const isActive = location.pathname === item.path;
+                    return (
+                        <ListItem key={item.label} disablePadding>
+                            <ListItemButton
+                                onClick={() => handleNavigation(item.path)}
+                                sx={{
+                                    textAlign: 'center',
+                                    py: 2,
+                                    bgcolor: isActive ? 'primary.light' : 'transparent',
+                                    color: isActive ? 'white' : 'inherit',
+                                    '&:hover': { bgcolor: isActive ? 'primary.main' : 'rgba(0,0,0,0.04)', color: isActive ? 'white' : 'inherit' },
+                                    transition: '0.3s'
+                                }}
+                            >
+                                <ListItemText
+                                    primary={item.label}
+                                    primaryTypographyProps={{ fontSize: '1.1rem', fontWeight: isActive ? 700 : 500 }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    );
+                })}
             </List>
 
             {/* Drawer Footer decoration */}
@@ -133,23 +139,29 @@ const Header = () => {
 
                 {/* Desktop Menu */}
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end', mr: 2 }}>
-                    {navItems.map((item) => (
-                        <Button
-                            key={item.label}
-                            onClick={() => handleNavigation(item.path)}
-                            sx={{
-                                my: 2,
-                                mx: 1, // Increased horizontal margin between buttons
-                                px: 2, // Increased horizontal padding inside buttons
-                                color: 'text.primary',
-                                display: 'block',
-                                fontWeight: 500,
-                                '&:hover': { color: 'primary.main' }
-                            }}
-                        >
-                            {item.label}
-                        </Button>
-                    ))}
+                    {navItems.map((item) => {
+                        const isActive = location.pathname === item.path;
+                        return (
+                            <Button
+                                key={item.label}
+                                onClick={() => handleNavigation(item.path)}
+                                sx={{
+                                    my: 2,
+                                    mx: 1, // Increased horizontal margin between buttons
+                                    px: 2, // Increased horizontal padding inside buttons
+                                    color: isActive ? 'primary.main' : 'text.primary',
+                                    display: 'block',
+                                    fontWeight: isActive ? 700 : 500,
+                                    borderBottom: isActive ? '2px solid' : '2px solid transparent',
+                                    borderColor: isActive ? 'primary.main' : 'transparent',
+                                    borderRadius: 0,
+                                    '&:hover': { color: 'primary.main' }
+                                }}
+                            >
+                                {item.label}
+                            </Button>
+                        );
+                    })}
                 </Box>
 
                 {/* Language Switcher */}
