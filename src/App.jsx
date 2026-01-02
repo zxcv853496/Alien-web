@@ -7,6 +7,8 @@ import BlogPost from './components/blog/BlogPost';
 import PricingPage from './components/pricing/PricingPage';
 import ContactPage from './components/contact/ContactPage';
 
+import FloatingCTA from './components/common/FloatingCTA';
+
 function App() {
   return (
     <MainLayout>
@@ -17,6 +19,7 @@ function App() {
         <Route path="/articles" element={<BlogList />} />
         <Route path="/articles/:id" element={<BlogPost />} />
       </Routes>
+      <FloatingCTA />
     </MainLayout>
   );
 }
