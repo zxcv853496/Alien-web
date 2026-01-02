@@ -172,11 +172,23 @@ const Header = () => {
                         open={Boolean(anchorElLang)}
                         onClose={() => handleCloseLangMenu(null)}
                     >
-                        <MenuItem onClick={() => handleCloseLangMenu('zh-TW')}>
-                            <Typography textAlign="center">繁體中文</Typography>
+                        <MenuItem
+                            onClick={() => handleCloseLangMenu('zh-TW')}
+                            selected={i18n.language === 'zh-TW'}
+                            sx={{ '&.Mui-selected': { bgcolor: 'primary.light', color: 'white', '&:hover': { bgcolor: 'primary.main' } } }}
+                        >
+                            <Typography textAlign="center" fontWeight={i18n.language === 'zh-TW' ? 'bold' : 'normal'}>
+                                繁體中文
+                            </Typography>
                         </MenuItem>
-                        <MenuItem onClick={() => handleCloseLangMenu('en')}>
-                            <Typography textAlign="center">English</Typography>
+                        <MenuItem
+                            onClick={() => handleCloseLangMenu('en')}
+                            selected={i18n.language === 'en'}
+                            sx={{ '&.Mui-selected': { bgcolor: 'primary.light', color: 'white', '&:hover': { bgcolor: 'primary.main' } } }}
+                        >
+                            <Typography textAlign="center" fontWeight={i18n.language === 'en' ? 'bold' : 'normal'}>
+                                English
+                            </Typography>
                         </MenuItem>
                     </Menu>
                 </Box>
