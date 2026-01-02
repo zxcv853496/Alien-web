@@ -4,7 +4,7 @@ import PageHero from '../layout/PageHero';
 import Pricing from '../home/Pricing';
 import ComparisonTable from './ComparisonTable';
 import { useTranslation } from 'react-i18next';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 const PricingPage = () => {
     const { t } = useTranslation();
