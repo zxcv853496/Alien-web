@@ -59,7 +59,7 @@ const Header = () => {
     );
 
     return (
-        <AppBar position="sticky" color="default" elevation={1} sx={{ bgcolor: 'white' }}>
+        <AppBar position="sticky" color="default" elevation={0} sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(20px)' }}>
             <Toolbar>
                 {/* Mobile Menu Icon */}
                 {isMobile && (
