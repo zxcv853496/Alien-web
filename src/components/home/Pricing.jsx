@@ -49,12 +49,17 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
         }}>
             {(popular || premium) && (
                 <Chip
-                    icon={<StarIcon sx={{ fontSize: 16, color: 'white !important' }} />}
+                    icon={
+                        <Box sx={{ display: 'flex', mr: -0.5 }}>
+                            <StarIcon sx={{ fontSize: 16, color: 'white !important' }} />
+                            {premium && <StarIcon sx={{ fontSize: 16, color: 'white !important', ml: -0.5 }} />}
+                        </Box>
+                    }
                     label="RECOMMENDED"
                     sx={{
                         position: 'absolute',
-                        top: 16,
-                        right: 16,
+                        top: 12,
+                        right: 12,
                         fontWeight: 'bold',
                         height: 24,
                         color: 'white',
@@ -64,7 +69,7 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
                     }}
                 />
             )}
-            <CardContent sx={{ flexGrow: 1, p: 3, pt: popular ? 5 : 3 }}>
+            <CardContent sx={{ flexGrow: 1, p: 3, pt: (popular || premium) ? 6 : 3 }}>
                 <Typography variant="h5" component="div" fontWeight="bold" gutterBottom color={popular ? 'primary' : 'text.primary'}>
                     {title}
                 </Typography>
