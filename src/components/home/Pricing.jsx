@@ -136,74 +136,72 @@ const Pricing = () => {
                     </Typography>
                 </Box>
 
-                <Grid container spacing={3} justifyContent="center">
-                    {/* Series A */}
-                    <Grid item xs={12}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-                            <Typography variant="h6" color="primary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'primary.main', mr: 1, borderRadius: 1 }} />
-                                Series A: Quick Launch
-                            </Typography>
-                        </Box>
-                    </Grid>
+                {/* Series A */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+                    <Typography variant="h6" color="primary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'primary.main', mr: 1, borderRadius: 1 }} />
+                        Series A: Quick Launch
+                    </Typography>
+                </Box>
+                <Grid container spacing={3} justifyContent="center" sx={{ mb: 6 }}>
                     {plans.slice(0, 2).map((plan, index) => (
                         <Grid item xs={12} md={6} lg={5} key={index}>
                             <PricingCard {...plan} contactLink={t('cta.button')} />
                         </Grid>
                     ))}
+                </Grid>
 
-                    {/* Series B */}
-                    <Grid item xs={12} sx={{ mt: 4 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-                            <Typography variant="h6" color="secondary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'secondary.main', mr: 1, borderRadius: 1 }} />
-                                Series B: Corporate Brand
-                            </Typography>
-                        </Box>
-                    </Grid>
+                {/* Series B */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+                    <Typography variant="h6" color="secondary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'secondary.main', mr: 1, borderRadius: 1 }} />
+                        Series B: Corporate Brand
+                    </Typography>
+                </Box>
+                <Grid container spacing={3} justifyContent="center" sx={{ mb: 8 }}>
                     {plans.slice(2, 4).map((plan, index) => (
                         <Grid item xs={12} md={6} lg={5} key={index}>
                             <PricingCard {...plan} contactLink={t('cta.button')} />
                         </Grid>
                     ))}
-
-                    {/* Series C - Enterprise Banner */}
-                    <Grid item xs={12} sx={{ mt: 6 }}>
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <Card sx={{
-                                p: 4,
-                                background: 'linear-gradient(45deg, #263238 30%, #37474f 90%)',
-                                color: 'white',
-                                borderRadius: 4,
-                                display: 'flex',
-                                flexDirection: { xs: 'column', md: 'row' },
-                                alignItems: 'center',
-                                justifyContent: 'space-between'
-                            }}>
-                                <Box>
-                                    <Typography variant="h5" fontWeight="bold" gutterBottom>
-                                        {t('pricing.c1.title')}
-                                    </Typography>
-                                    <Typography variant="body1" sx={{ opacity: 0.8, mb: { xs: 2, md: 0 } }}>
-                                        {t('pricing.c1.desc')} • {t('pricing.c1.features').replaceAll(',', ' • ')}
-                                    </Typography>
-                                </Box>
-                                <Button
-                                    variant="contained"
-                                    color="inherit"
-                                    href="#contact"
-                                    sx={{ color: '#263238', fontWeight: 'bold', px: 4 }}
-                                >
-                                    {t('pricing.contact')}
-                                </Button>
-                            </Card>
-                        </motion.div>
-                    </Grid>
                 </Grid>
+
+                {/* Series C - Enterprise Banner */}
+                <Box sx={{ maxWidth: 'md', mx: 'auto' }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <Card sx={{
+                            p: 4,
+                            background: 'linear-gradient(45deg, #263238 30%, #37474f 90%)',
+                            color: 'white',
+                            borderRadius: 4,
+                            display: 'flex',
+                            flexDirection: { xs: 'column', md: 'row' },
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}>
+                            <Box>
+                                <Typography variant="h5" fontWeight="bold" gutterBottom>
+                                    {t('pricing.c1.title')}
+                                </Typography>
+                                <Typography variant="body1" sx={{ opacity: 0.8, mb: { xs: 2, md: 0 } }}>
+                                    {t('pricing.c1.desc')} • {t('pricing.c1.features').replaceAll(',', ' • ')}
+                                </Typography>
+                            </Box>
+                            <Button
+                                variant="contained"
+                                color="inherit"
+                                href="#contact"
+                                sx={{ color: '#263238', fontWeight: 'bold', px: 4 }}
+                            >
+                                {t('pricing.contact')}
+                            </Button>
+                        </Card>
+                    </motion.div>
+                </Box>
             </Container>
         </Box>
     );
