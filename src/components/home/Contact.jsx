@@ -6,6 +6,24 @@ import { motion } from 'framer-motion';
 
 const Contact = () => {
     const { t } = useTranslation();
+    const [formData, setFormData] = React.useState({
+        name: '',
+        email: '',
+        message: ''
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const getMailtoLink = () => {
+        const subject = `[Website Inquiry] From ${formData.name || 'Visitor'}`;
+        const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0AMessage:%0D%0A${formData.message}`;
+        return `mailto:zxcv853496@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+    };
 
     return (
         <Box
@@ -71,6 +89,9 @@ const Contact = () => {
                                 </Typography>
                                 <TextField
                                     fullWidth
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
                                     placeholder={t('contact.name.placeholder')}
                                     variant="outlined"
                                     sx={{
@@ -90,6 +111,9 @@ const Contact = () => {
                                 </Typography>
                                 <TextField
                                     fullWidth
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     placeholder={t('contact.email.placeholder')}
                                     variant="outlined"
                                     sx={{
@@ -109,6 +133,9 @@ const Contact = () => {
                                 </Typography>
                                 <TextField
                                     fullWidth
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
                                     placeholder={t('contact.message.placeholder')}
                                     multiline
                                     rows={4}
@@ -141,7 +168,7 @@ const Contact = () => {
                                     boxShadow: '0 8px 20px rgba(21, 101, 192, 0.4)',
                                     '&:hover': { bgcolor: 'primary.dark' }
                                 }}
-                                href="mailto:zxcv853496@gmail.com"
+                                href={getMailtoLink()}
                             >
                                 {t('cta.button')}
                             </Button>
