@@ -64,8 +64,8 @@ const Contact = () => {
                             「架站一條龍」服務，讓您省心又安心！
                         </Typography>
 
-                        <Grid container spacing={3} sx={{ mb: 4, textAlign: 'left', justifyContent: 'center' }}>
-                            <Grid item xs={12} sm={6}>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3, mb: 4, textAlign: 'left', justifyContent: 'center' }}>
+                            <Box sx={{ width: { xs: '100%', sm: 'calc(50% - 12px)' } }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
                                     姓名
                                 </Typography>
@@ -83,8 +83,8 @@ const Contact = () => {
                                         }
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
+                            </Box>
+                            <Box sx={{ width: { xs: '100%', sm: 'calc(50% - 12px)' } }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
                                     電子郵件
                                 </Typography>
@@ -102,8 +102,8 @@ const Contact = () => {
                                         }
                                     }}
                                 />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
+                            </Box>
+                            <Box sx={{ width: '100%' }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
                                     諮詢內容
                                 </Typography>
@@ -123,8 +123,8 @@ const Contact = () => {
                                         }
                                     }}
                                 />
-                            </Grid>
-                        </Grid>
+                            </Box>
+                        </Box>
 
                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                             <Button
