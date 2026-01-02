@@ -108,7 +108,7 @@ const Services = () => {
         <Box id="services" sx={{ py: 8, bgcolor: 'background.default' }}>
             <Container maxWidth="lg">
                 <Typography variant="h3" component="h2" align="center" gutterBottom sx={{ mb: 6, fontWeight: 'bold' }}>
-                    我們的服務
+                    {t('services.title')}
                 </Typography>
                 <Grid container spacing={4} justifyContent="center">
                     {services.map((service, index) => (
