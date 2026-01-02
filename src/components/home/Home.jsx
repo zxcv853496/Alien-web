@@ -35,7 +35,7 @@ const Home = () => {
         <Box>
             <Helmet>
                 <title>Alien AntiGravity | 頂尖 AI 網頁設計與全端開發專家</title>
-                <meta name="description" content="Alien AntiGravity 結合人工智慧與極致美學的網頁設計團隊。提供高效能 React 網站開發、精準 SEO 優化與客製化系統解決方案，為您的品牌打造數位引力。" />
+                <meta name="description" content="Alien AntiGravity 結合人工智慧與極致美學的網頁設計團隊。提供高效能 React 網站開發、精準 SEO 優化與企業級系統解決方案，為您的品牌打造數位引力。" />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Alien AntiGravity | AI Web Design &amp; Development" />
                 <meta property="og:description" content="Expert AI Web Design services in Taiwan. We build fast, responsive, and SEO-friendly websites." />

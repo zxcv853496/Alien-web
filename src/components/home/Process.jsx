@@ -106,6 +106,8 @@ const ProcessStep = ({ title, description, icon, index, steps }) => {
     );
 };
 
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+
 const Process = () => {
     const { t } = useTranslation();
 
@@ -119,6 +121,11 @@ const Process = () => {
             title: t('process.step3.title'),
             description: t('process.step3.desc'),
             icon: <CodeIcon />
+        },
+        {
+            title: t('process.step2.title'),
+            description: t('process.step2.desc'),
+            icon: <FactCheckIcon />
         },
         {
             title: t('process.step4.title'),
