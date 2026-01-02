@@ -37,7 +37,7 @@ const BlogList = () => {
 
         // Filter
         if (selectedTags.length > 0) {
-            result = articles.filter(article => 
+            result = articles.filter(article =>
                 article.tags?.some(tag => selectedTags.includes(tag))
             );
         }
@@ -58,26 +58,38 @@ const BlogList = () => {
                 {/* Tag Filter */}
                 <Stack direction="row" spacing={1} sx={{ mb: 6, flexWrap: 'wrap', gap: 1 }}>
                     {allTags.map((tag) => {
-                        const isSelected = tag === 'All' 
-                            ? selectedTags.length === 0 
+                        const isSelected = tag === 'All'
+                            ? selectedTags.length === 0
                             : selectedTags.includes(tag);
-                        
+
                         return (
                             <Chip
                                 key={tag}
                                 label={tag === 'All' ? '全部文章' : tag}
                                 onClick={() => handleTagClick(tag)}
-                                color={isSelected ? 'primary' : 'default'}
-                                variant={isSelected ? 'filled' : 'outlined'}
+                                component={motion.div}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                                 sx={{
-                                    borderRadius: 4,
-                                    fontSize: '1rem',
-                                    px: 1,
-                                    py: 2.5,
+                                    borderRadius: '50px',
+                                    fontSize: '0.95rem',
+                                    height: 'auto',
+                                    px: 1.5,
+                                    py: 1,
                                     cursor: 'pointer',
-                                    transition: '0.3s',
+                                    border: '1px solid',
+                                    borderColor: isSelected ? 'common.black' : 'transparent',
+                                    bgcolor: isSelected ? 'common.black' : '#F3F4F6', // Light grey for inactive
+                                    color: isSelected ? 'common.white' : 'text.secondary',
+                                    fontWeight: isSelected ? 600 : 500,
+                                    transition: 'all 0.2s ease',
                                     '&:hover': {
-                                        bgcolor: isSelected ? 'primary.dark' : 'rgba(0, 0, 0, 0.08)'
+                                        bgcolor: isSelected ? 'common.black' : '#E5E7EB', // Slightly darker grey on hover
+                                        borderColor: isSelected ? 'common.black' : 'transparent',
+                                        boxShadow: 'none'
+                                    },
+                                    '& .MuiChip-label': {
+                                        px: 1
                                     }
                                 }}
                             />
