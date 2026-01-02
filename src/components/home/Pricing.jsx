@@ -6,7 +6,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import StarIcon from '@mui/icons-material/Star';
 import { motion } from 'framer-motion';
 
-const PricingCard = ({ title, price, description, features, popular, premium, delay, contactLink }) => (
+const PricingCard = ({ title, price, description, features, popular, premium, delay, contactLink, ...props }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -55,7 +55,7 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
                             {premium && <StarIcon sx={{ fontSize: 16, color: 'white !important', ml: -0.5 }} />}
                         </Box>
                     }
-                    label="RECOMMENDED"
+                    label={props.badgeLabel || "RECOMMENDED"}
                     sx={{
                         position: 'absolute',
                         top: 12,
@@ -120,19 +120,12 @@ const Pricing = () => {
 
     const plans = [
         {
-            title: t('pricing.a1.title'),
-            price: t('pricing.a1.price'),
-            description: t('pricing.a1.desc'),
-            features: t('pricing.a1.features').split(','),
-            delay: 0.1
-        },
-        {
             title: t('pricing.a2.title'),
             price: t('pricing.a2.price'),
             description: t('pricing.a2.desc'),
             features: t('pricing.a2.features').split(','),
-            popular: true,
-            delay: 0.2
+            popular: true, // Reuse popular style for A2
+            delay: 0.1
         },
         {
             title: t('pricing.b1.title'),
@@ -140,14 +133,15 @@ const Pricing = () => {
             description: t('pricing.b1.desc'),
             features: t('pricing.b1.features').split(','),
             premium: true,
-            delay: 0.3
+            badgeLabel: t('badge.opening'), // New prop for custom badge text
+            delay: 0.2
         },
         {
             title: t('pricing.b2.title'),
             price: t('pricing.b2.price'),
             description: t('pricing.b2.desc'),
             features: t('pricing.b2.features').split(','),
-            delay: 0.4
+            delay: 0.3
         }
     ];
 
@@ -164,8 +158,8 @@ const Pricing = () => {
                 </Box>
 
                 <Grid container spacing={8} justifyContent="center">
-                    {/* Series A Column */}
-                    <Grid item xs={12} lg={6}>
+                    {/* Series A Column - Single Card */}
+                    <Grid item xs={12} lg={4}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
                             <Typography variant="h6" color="primary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'primary.main', mr: 1, borderRadius: 1 }} />
@@ -173,16 +167,14 @@ const Pricing = () => {
                             </Typography>
                         </Box>
                         <Grid container spacing={3} justifyContent="center">
-                            {plans.slice(0, 2).map((plan, index) => (
-                                <Grid item xs={12} md={6} key={index}>
-                                    <PricingCard {...plan} contactLink={t('cta.button')} />
-                                </Grid>
-                            ))}
+                            <Grid item xs={12}>
+                                <PricingCard {...plans[0]} contactLink={t('cta.button')} />
+                            </Grid>
                         </Grid>
                     </Grid>
 
-                    {/* Series B Column */}
-                    <Grid item xs={12} lg={6}>
+                    {/* Series B Column - Two Cards */}
+                    <Grid item xs={12} lg={8}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
                             <Typography variant="h6" color="secondary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'secondary.main', mr: 1, borderRadius: 1 }} />
@@ -190,7 +182,7 @@ const Pricing = () => {
                             </Typography>
                         </Box>
                         <Grid container spacing={3} justifyContent="center">
-                            {plans.slice(2, 4).map((plan, index) => (
+                            {plans.slice(1, 3).map((plan, index) => (
                                 <Grid item xs={12} md={6} key={index}>
                                     <PricingCard {...plan} contactLink={t('cta.button')} />
                                 </Grid>

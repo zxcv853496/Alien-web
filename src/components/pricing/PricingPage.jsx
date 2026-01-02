@@ -9,16 +9,7 @@ import { Container, Typography } from '@mui/material';
 const PricingPage = () => {
     const { t } = useTranslation();
 
-    const compareA = {
-        title: t('compare.a.title'),
-        headers: [t('compare.a.header1'), t('compare.a.header2')],
-        rows: [
-            { feature: t('compare.a.row1.feat'), values: [t('compare.a.row1.v1'), t('compare.a.row1.v2')] },
-            { feature: t('compare.a.row2.feat'), values: [t('compare.a.row2.v1'), t('compare.a.row2.v2')] },
-            { feature: t('compare.a.row3.feat'), values: [t('compare.a.row3.v1'), t('compare.a.row3.v2')] },
-            { feature: t('compare.a.row4.feat'), values: [false, t('compare.a.row4.v2')] },
-        ]
-    };
+
 
     const compareB = {
         title: t('compare.b.title'),
@@ -51,7 +42,6 @@ const PricingPage = () => {
                     </Typography>
                 </Box>
 
-                <ComparisonTable {...compareA} />
                 <ComparisonTable {...compareB} />
             </Container>
         </Box>
