@@ -25,6 +25,8 @@ const Contact = () => {
         return `mailto:zxcv853496@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
     };
 
+    const isFormValid = Object.values(formData).every(value => value.trim() !== '');
+
     return (
         <Box
             id="contact"
@@ -153,11 +155,12 @@ const Contact = () => {
                             </Box>
                         </Box>
 
-                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <motion.div whileHover={isFormValid ? { scale: 1.02 } : {}} whileTap={isFormValid ? { scale: 0.98 } : {}}>
                             <Button
                                 variant="contained"
                                 size="large"
                                 endIcon={<SendIcon />}
+                                disabled={!isFormValid}
                                 sx={{
                                     bgcolor: 'primary.main',
                                     color: 'white',
@@ -166,9 +169,13 @@ const Contact = () => {
                                     fontSize: '1.2rem',
                                     borderRadius: '50px',
                                     boxShadow: '0 8px 20px rgba(21, 101, 192, 0.4)',
-                                    '&:hover': { bgcolor: 'primary.dark' }
+                                    '&:hover': { bgcolor: 'primary.dark' },
+                                    '&.Mui-disabled': {
+                                        bgcolor: 'action.disabledBackground',
+                                        color: 'action.disabled'
+                                    }
                                 }}
-                                href={getMailtoLink()}
+                                href={isFormValid ? getMailtoLink() : undefined}
                             >
                                 {t('cta.button')}
                             </Button>
