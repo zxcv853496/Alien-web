@@ -6,7 +6,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import StarIcon from '@mui/icons-material/Star';
 import { motion } from 'framer-motion';
 
-const PricingCard = ({ title, price, description, features, popular, delay, contactLink }) => (
+const PricingCard = ({ title, price, description, features, popular, premium, delay, contactLink }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -21,25 +21,46 @@ const PricingCard = ({ title, price, description, features, popular, delay, cont
             position: 'relative',
             borderRadius: 4,
             transition: '0.3s',
-            border: popular ? '2px solid #2196F3' : '1px solid #eee',
-            transform: popular ? 'scale(1.05)' : 'none',
-            boxShadow: popular ? '0 8px 40px rgba(33, 150, 243, 0.2)' : '0 4px 20px rgba(0,0,0,0.05)',
+            // Default styles
+            border: '1px solid #eee',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+            transform: 'none',
+
+            // Popular (Blue) styles - for A2
+            ...(popular && !premium && {
+                border: '2px solid #2196F3',
+                transform: 'scale(1.05)',
+                boxShadow: '0 8px 40px rgba(33, 150, 243, 0.2)',
+            }),
+
+            // Premium (Gradient) styles - for B1 (Static Elite)
+            ...(premium && {
+                border: '3px solid transparent', // Required for gradient border
+                background: 'linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, #00C6FF 0%, #0072FF 100%) border-box',
+                transform: 'scale(1.08)',
+                boxShadow: '0 12px 50px rgba(0, 198, 255, 0.3)',
+                zIndex: 2
+            }),
+
             '&:hover': {
-                transform: popular ? 'scale(1.08)' : 'translateY(-5px)',
+                transform: (popular || premium) ? 'scale(1.08) translateY(-5px)' : 'translateY(-5px)',
                 boxShadow: '0 12px 50px rgba(0,0,0,0.1)'
             }
         }}>
-            {popular && (
+            {(popular || premium) && (
                 <Chip
-                    icon={<StarIcon sx={{ fontSize: 16 }} />}
+                    icon={<StarIcon sx={{ fontSize: 16, color: 'white !important' }} />}
                     label="RECOMMENDED"
-                    color="primary"
                     sx={{
                         position: 'absolute',
                         top: 16,
                         right: 16,
                         fontWeight: 'bold',
-                        height: 24
+                        height: 24,
+                        color: 'white',
+                        bgcolor: premium ? 'transparent' : 'primary.main',
+                        background: premium ? 'linear-gradient(135deg, #00C6FF 0%, #0072FF 100%)' : undefined,
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
                     }}
                 />
             )}
@@ -113,7 +134,7 @@ const Pricing = () => {
             price: t('pricing.b1.price'),
             description: t('pricing.b1.desc'),
             features: t('pricing.b1.features').split(','),
-            popular: true,
+            premium: true,
             delay: 0.3
         },
         {
