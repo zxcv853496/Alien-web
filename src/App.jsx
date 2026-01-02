@@ -8,10 +8,12 @@ import PricingPage from './components/pricing/PricingPage';
 import ContactPage from './components/contact/ContactPage';
 
 import FloatingCTA from './components/common/FloatingCTA';
+import CustomCursor from './components/common/CustomCursor';
 
 function App() {
   return (
     <MainLayout>
+      <CustomCursor />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<PricingPage />} />
