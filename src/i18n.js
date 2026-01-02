@@ -60,7 +60,7 @@ const resources = {
             "why.title": "為什麼選擇我們？",
             "cta.title": "立即行動，開啟您的數位成功之路！",
             "cta.subtitle": "「架站一條龍」服務，讓您省心又安心！",
-            "cta.button": "立即聯繫我們",
+            "cta.button": "立即連繫",
             "contact.name.label": "姓名",
             "contact.name.placeholder": "請輸入您的姓名",
             "contact.email.label": "電子郵件",

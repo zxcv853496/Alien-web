@@ -146,9 +146,6 @@ const Contact = () => {
                                 {t('cta.button')}
                             </Button>
                         </motion.div>
-                        <Typography variant="body1" sx={{ mt: 2, color: 'text.secondary', fontWeight: 'bold' }}>
-                            Email: zxcv853496@gmail.com
-                        </Typography>
                     </Paper>
                 </motion.div>
             </Container>
