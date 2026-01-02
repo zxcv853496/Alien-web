@@ -9,6 +9,8 @@ import ContactPage from './components/contact/ContactPage';
 
 import FloatingCTA from './components/common/FloatingCTA';
 
+import AIPage from './components/ai/AIPage';
+
 function App() {
   return (
     <MainLayout>
@@ -18,6 +20,7 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/articles" element={<BlogList />} />
         <Route path="/articles/:id" element={<BlogPost />} />
+        <Route path="/ai-strategy" element={<AIPage />} />
       </Routes>
       <FloatingCTA />
     </MainLayout>
