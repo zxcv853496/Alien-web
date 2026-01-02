@@ -7,7 +7,7 @@ import PageHero from '../layout/PageHero';
 
 const BlogList = () => {
     const navigate = useNavigate();
-    const [selectedTag, setSelectedTag] = useState('All');
+    const [selectedTags, setSelectedTags] = useState([]);
 
     // Extract unique tags
     const allTags = useMemo(() => {
@@ -15,11 +15,36 @@ const BlogList = () => {
         return ['All', ...Array.from(tags)];
     }, []);
 
-    // Filter articles
+    // Toggle tag selection
+    const handleTagClick = (tag) => {
+        if (tag === 'All') {
+            setSelectedTags([]);
+            return;
+        }
+
+        setSelectedTags(prev => {
+            if (prev.includes(tag)) {
+                return prev.filter(t => t !== tag);
+            } else {
+                return [...prev, tag];
+            }
+        });
+    };
+
+    // Filter and Sort articles
     const filteredArticles = useMemo(() => {
-        if (selectedTag === 'All') return articles;
-        return articles.filter(article => article.tags?.includes(selectedTag));
-    }, [selectedTag]);
+        let result = articles;
+
+        // Filter
+        if (selectedTags.length > 0) {
+            result = articles.filter(article => 
+                article.tags?.some(tag => selectedTags.includes(tag))
+            );
+        }
+
+        // Sort by date (Newest first)
+        return result.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }, [selectedTags]);
 
     return (
         <Box sx={{ minHeight: '80vh', bgcolor: 'grey.50' }}>
@@ -32,26 +57,32 @@ const BlogList = () => {
             <Container maxWidth="lg" sx={{ py: 8 }}>
                 {/* Tag Filter */}
                 <Stack direction="row" spacing={1} sx={{ mb: 6, flexWrap: 'wrap', gap: 1 }}>
-                    {allTags.map((tag) => (
-                        <Chip
-                            key={tag}
-                            label={tag === 'All' ? '全部文章' : tag}
-                            onClick={() => setSelectedTag(tag)}
-                            color={selectedTag === tag ? 'primary' : 'default'}
-                            variant={selectedTag === tag ? 'filled' : 'outlined'}
-                            sx={{
-                                borderRadius: 4,
-                                fontSize: '1rem',
-                                px: 1,
-                                py: 2.5,
-                                cursor: 'pointer',
-                                transition: '0.3s',
-                                '&:hover': {
-                                    bgcolor: selectedTag === tag ? 'primary.dark' : 'rgba(0, 0, 0, 0.08)'
-                                }
-                            }}
-                        />
-                    ))}
+                    {allTags.map((tag) => {
+                        const isSelected = tag === 'All' 
+                            ? selectedTags.length === 0 
+                            : selectedTags.includes(tag);
+                        
+                        return (
+                            <Chip
+                                key={tag}
+                                label={tag === 'All' ? '全部文章' : tag}
+                                onClick={() => handleTagClick(tag)}
+                                color={isSelected ? 'primary' : 'default'}
+                                variant={isSelected ? 'filled' : 'outlined'}
+                                sx={{
+                                    borderRadius: 4,
+                                    fontSize: '1rem',
+                                    px: 1,
+                                    py: 2.5,
+                                    cursor: 'pointer',
+                                    transition: '0.3s',
+                                    '&:hover': {
+                                        bgcolor: isSelected ? 'primary.dark' : 'rgba(0, 0, 0, 0.08)'
+                                    }
+                                }}
+                            />
+                        );
+                    })}
                 </Stack>
 
                 <Grid container spacing={4}>
