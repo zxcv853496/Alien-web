@@ -5,6 +5,7 @@ import WebIcon from '@mui/icons-material/Web';
 import StorageIcon from '@mui/icons-material/Storage'; // Using as a proxy for Vue/React complexity? Maybe better icons exists.
 import SearchIcon from '@mui/icons-material/Search';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
@@ -70,6 +71,12 @@ const Services = () => {
             description: t('services.onestop.desc'),
             icon: <RocketLaunchIcon sx={{ fontSize: 50 }} />,
             delay: 0.2
+        },
+        {
+            title: t('services.ai.title'),
+            description: t('services.ai.desc'),
+            icon: <AutoAwesomeIcon sx={{ fontSize: 50 }} />,
+            delay: 0.25
         },
         {
             title: t('services.static.title'),
