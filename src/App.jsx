@@ -1,23 +1,18 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
-import Hero from './components/home/Hero';
-import Services from './components/home/Services';
-import Process from './components/home/Process';
-import WhyChooseUs from './components/home/WhyChooseUs';
-import Contact from './components/home/Contact';
-import { Box } from '@mui/material';
+import Home from './components/home/Home';
+import BlogList from './components/blog/BlogList';
+import BlogPost from './components/blog/BlogPost';
 
 function App() {
   return (
     <MainLayout>
-      <Box>
-        {/* 各個區塊組件 */}
-        <Hero />
-        <Services />
-        <Process />
-        <WhyChooseUs />
-        <Contact />
-      </Box>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/articles" element={<BlogList />} />
+        <Route path="/articles/:id" element={<BlogPost />} />
+      </Routes>
     </MainLayout>
   );
 }
