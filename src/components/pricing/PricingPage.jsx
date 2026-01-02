@@ -39,7 +39,18 @@ const PricingPage = () => {
                 small
             />
             <Pricing />
+
             <Container maxWidth="lg" sx={{ pb: 10 }}>
+                {/* Section Divider */}
+                <Box sx={{ textAlign: 'center', mb: 6, mt: -4, position: 'relative', zIndex: 2 }}>
+                    <Typography variant="h4" fontWeight="800" gutterBottom>
+                        Compare Plans Details
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                        詳細功能對比，協助您做出最佳選擇
+                    </Typography>
+                </Box>
+
                 <ComparisonTable {...compareA} />
                 <ComparisonTable {...compareB} />
             </Container>
