@@ -4,13 +4,17 @@ import { articles } from '../../data/articles';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
+import PageHero from '../layout/PageHero';
+
 const BlogList = () => {
     return (
-        <Box sx={{ py: 12, minHeight: '80vh', bgcolor: 'grey.50' }}>
-            <Container maxWidth="lg">
-                <Typography variant="h3" component="h1" gutterBottom fontWeight="bold" textAlign="center" sx={{ mb: 6 }}>
-                    文章專欄
-                </Typography>
+        <Box sx={{ minHeight: '80vh', bgcolor: 'grey.50' }}>
+            <PageHero
+                title="精選文章"
+                subtitle="分享關於網頁設計、行銷科技與數位轉型的最新觀點。"
+                small
+            />
+            <Container maxWidth="lg" sx={{ py: 8 }}>
                 <Grid container spacing={4}>
                     {articles.map((article, index) => (
                         <Grid item xs={12} md={6} key={article.id}>
