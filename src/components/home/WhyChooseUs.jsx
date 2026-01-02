@@ -16,9 +16,11 @@ const WhyChooseUs = () => {
     return (
         <Box id="why-us" sx={{ py: 8, bgcolor: 'white' }}>
             <Container maxWidth="lg">
-                <Typography variant="h3" component="h2" align="center" gutterBottom sx={{ mb: 6, fontWeight: 'bold', color: 'primary.main' }}>
-                    {t('why.title')}
-                </Typography>
+                <Box textAlign="center" mb={6}>
+                    <Typography variant="h3" component="h2" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                        {t('why.title')}
+                    </Typography>
+                </Box>
                 <Grid container spacing={4}>
                     {reasons.map((reason, index) => (
                         <Grid item xs={12} sm={6} key={index}>

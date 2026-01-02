@@ -61,7 +61,7 @@ const resources = {
             "process.step4.desc": "Automated deployment and performance tuning.",
             "pricing.title": "Transparent Pricing",
             "pricing.subtitle": "Choose the AI-powered plan that fits your growth stage.",
-            "pricing.contact": "Contact Us for Enterprise",
+            "pricing.contact": "Contact Us",
             "pricing.popular": "Recommended",
             "pricing.a1.title": "AI Digital Card",
             "pricing.a1.price": "NT$ 12,800",

@@ -43,7 +43,7 @@ const PricingCard = ({ title, price, description, features, popular, delay, cont
                     }}
                 />
             )}
-            <CardContent sx={{ flexGrow: 1, p: 3 }}>
+            <CardContent sx={{ flexGrow: 1, p: 3, pt: popular ? 5 : 3 }}>
                 <Typography variant="h5" component="div" fontWeight="bold" gutterBottom color={popular ? 'primary' : 'text.primary'}>
                     {title}
                 </Typography>
@@ -125,9 +125,9 @@ const Pricing = () => {
     ];
 
     return (
-        <Box id="pricing" sx={{ py: 10, bgcolor: '#fafafa' }}>
+        <Box id="pricing" sx={{ py: 6, bgcolor: '#fafafa' }}>
             <Container maxWidth="lg">
-                <Box textAlign="center" mb={8}>
+                <Box textAlign="center" mb={6}>
                     <Typography variant="h3" component="h2" gutterBottom fontWeight="800">
                         {t('pricing.title')}
                     </Typography>
@@ -137,13 +137,13 @@ const Pricing = () => {
                 </Box>
 
                 {/* Series A */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
                     <Typography variant="h6" color="primary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'primary.main', mr: 1, borderRadius: 1 }} />
                         Series A: Quick Launch
                     </Typography>
                 </Box>
-                <Grid container spacing={3} justifyContent="center" sx={{ mb: 6 }}>
+                <Grid container spacing={3} justifyContent="center" sx={{ mb: 5 }}>
                     {plans.slice(0, 2).map((plan, index) => (
                         <Grid item xs={12} md={6} lg={5} key={index}>
                             <PricingCard {...plan} contactLink={t('cta.button')} />
@@ -152,13 +152,13 @@ const Pricing = () => {
                 </Grid>
 
                 {/* Series B */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
                     <Typography variant="h6" color="secondary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'secondary.main', mr: 1, borderRadius: 1 }} />
                         Series B: Corporate Brand
                     </Typography>
                 </Box>
-                <Grid container spacing={3} justifyContent="center" sx={{ mb: 8 }}>
+                <Grid container spacing={3} justifyContent="center" sx={{ mb: 6 }}>
                     {plans.slice(2, 4).map((plan, index) => (
                         <Grid item xs={12} md={6} lg={5} key={index}>
                             <PricingCard {...plan} contactLink={t('cta.button')} />
@@ -195,7 +195,7 @@ const Pricing = () => {
                                 variant="contained"
                                 color="inherit"
                                 href="#contact"
-                                sx={{ color: '#263238', fontWeight: 'bold', px: 4 }}
+                                sx={{ color: '#263238', fontWeight: 'bold', px: 4, whiteSpace: 'nowrap', minWidth: 'fit-content' }}
                             >
                                 {t('pricing.contact')}
                             </Button>
