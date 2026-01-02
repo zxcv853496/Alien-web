@@ -15,7 +15,6 @@ const Home = () => {
             <Process />
             <WhyChooseUs />
             <Pricing />
-            <Contact />
         </Box>
     );
 };

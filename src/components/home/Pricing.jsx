@@ -122,7 +122,7 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
                     fullWidth
                     variant={popular ? "contained" : "outlined"}
                     size="large"
-                    href="#contact"
+                    href="/contact"
                     startIcon={<AutoAwesomeIcon />}
                     sx={{
                         borderRadius: 2,
@@ -247,7 +247,7 @@ const Pricing = () => {
                             <Button
                                 variant="contained"
                                 color="inherit"
-                                href="#contact"
+                                href="/contact"
                                 sx={{ color: '#263238', fontWeight: 'bold', px: 4, whiteSpace: 'nowrap', minWidth: 'fit-content' }}
                             >
                                 {t('pricing.contact')}
