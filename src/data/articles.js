@@ -80,12 +80,7 @@ export const articles = [
 
 網站不是支出，是資產。一個好的網站能為您 24 小時獲客。選擇透明、專業、高效的我們，就是選擇了一條通往數位成功的捷徑。
 
-**別再為了報價單煩惱了。現在就聯繫我們，讓我們談談如何把您的生意做大。**
-
-<div style="text-align: center; margin-top: 50px; margin-bottom: 50px;">
-  <a href="/contact" style="background-color: #000; color: #fff; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.1rem; display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">立即開始您的專案</a>
-</div>
-        `,
+**別再為了報價單煩惱了。現在就聯繫我們，讓我們談談如何把您的生意做大。**`,
         date: '2026-01-02'
     },
     {

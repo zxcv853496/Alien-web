@@ -168,7 +168,7 @@ const BlogPost = () => {
                         <Typography color="text.secondary" sx={{ mb: 4 }}>
                             如果您有任何網頁設計或 SEO 的需求，歡迎隨時與我們聯繫。
                         </Typography>
-                        <Button component={Link} to="/#contact" variant="contained" size="large" sx={{ borderRadius: 50, px: 6, py: 1.5 }}>
+                        <Button component={Link} to="/contact" variant="contained" size="large" sx={{ borderRadius: 50, px: 6, py: 1.5 }}>
                             立即諮詢專案
                         </Button>
                     </Box>
