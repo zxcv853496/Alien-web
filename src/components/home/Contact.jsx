@@ -64,15 +64,65 @@ const Contact = () => {
                             「架站一條龍」服務，讓您省心又安心！
                         </Typography>
 
-                        <Grid container spacing={3} sx={{ mb: 4, textAlign: 'left' }}>
+                        <Grid container spacing={3} sx={{ mb: 4, textAlign: 'left', justifyContent: 'center' }}>
                             <Grid item xs={12} sm={6}>
-                                <TextField fullWidth label="您的姓名 Name" variant="outlined" />
+                                <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
+                                    姓名
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    placeholder="請輸入您的姓名"
+                                    variant="outlined"
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '12px',
+                                            bgcolor: 'white',
+                                            boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+                                            '& fieldset': { borderColor: '#e0e0e0' },
+                                            '&:hover fieldset': { borderColor: 'primary.main' },
+                                        }
+                                    }}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField fullWidth label="電子郵件 Email" variant="outlined" />
+                                <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
+                                    電子郵件
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    placeholder="請輸入您的 Email"
+                                    variant="outlined"
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '12px',
+                                            bgcolor: 'white',
+                                            boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+                                            '& fieldset': { borderColor: '#e0e0e0' },
+                                            '&:hover fieldset': { borderColor: 'primary.main' },
+                                        }
+                                    }}
+                                />
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField fullWidth label="諮詢內容 Message" multiline rows={4} variant="outlined" />
+                            <Grid item xs={12} sm={12}>
+                                <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
+                                    諮詢內容
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    placeholder="請輸入您想諮詢的內容..."
+                                    multiline
+                                    rows={4}
+                                    variant="outlined"
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '12px',
+                                            bgcolor: 'white',
+                                            boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+                                            '& fieldset': { borderColor: '#e0e0e0' },
+                                            '&:hover fieldset': { borderColor: 'primary.main' },
+                                        }
+                                    }}
+                                />
                             </Grid>
                         </Grid>
 

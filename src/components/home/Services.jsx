@@ -103,7 +103,7 @@ const Services = () => {
                 <Typography variant="h3" component="h2" align="center" gutterBottom sx={{ mb: 6, fontWeight: 'bold' }}>
                     我們的服務
                 </Typography>
-                <Grid container spacing={4}>
+                <Grid container spacing={4} justifyContent="center">
                     {services.map((service, index) => (
                         <Grid item key={index} xs={12} sm={6} md={3}>
                             <ServiceCard {...service} />
