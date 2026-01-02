@@ -27,10 +27,10 @@ const Header = () => {
     };
 
     const navItems = [
-        { label: t('hero.title'), id: 'hero' },
-        { label: t('services.static.title').split(' ')[0], id: 'services' },
-        { label: t('why.title'), id: 'why-us' },
-        { label: t('cta.title').slice(0, 4), id: 'contact' },
+        { label: t('nav.home'), id: 'hero' },
+        { label: t('nav.services'), id: 'services' },
+        { label: t('nav.why'), id: 'why-us' },
+        { label: t('nav.contact'), id: 'contact' },
     ];
 
     const scrollToSection = (id) => {
@@ -136,7 +136,15 @@ const Header = () => {
                         <Button
                             key={item.id}
                             onClick={() => scrollToSection(item.id)}
-                            sx={{ my: 2, color: 'text.primary', display: 'block' }}
+                            sx={{
+                                my: 2,
+                                mx: 1, // Increased horizontal margin between buttons
+                                px: 2, // Increased horizontal padding inside buttons
+                                color: 'text.primary',
+                                display: 'block',
+                                fontWeight: 500,
+                                '&:hover': { color: 'primary.main' }
+                            }}
                         >
                             {item.label}
                         </Button>
