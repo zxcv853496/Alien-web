@@ -10,13 +10,23 @@ const ProcessStep = ({ title, description, icon, index, steps }) => {
     const theme = useTheme();
     const isEven = index % 2 === 0;
 
+    // Animation Config
+    const STEP_DURATION = 0.5;
+    const LINE_DURATION = 0.8;
+
+    // Step appears after previous line finishes (except step 1)
+    const stepDelay = index === 0 ? 0 : index * LINE_DURATION;
+
+    // Line starts after current step appears
+    const lineDelay = stepDelay + 0.4;
+
     return (
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }} sx={{ position: 'relative' }}>
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
+                transition={{ duration: STEP_DURATION, delay: stepDelay, ease: "easeOut" }}
             >
                 <Paper
                     elevation={0}
@@ -26,6 +36,7 @@ const ProcessStep = ({ title, description, icon, index, steps }) => {
                         textAlign: 'center',
                         bgcolor: 'transparent',
                         position: 'relative',
+                        zIndex: 2 // Ensure card is above line
                     }}
                 >
                     <Box
@@ -82,26 +93,32 @@ const ProcessStep = ({ title, description, icon, index, steps }) => {
                     <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
                         {description}
                     </Typography>
-
-                    {/* Connecting Line */}
-                    <Box
-                        sx={{
-                            display: {
-                                xs: 'none',
-                                sm: index % 2 === 0 ? 'block' : 'none',
-                                md: index < steps.length - 1 ? 'block' : 'none'
-                            },
-                            position: 'absolute',
-                            top: 62,
-                            right: -50 + '%',
-                            width: '100%',
-                            height: 2,
-                            bgcolor: 'grey.300',
-                            zIndex: 1,
-                        }}
-                    />
                 </Paper>
             </motion.div>
+
+            {/* Animated Connecting Line */}
+            <Box
+                component={motion.div}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: LINE_DURATION, delay: lineDelay, ease: "easeInOut" }}
+                sx={{
+                    display: {
+                        xs: 'none',
+                        sm: index % 2 === 0 ? 'block' : 'none',
+                        md: index < steps.length - 1 ? 'block' : 'none'
+                    },
+                    position: 'absolute',
+                    top: 64, // Center of icon (24px padding + 40px half-height)
+                    left: '50%', // Start from center of current card
+                    width: '100%', // Span to center of next card
+                    height: 2,
+                    bgcolor: 'primary.light',
+                    zIndex: 1,
+                    transformOrigin: 'left'
+                }}
+            />
         </Grid>
     );
 };
