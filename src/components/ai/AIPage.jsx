@@ -101,6 +101,10 @@ const AIPage = () => {
         if (!text || text.length < 2) return false;
         if (/^[\d\W_]+$/.test(text)) return false; // Only numbers/symbols
         if (/(.)\1{3,}/.test(text)) return false; // Repeated chars like 'aaaa'
+
+        // Strict check: Disallow typical "messy code" symbols including #@%# as requested
+        if (/[#@%^&*()={}[\]:;"'<>,?/~`!|]/.test(text)) return false;
+
         return true;
     };
 
