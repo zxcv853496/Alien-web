@@ -158,34 +158,40 @@ const Pricing = () => {
                     </Typography>
                 </Box>
 
-                {/* Series A */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-                    <Typography variant="h6" color="primary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'primary.main', mr: 1, borderRadius: 1 }} />
-                        Series A: Quick Launch
-                    </Typography>
-                </Box>
-                <Grid container spacing={3} justifyContent="center" sx={{ mb: 5 }}>
-                    {plans.slice(0, 2).map((plan, index) => (
-                        <Grid item xs={12} md={6} lg={5} key={index}>
-                            <PricingCard {...plan} contactLink={t('cta.button')} />
+                <Grid container spacing={8}>
+                    {/* Series A Column */}
+                    <Grid item xs={12} lg={6}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+                            <Typography variant="h6" color="primary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
+                                <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'primary.main', mr: 1, borderRadius: 1 }} />
+                                Series A: Quick Launch
+                            </Typography>
+                        </Box>
+                        <Grid container spacing={3}>
+                            {plans.slice(0, 2).map((plan, index) => (
+                                <Grid item xs={12} md={6} key={index}>
+                                    <PricingCard {...plan} contactLink={t('cta.button')} />
+                                </Grid>
+                            ))}
                         </Grid>
-                    ))}
-                </Grid>
+                    </Grid>
 
-                {/* Series B */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-                    <Typography variant="h6" color="secondary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'secondary.main', mr: 1, borderRadius: 1 }} />
-                        Series B: Corporate Brand
-                    </Typography>
-                </Box>
-                <Grid container spacing={3} justifyContent="center" sx={{ mb: 6 }}>
-                    {plans.slice(2, 4).map((plan, index) => (
-                        <Grid item xs={12} md={6} lg={5} key={index}>
-                            <PricingCard {...plan} contactLink={t('cta.button')} />
+                    {/* Series B Column */}
+                    <Grid item xs={12} lg={6}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+                            <Typography variant="h6" color="secondary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
+                                <Box component="span" sx={{ width: 4, height: 24, bgcolor: 'secondary.main', mr: 1, borderRadius: 1 }} />
+                                Series B: Corporate Brand
+                            </Typography>
+                        </Box>
+                        <Grid container spacing={3}>
+                            {plans.slice(2, 4).map((plan, index) => (
+                                <Grid item xs={12} md={6} key={index}>
+                                    <PricingCard {...plan} contactLink={t('cta.button')} />
+                                </Grid>
+                            ))}
                         </Grid>
-                    ))}
+                    </Grid>
                 </Grid>
 
                 {/* Series C - Enterprise Banner */}
