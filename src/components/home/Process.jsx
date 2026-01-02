@@ -7,12 +7,12 @@ import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import CodeIcon from '@mui/icons-material/Code';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 
-const ProcessStep = ({ title, description, icon, index }) => {
+const ProcessStep = ({ title, description, icon, index, steps }) => {
     const theme = useTheme();
     const isEven = index % 2 === 0;
 
     return (
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
