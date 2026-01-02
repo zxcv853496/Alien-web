@@ -1,15 +1,13 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import PageHero from '../layout/PageHero';
 import Pricing from '../home/Pricing';
 import ComparisonTable from './ComparisonTable';
 import { useTranslation } from 'react-i18next';
-import { Container, Typography } from '@mui/material';
+import { Helmet } from 'react-helmet-async';
 
 const PricingPage = () => {
     const { t } = useTranslation();
-
-
 
     const compareB = {
         title: t('compare.b.title'),
@@ -24,6 +22,11 @@ const PricingPage = () => {
 
     return (
         <Box>
+            <Helmet>
+                <title>Pricing Plans | Alien AntiGravity Web Design</title>
+                <meta name="description" content="Transparent pricing for professional web design. Compare our Series A (Quick Launch) and Series B (Corporate Brand) plans to find the perfect fit for your business." />
+                <meta property="og:title" content="Pricing Plans | Alien AntiGravity" />
+            </Helmet>
             <PageHero
                 title={t('pricing.hero.title')}
                 subtitle={t('pricing.hero.subtitle')}
