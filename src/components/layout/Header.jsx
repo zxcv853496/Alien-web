@@ -4,12 +4,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from 'react-i18next';
 
+import { useNavigate } from 'react-router-dom';
+
 const Header = () => {
     const { t, i18n } = useTranslation();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorElLang, setAnchorElLang] = useState(null);
+    const navigate = useNavigate();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -27,18 +30,14 @@ const Header = () => {
     };
 
     const navItems = [
-        { label: t('nav.home'), id: 'hero' },
-        { label: t('nav.services'), id: 'services' },
-        { label: t('nav.why'), id: 'why-us' },
-        { label: t('nav.contact'), id: 'contact' },
+        { label: t('nav.home'), path: '/' },
+        { label: t('nav.articles'), path: '/articles' },
     ];
 
-    const scrollToSection = (id) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-        setMobileOpen(false); // Close drawer on selection
+    const handleNavigation = (path) => {
+        navigate(path);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setMobileOpen(false);
     };
 
     const drawer = (
@@ -59,9 +58,9 @@ const Header = () => {
 
             <List sx={{ flexGrow: 1, pt: 2 }}>
                 {navItems.map((item) => (
-                    <ListItem key={item.id} disablePadding>
+                    <ListItem key={item.label} disablePadding>
                         <ListItemButton
-                            onClick={() => scrollToSection(item.id)}
+                            onClick={() => handleNavigation(item.path)}
                             sx={{
                                 textAlign: 'center',
                                 py: 2,
@@ -125,7 +124,7 @@ const Header = () => {
                     noWrap
                     component="div"
                     sx={{ flexGrow: { xs: 1, md: 0 }, mr: 2, display: 'flex', fontWeight: 'bold', color: 'primary.main', cursor: 'pointer' }}
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    onClick={() => handleNavigation('/')}
                 >
                     {t('nav.title')}
                 </Typography>
@@ -134,8 +133,8 @@ const Header = () => {
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end', mr: 2 }}>
                     {navItems.map((item) => (
                         <Button
-                            key={item.id}
-                            onClick={() => scrollToSection(item.id)}
+                            key={item.label}
+                            onClick={() => handleNavigation(item.path)}
                             sx={{
                                 my: 2,
                                 mx: 1, // Increased horizontal margin between buttons
