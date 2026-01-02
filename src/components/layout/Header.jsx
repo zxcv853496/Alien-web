@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Box, Menu, MenuItem, useMediaQuery, useTheme } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton, Box, Menu, MenuItem, useMediaQuery, useTheme, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from 'react-i18next';
@@ -8,15 +8,11 @@ const Header = () => {
     const { t, i18n } = useTranslation();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorElLang, setAnchorElLang] = useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
     };
 
     const handleOpenLangMenu = (event) => {
@@ -31,8 +27,8 @@ const Header = () => {
     };
 
     const navItems = [
-        { label: t('hero.title'), id: 'hero' }, // Usually Home
-        { label: t('services.static.title').split(' ')[0], id: 'services' }, // Simplification for nav
+        { label: t('hero.title'), id: 'hero' },
+        { label: t('services.static.title').split(' ')[0], id: 'services' },
         { label: t('why.title'), id: 'why-us' },
         { label: t('cta.title').slice(0, 4), id: 'contact' },
     ];
@@ -42,8 +38,25 @@ const Header = () => {
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
-        handleCloseNavMenu();
+        setMobileOpen(false); // Close drawer on selection
     };
+
+    const drawer = (
+        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+            <Typography variant="h6" sx={{ my: 2 }}>
+                Alien's Freelance
+            </Typography>
+            <List>
+                {navItems.map((item) => (
+                    <ListItem key={item.id} disablePadding>
+                        <ListItemButton onClick={() => scrollToSection(item.id)} sx={{ textAlign: 'center' }}>
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    );
 
     return (
         <AppBar position="sticky" color="default" elevation={1} sx={{ bgcolor: 'white' }}>
@@ -53,38 +66,27 @@ const Header = () => {
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={handleDrawerToggle}
                             color="inherit"
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
+                        <Drawer
+                            variant="temporary"
+                            open={mobileOpen}
+                            onClose={handleDrawerToggle}
+                            ModalProps={{
+                                keepMounted: true, // Better open performance on mobile.
                             }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
                             sx={{
                                 display: { xs: 'block', md: 'none' },
+                                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
                             }}
                         >
-                            {navItems.map((item) => (
-                                <MenuItem key={item.id} onClick={() => scrollToSection(item.id)}>
-                                    <Typography textAlign="center">{item.label}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                            {drawer}
+                        </Drawer>
                     </Box>
                 )}
 
