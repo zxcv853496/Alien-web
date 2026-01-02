@@ -33,6 +33,7 @@ const Header = () => {
         { label: t('nav.home'), path: '/' },
         { label: t('nav.pricing'), path: '/pricing' },
         { label: t('nav.articles'), path: '/articles' },
+        { label: t('nav.contact'), path: '/contact' },
     ];
 
     const handleNavigation = (path) => {
