@@ -47,6 +47,21 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
                 boxShadow: '0 12px 50px rgba(0,0,0,0.1)'
             }
         }}>
+            {props.openingSpecial && (
+                <Chip
+                    label={props.badgeTitle || "OPENING SPECIAL"}
+                    color="error" // Red for special offer
+                    sx={{
+                        position: 'absolute',
+                        top: 12,
+                        left: 12,
+                        fontWeight: 'bold',
+                        height: 24,
+                        boxShadow: '0 2px 10px rgba(211, 47, 47, 0.3)',
+                        zIndex: 3
+                    }}
+                />
+            )}
             {(popular || premium) && (
                 <Chip
                     icon={
@@ -69,13 +84,21 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
                     }}
                 />
             )}
-            <CardContent sx={{ flexGrow: 1, p: 3, pt: (popular || premium) ? 6 : 3 }}>
+            <CardContent sx={{ flexGrow: 1, p: 3, pt: (popular || premium || props.openingSpecial) ? 6 : 3 }}>
                 <Typography variant="h5" component="div" fontWeight="bold" gutterBottom color={popular ? 'primary' : 'text.primary'}>
                     {title}
                 </Typography>
                 <Typography variant="h4" component="div" fontWeight="800" sx={{ mb: 1, color: popular ? '#2196F3' : 'inherit' }}>
                     {price}
                 </Typography>
+                {props.originalPrice && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, mt: -0.5 }}>
+                        <Typography variant="h6" color="text.secondary" sx={{ textDecoration: 'line-through', mr: 1, lineHeight: 1 }}>
+                            {props.originalPrice}
+                        </Typography>
+                        <Chip label="-20%" color="error" size="small" sx={{ fontWeight: 'bold', height: 20, fontSize: '0.75rem' }} />
+                    </Box>
+                )}
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3, minHeight: 40 }}>
                     {description}
                 </Typography>
@@ -126,6 +149,8 @@ const Pricing = () => {
             description: t('pricing.a2.desc'),
             features: t('pricing.a2.features').split(','),
             popular: true, // Reuse popular style for A2
+            openingSpecial: true,
+            badgeTitle: t('badge.opening'),
             delay: 0.1
         },
         {
@@ -135,7 +160,8 @@ const Pricing = () => {
             description: t('pricing.b1.desc'),
             features: t('pricing.b1.features').split(','),
             premium: true,
-            badgeLabel: t('badge.opening'), // New prop for custom badge text
+            openingSpecial: true,
+            badgeTitle: t('badge.opening'),
             delay: 0.2
         },
         {
