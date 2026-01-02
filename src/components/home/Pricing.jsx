@@ -113,6 +113,7 @@ const Pricing = () => {
             price: t('pricing.b1.price'),
             description: t('pricing.b1.desc'),
             features: t('pricing.b1.features').split(','),
+            popular: true,
             delay: 0.3
         },
         {
