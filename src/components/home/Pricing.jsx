@@ -6,7 +6,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import StarIcon from '@mui/icons-material/Star';
 import { motion } from 'framer-motion';
 
-import Tilt from 'react-parallax-tilt';
+
 
 const PricingCard = ({ title, price, description, features, popular, premium, delay, contactLink, ...props }) => (
     <motion.div
@@ -16,141 +16,126 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
         transition={{ duration: 0.5, delay }}
         style={{ height: '100%' }}
     >
-        <Tilt
-            tiltMaxAngleX={10}
-            tiltMaxAngleY={10}
-            perspective={1000}
-            scale={1.05}
-            transitionSpeed={1000}
-            gyroscope={true}
-            glareEnable={true}
-            glareMaxOpacity={0.4}
-            glareColor={premium ? "#00C6FF" : "#ffffff"}
-            glarePosition="all"
-            style={{ height: '100%' }}
-        >
-            <Card sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-                borderRadius: 4,
-                transition: '0.3s',
-                transformStyle: 'preserve-3d', // Enable 3D children
-                // Default styles
-                border: '1px solid #eee',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-                transform: 'none',
+        <Card sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative',
+            borderRadius: 4,
+            transition: '0.3s',
+            // Default styles
+            border: '1px solid #eee',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
 
-                // Popular (Blue) styles - for A2
-                ...(popular && !premium && {
-                    border: '2px solid #2196F3',
-                    // scale removed here, handled by Tilt
-                    boxShadow: '0 8px 40px rgba(33, 150, 243, 0.2)',
-                }),
+            // Popular (Blue) styles - for A2
+            ...(popular && !premium && {
+                border: '2px solid #2196F3',
+                boxShadow: '0 8px 40px rgba(33, 150, 243, 0.2)',
+            }),
 
-                // Premium (Gradient) styles - for B1 (Static Elite)
-                ...(premium && {
-                    border: '3px solid transparent', // Required for gradient border
-                    background: 'linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, #00C6FF 0%, #0072FF 100%) border-box',
-                    // scale removed here, handled by Tilt
-                    boxShadow: '0 12px 50px rgba(0, 198, 255, 0.3)',
-                    zIndex: 2
-                }),
+            // Premium (Gradient) styles - for B1 (Static Elite)
+            ...(premium && {
+                border: '3px solid transparent', // Required for gradient border
+                background: 'linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, #00C6FF 0%, #0072FF 100%) border-box',
+                boxShadow: '0 12px 50px rgba(0, 198, 255, 0.3)',
+                zIndex: 2
+            }),
 
-                // Styles that were on hover are now implicit or handled by glares
-            }}>
-                {props.openingSpecial && (
-                    <Chip
-                        label={props.badgeTitle || "OPENING SPECIAL"}
-                        color="error"
-                        sx={{
-                            position: 'absolute',
-                            top: 12,
-                            left: 12,
-                            fontWeight: 'bold',
-                            height: 24,
-                            boxShadow: '0 2px 10px rgba(211, 47, 47, 0.3)',
-                            zIndex: 3,
-                            transform: 'translateZ(40px)'
-                        }}
-                    />
-                )}
-                {(popular || premium) && (
-                    <Chip
-                        icon={
-                            <Box sx={{ display: 'flex', mr: -0.5 }}>
-                                <StarIcon sx={{ fontSize: 16, color: 'white !important' }} />
-                                {premium && <StarIcon sx={{ fontSize: 16, color: 'white !important', ml: -0.5 }} />}
-                            </Box>
-                        }
-                        label={props.badgeLabel || "RECOMMENDED"}
-                        sx={{
-                            position: 'absolute',
-                            top: 12,
-                            right: 12,
-                            fontWeight: 'bold',
-                            height: 24,
-                            color: 'white',
-                            bgcolor: premium ? 'transparent' : 'primary.main',
-                            background: premium ? 'linear-gradient(135deg, #00C6FF 0%, #0072FF 100%)' : undefined,
-                            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-                            transform: 'translateZ(40px)'
-                        }}
-                    />
-                )}
-                <CardContent sx={{ flexGrow: 1, p: 3, pt: (popular || premium || props.openingSpecial) ? 6 : 3, transform: 'translateZ(20px)' }}>
-                    <Typography variant="h5" component="div" fontWeight="bold" gutterBottom color={popular ? 'primary' : 'text.primary'}>
-                        {title}
-                    </Typography>
-                    <Typography variant="h4" component="div" fontWeight="800" sx={{ mb: 1, color: popular ? '#2196F3' : 'inherit' }}>
-                        {price}
-                    </Typography>
-                    {props.originalPrice && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, mt: -0.5 }}>
-                            <Typography variant="h6" color="text.secondary" sx={{ textDecoration: 'line-through', mr: 1, lineHeight: 1 }}>
-                                {props.originalPrice}
-                            </Typography>
-                            <Chip label="-20%" color="error" size="small" sx={{ fontWeight: 'bold', height: 20, fontSize: '0.75rem' }} />
+            '&:hover': {
+                transform: 'translateY(-10px)',
+                boxShadow: popular || premium
+                    ? '0 12px 50px rgba(0,0,0,0.2)'
+                    : '0 12px 30px rgba(0,0,0,0.1)'
+            }
+        }}>
+            {props.openingSpecial && (
+                <Chip
+                    label={props.badgeTitle || "OPENING SPECIAL"}
+                    color="error"
+                    sx={{
+                        position: 'absolute',
+                        top: 12,
+                        left: 12,
+                        fontWeight: 'bold',
+                        height: 24,
+                        boxShadow: '0 2px 10px rgba(211, 47, 47, 0.3)',
+                        zIndex: 3,
+                    }}
+                />
+            )}
+            {(popular || premium) && (
+                <Chip
+                    icon={
+                        <Box sx={{ display: 'flex', mr: -0.5 }}>
+                            <StarIcon sx={{ fontSize: 16, color: 'white !important' }} />
+                            {premium && <StarIcon sx={{ fontSize: 16, color: 'white !important', ml: -0.5 }} />}
                         </Box>
-                    )}
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 3, minHeight: 40 }}>
-                        {description}
-                    </Typography>
+                    }
+                    label={props.badgeLabel || "RECOMMENDED"}
+                    sx={{
+                        position: 'absolute',
+                        top: 12,
+                        right: 12,
+                        fontWeight: 'bold',
+                        height: 24,
+                        color: 'white',
+                        bgcolor: premium ? 'transparent' : 'primary.main',
+                        background: premium ? 'linear-gradient(135deg, #00C6FF 0%, #0072FF 100%)' : undefined,
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                    }}
+                />
+            )}
+            <CardContent sx={{ flexGrow: 1, p: 3, pt: (popular || premium || props.openingSpecial) ? 6 : 3 }}>
+                <Typography variant="h5" component="div" fontWeight="bold" gutterBottom color={popular ? 'primary' : 'text.primary'}>
+                    {title}
+                </Typography>
+                <Typography variant="h4" component="div" fontWeight="800" sx={{ mb: 1, color: popular ? '#2196F3' : 'inherit' }}>
+                    {price}
+                </Typography>
+                {props.originalPrice && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, mt: -0.5 }}>
+                        <Typography variant="h6" color="text.secondary" sx={{ textDecoration: 'line-through', mr: 1, lineHeight: 1 }}>
+                            {props.originalPrice}
+                        </Typography>
+                        <Chip label="-20%" color="error" size="small" sx={{ fontWeight: 'bold', height: 20, fontSize: '0.75rem' }} />
+                    </Box>
+                )}
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 3, minHeight: 40 }}>
+                    {description}
+                </Typography>
 
-                    <List dense>
-                        {features.map((feature, index) => (
-                            <ListItem key={index} disableGutters>
-                                <ListItemIcon sx={{ minWidth: 32 }}>
-                                    <CheckCircleIcon color="primary" sx={{ fontSize: 20 }} />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={feature}
-                                    primaryTypographyProps={{ variant: 'body2', color: 'text.primary' }}
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
-                </CardContent>
-                <CardActions sx={{ p: 3, pt: 0, transform: 'translateZ(30px)' }}>
-                    <Button
-                        fullWidth
-                        variant={popular ? "contained" : "outlined"}
-                        size="large"
-                        href="/contact"
-                        startIcon={<AutoAwesomeIcon />}
-                        sx={{
-                            borderRadius: 2,
-                            py: 1.5,
-                            fontWeight: 'bold',
-                            boxShadow: popular ? '0 4px 14px rgba(33, 150, 243, 0.4)' : 'none'
-                        }}
-                    >
-                        {contactLink}
-                    </Button>
-                </CardActions>
-            </Card>
-        </Tilt>
+                <List dense>
+                    {features.map((feature, index) => (
+                        <ListItem key={index} disableGutters>
+                            <ListItemIcon sx={{ minWidth: 32 }}>
+                                <CheckCircleIcon color="primary" sx={{ fontSize: 20 }} />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={feature}
+                                primaryTypographyProps={{ variant: 'body2', color: 'text.primary' }}
+                            />
+                        </ListItem>
+                    ))}
+                </List>
+            </CardContent>
+            <CardActions sx={{ p: 3, pt: 0 }}>
+                <Button
+                    fullWidth
+                    variant={popular ? "contained" : "outlined"}
+                    size="large"
+                    href="/contact"
+                    startIcon={<AutoAwesomeIcon />}
+                    sx={{
+                        borderRadius: 2,
+                        py: 1.5,
+                        fontWeight: 'bold',
+                        boxShadow: popular ? '0 4px 14px rgba(33, 150, 243, 0.4)' : 'none'
+                    }}
+                >
+                    {contactLink}
+                </Button>
+            </CardActions>
+        </Card>
     </motion.div>
 );
 

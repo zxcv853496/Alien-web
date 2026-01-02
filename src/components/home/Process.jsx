@@ -3,7 +3,6 @@ import { Box, Container, Typography, Grid, Paper, useTheme } from '@mui/material
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import ChatIcon from '@mui/icons-material/Chat';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import CodeIcon from '@mui/icons-material/Code';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 
@@ -115,11 +114,6 @@ const Process = () => {
             title: t('process.step1.title'),
             description: t('process.step1.desc'),
             icon: <ChatIcon />
-        },
-        {
-            title: t('process.step2.title'),
-            description: t('process.step2.desc'),
-            icon: <DesignServicesIcon />
         },
         {
             title: t('process.step3.title'),
