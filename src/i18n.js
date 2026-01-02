@@ -47,7 +47,17 @@ const resources = {
             "why.quality.title": "Quality Assurance",
             "why.quality.desc": "Attention to detail, ensuring highest standards.",
             "why.transparent.title": "Transparent Process",
-            "why.transparent.desc": "Keep you informed of the progress."
+            "why.transparent.desc": "Keep you informed of the progress.",
+            "process.title": "Work Process",
+            "process.subtitle": "Simple 4 steps to launch your website",
+            "process.step1.title": "Consultation",
+            "process.step1.desc": "We listen to your needs and define project goals.",
+            "process.step2.title": "Planning & Design",
+            "process.step2.desc": "Create sitemap, wireframes and visual design.",
+            "process.step3.title": "Development",
+            "process.step3.desc": "Coding with modern technologies and best practices.",
+            "process.step4.title": "Launch",
+            "process.step4.desc": "Testing, optimization and final deployment."
         }
     },
     'zh-TW': {
@@ -94,7 +104,17 @@ const resources = {
             "why.quality.title": "品質保證",
             "why.quality.desc": "注重細節，確保每個環節都達到最高標準。",
             "why.transparent.title": "透明流程",
-            "why.transparent.desc": "讓您清楚掌握網站建置進度。"
+            "why.transparent.desc": "讓您清楚掌握網站建置進度。",
+            "process.title": "合作流程",
+            "process.subtitle": "簡單四步驟，輕鬆擁抱數位轉型",
+            "process.step1.title": "需求諮詢",
+            "process.step1.desc": "深入了解您的品牌故事、目標客群與功能需求。",
+            "process.step2.title": "規劃設計",
+            "process.step2.desc": "確認網站架構、視覺風格，並進行畫面設計。",
+            "process.step3.title": "開發實作",
+            "process.step3.desc": "進行程式撰寫、功能開發與響應式切版。",
+            "process.step4.title": "驗收上線",
+            "process.step4.desc": "完整測試、SEO 設定，確認無誤後正式發佈。"
         }
     }
 };
