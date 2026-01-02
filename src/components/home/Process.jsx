@@ -84,22 +84,23 @@ const ProcessStep = ({ title, description, icon, index }) => {
                         {description}
                     </Typography>
 
-                    {/* Connecting Line (Desktop only, except last item) */}
-                    {index < 3 && (
-                        <Box
-                            sx={{
-                                display: { xs: 'none', md: 'block' },
-                                position: 'absolute',
-                                top: 62, // Center of the circle roughly 24(p)+40(half h) - but relative top is 0 inside paper. 
-                                // Paper p=24px. Box mt=0. Circle h=80. Center=24+40=64.
-                                right: -50 + '%',
-                                width: '100%',
-                                height: 2,
-                                bgcolor: 'grey.300',
-                                zIndex: 1,
-                            }}
-                        />
-                    )}
+                    {/* Connecting Line */}
+                    <Box
+                        sx={{
+                            display: {
+                                xs: 'none',
+                                sm: index % 2 === 0 ? 'block' : 'none',
+                                md: index < steps.length - 1 ? 'block' : 'none'
+                            },
+                            position: 'absolute',
+                            top: 62,
+                            right: -50 + '%',
+                            width: '100%',
+                            height: 2,
+                            bgcolor: 'grey.300',
+                            zIndex: 1,
+                        }}
+                    />
                 </Paper>
             </motion.div>
         </Grid>
@@ -173,7 +174,7 @@ const Process = () => {
 
                 <Grid container spacing={4} justifyContent="center" sx={{ position: 'relative' }}>
                     {steps.map((step, index) => (
-                        <ProcessStep key={index} {...step} index={index} />
+                        <ProcessStep key={index} {...step} index={index} steps={steps} />
                     ))}
                 </Grid>
             </Container>
