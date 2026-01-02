@@ -19,8 +19,8 @@ const resources = {
     },
     'zh-TW': {
         translation: {
-            "app.title": "Alien的接案網站",
-            "hero.title": "Alien的接案網站",
+            "app.title": "Alien接案網站",
+            "hero.title": "Alien接案網站",
             "hero.subtitle": "在這個數位時代，一個專業且具吸引力的形象網站是您品牌成功的基石。您是否正在尋找一個能完美呈現品牌故事，並有效觸及目標客戶的解決方案？",
             "services.static.title": "靜態網頁 (Static Web)",
             "services.vue.title": "Vue.js 網站開發",
@@ -28,7 +28,7 @@ const resources = {
             "services.seo.title": "搜尋引擎優化 (SEO)",
             "why.title": "為什麼選擇我們？",
             "cta.title": "立即行動，開啟您的數位成功之路！",
-            "footer.rights": "© 2026 Alien的接案網站. All rights reserved."
+            "footer.rights": "© 2026 Alien接案網站. All rights reserved."
         }
     }
 };

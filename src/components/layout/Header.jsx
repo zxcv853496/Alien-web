@@ -42,19 +42,48 @@ const Header = () => {
     };
 
     const drawer = (
-        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ my: 2 }}>
-                Alien's Freelance
-            </Typography>
-            <List>
+        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column' }}>
+            {/* Drawer Header */}
+            <Box sx={{
+                py: 4,
+                background: 'linear-gradient(135deg, #1565c0 0%, #42a5f5 100%)',
+                color: 'white'
+            }}>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                    Alien's
+                </Typography>
+                <Typography variant="subtitle2" sx={{ opacity: 0.8 }}>
+                    Freelance Website
+                </Typography>
+            </Box>
+
+            <List sx={{ flexGrow: 1, pt: 2 }}>
                 {navItems.map((item) => (
                     <ListItem key={item.id} disablePadding>
-                        <ListItemButton onClick={() => scrollToSection(item.id)} sx={{ textAlign: 'center' }}>
-                            <ListItemText primary={item.label} />
+                        <ListItemButton
+                            onClick={() => scrollToSection(item.id)}
+                            sx={{
+                                textAlign: 'center',
+                                py: 2,
+                                '&:hover': { bgcolor: 'primary.light', color: 'white' },
+                                transition: '0.3s'
+                            }}
+                        >
+                            <ListItemText
+                                primary={item.label}
+                                primaryTypographyProps={{ fontSize: '1.1rem', fontWeight: 500 }}
+                            />
                         </ListItemButton>
                     </ListItem>
                 ))}
             </List>
+
+            {/* Drawer Footer decoration */}
+            <Box sx={{ p: 2, bgcolor: 'grey.100' }}>
+                <Typography variant="caption" color="text.secondary">
+                    © 2026 Alien's Design
+                </Typography>
+            </Box>
         </Box>
     );
 

@@ -5,6 +5,23 @@ import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
     const { t } = useTranslation();
+    const [displayedText, setDisplayedText] = React.useState("");
+    const fullText = t('hero.subtitle');
+
+    React.useEffect(() => {
+        let currentIndex = 0;
+        const intervalId = setInterval(() => {
+            if (currentIndex <= fullText.length) {
+                setDisplayedText(fullText.slice(0, currentIndex));
+                currentIndex++;
+            } else {
+                clearInterval(intervalId);
+            }
+        }, 50); // Adjust speed here (50ms per char)
+
+        return () => clearInterval(intervalId);
+    }, [fullText]);
+
 
     const floatingVariant = {
         animate: {
@@ -82,9 +99,20 @@ const Hero = () => {
                     <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: '800', textShadow: '0px 4px 10px rgba(0,0,0,0.2)' }}>
                         {t('hero.title')}
                     </Typography>
-                    <Typography variant="h5" component="p" sx={{ mb: 6, opacity: 0.95, lineHeight: 1.6 }}>
-                        {t('hero.subtitle')}
-                    </Typography>
+
+                    {/* Typewriter Effect */}
+                    <Box sx={{ mb: 6, minHeight: '3.2em', display: 'flex', justifyContent: 'center' }}>
+                        <Typography variant="h5" component="p" sx={{ opacity: 0.95, lineHeight: 1.6, margin: 0 }}>
+                            {displayedText}<motion.span
+                                animate={{ opacity: [0, 1, 0] }}
+                                transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                                style={{ display: 'inline', marginLeft: '2px', fontWeight: 'bold', color: 'inherit' }}
+                            >
+                                |
+                            </motion.span>
+                        </Typography>
+                    </Box>
+
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                         <Button
                             variant="contained"
