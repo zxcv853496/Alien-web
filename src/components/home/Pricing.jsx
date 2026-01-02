@@ -158,7 +158,7 @@ const Pricing = () => {
                     </Typography>
                 </Box>
 
-                <Grid container spacing={8}>
+                <Grid container spacing={8} justifyContent="center">
                     {/* Series A Column */}
                     <Grid item xs={12} lg={6}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
@@ -167,7 +167,7 @@ const Pricing = () => {
                                 Series A: Quick Launch
                             </Typography>
                         </Box>
-                        <Grid container spacing={3}>
+                        <Grid container spacing={3} justifyContent="center">
                             {plans.slice(0, 2).map((plan, index) => (
                                 <Grid item xs={12} md={6} key={index}>
                                     <PricingCard {...plan} contactLink={t('cta.button')} />
@@ -184,7 +184,7 @@ const Pricing = () => {
                                 Series B: Corporate Brand
                             </Typography>
                         </Box>
-                        <Grid container spacing={3}>
+                        <Grid container spacing={3} justifyContent="center">
                             {plans.slice(2, 4).map((plan, index) => (
                                 <Grid item xs={12} md={6} key={index}>
                                     <PricingCard {...plan} contactLink={t('cta.button')} />
@@ -195,7 +195,7 @@ const Pricing = () => {
                 </Grid>
 
                 {/* Series C - Enterprise Banner */}
-                <Box sx={{ maxWidth: 'md', mx: 'auto' }}>
+                <Box sx={{ maxWidth: 'md', mx: 'auto', mt: 8 }}>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
