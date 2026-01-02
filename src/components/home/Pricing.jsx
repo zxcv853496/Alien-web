@@ -122,6 +122,7 @@ const Pricing = () => {
         {
             title: t('pricing.a2.title'),
             price: t('pricing.a2.price'),
+            originalPrice: t('pricing.a2.originalPrice'),
             description: t('pricing.a2.desc'),
             features: t('pricing.a2.features').split(','),
             popular: true, // Reuse popular style for A2
@@ -130,6 +131,7 @@ const Pricing = () => {
         {
             title: t('pricing.b1.title'),
             price: t('pricing.b1.price'),
+            originalPrice: t('pricing.b1.originalPrice'),
             description: t('pricing.b1.desc'),
             features: t('pricing.b1.features').split(','),
             premium: true,
