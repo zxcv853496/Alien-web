@@ -146,7 +146,7 @@ const BlogList = () => {
                     ) : (
                         <AnimatePresence mode='wait'>
                             {filteredArticles.map((article, index) => (
-                                <Grid item xs={12} md={6} key={article.id}>
+                                <Grid item xs={12} key={article.id}>
                                     <motion.div
                                         layout
                                         initial={{ opacity: 0, y: 20 }}
@@ -165,9 +165,9 @@ const BlogList = () => {
                                             <CardActionArea
                                                 component={Link}
                                                 to={`/articles/${article.id}`}
-                                                sx={{ height: '100%', p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start' }}
+                                                sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
                                             >
-                                                <CardContent sx={{ width: '100%' }}>
+                                                <CardContent sx={{ width: '100%', p: 4 }}>
                                                     <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
                                                         {article.tags?.map(tag => (
                                                             <Chip
