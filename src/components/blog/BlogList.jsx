@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PageHero from '../layout/PageHero';
 
 const BlogList = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [articles, setArticles] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
