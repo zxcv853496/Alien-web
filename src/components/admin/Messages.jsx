@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import CloseIcon from '@mui/icons-material/Close';
+import LoadingState from '../common/LoadingState';
 
 const Messages = () => {
     const { t } = useTranslation();
@@ -78,7 +79,9 @@ const Messages = () => {
                         <TableBody>
                             {loading ? (
                                 <TableRow>
-                                    <TableCell colSpan={5} align="center">Loading...</TableCell>
+                                    <TableCell colSpan={5} align="center">
+                                        <LoadingState minHeight="200px" py={4} />
+                                    </TableCell>
                                 </TableRow>
                             ) : messages.length === 0 ? (
                                 <TableRow>

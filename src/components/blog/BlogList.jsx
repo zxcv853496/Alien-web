@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageHero from '../layout/PageHero';
+import LoadingState from '../common/LoadingState';
 
 const BlogList = () => {
     const { t } = useTranslation();
@@ -140,50 +141,7 @@ const BlogList = () => {
                 <Grid container spacing={4}>
                     {loading ? (
                         <Grid item xs={12}>
-                            <Box
-                                component={motion.div}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    minHeight: '400px',
-                                    py: 8,
-                                    gap: 2
-                                }}
-                            >
-                                <CircularProgress
-                                    size={40}
-                                    thickness={4}
-                                    sx={{
-                                        color: 'primary.main',
-                                    }}
-                                />
-                                <Typography
-                                    variant="body1"
-                                    color="text.secondary"
-                                    sx={{
-                                        fontWeight: 500,
-                                        letterSpacing: 2,
-                                        animation: 'pulse 1.5s infinite',
-                                        textTransform: 'uppercase',
-                                        fontSize: '0.875rem'
-                                    }}
-                                >
-                                    {t('loading.articles') || 'Loading...'}
-                                </Typography>
-                                <style>
-                                    {`
-                                        @keyframes pulse {
-                                            0% { opacity: 0.5; }
-                                            50% { opacity: 1; }
-                                            100% { opacity: 0.5; }
-                                        }
-                                    `}
-                                </style>
-                            </Box>
+                            <LoadingState />
                         </Grid>
                     ) : (
                         <AnimatePresence mode='wait'>

@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import LoadingState from '../../common/LoadingState';
 
 const ArticleList = () => {
     const { t } = useTranslation();
@@ -125,7 +126,9 @@ const ArticleList = () => {
                         <TableBody>
                             {loading ? (
                                 <TableRow>
-                                    <TableCell colSpan={4} align="center">Loading...</TableCell>
+                                    <TableCell colSpan={4} align="center">
+                                        <LoadingState minHeight="200px" py={4} />
+                                    </TableCell>
                                 </TableRow>
                             ) : articles.length === 0 ? (
                                 <TableRow>
