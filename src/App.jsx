@@ -11,9 +11,41 @@ import FloatingCTA from './components/common/FloatingCTA';
 
 import AIPage from './components/ai/AIPage';
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <MainLayout>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#333',
+            color: '#fff',
+            fontFamily: '"Inter", sans-serif',
+            fontSize: '14px',
+            borderRadius: '8px',
+          },
+          success: {
+            style: {
+              background: '#4caf50',
+            },
+            iconTheme: {
+              primary: '#fff',
+              secondary: '#4caf50',
+            },
+          },
+          error: {
+            style: {
+              background: '#f44336',
+            },
+            iconTheme: {
+              primary: '#fff',
+              secondary: '#f44336',
+            },
+          },
+        }}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pricing" element={<PricingPage />} />

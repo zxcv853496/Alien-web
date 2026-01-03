@@ -123,7 +123,10 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
                     fullWidth
                     variant={popular ? "contained" : "outlined"}
                     size="large"
-                    href="/contact"
+                    onClick={() => {
+                        window.location.hash = '#/contact';
+                        window.scrollTo(0, 0);
+                    }}
                     startIcon={<AutoAwesomeIcon />}
                     sx={{
                         borderRadius: 2,
@@ -248,7 +251,10 @@ const Pricing = () => {
                             <Button
                                 variant="contained"
                                 color="inherit"
-                                href="/contact"
+                                onClick={() => {
+                                    window.location.hash = '#/contact';
+                                    window.scrollTo(0, 0);
+                                }}
                                 sx={{ color: '#263238', fontWeight: 'bold', px: 4, whiteSpace: 'nowrap', minWidth: 'fit-content' }}
                             >
                                 {t('pricing.contact')}

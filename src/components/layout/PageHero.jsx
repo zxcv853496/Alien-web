@@ -1,8 +1,10 @@
 import React from 'react';
 import { Box, Typography, Button, Container } from '@mui/material';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const PageHero = ({ title, subtitle, ctaText, ctaLink, small = false }) => {
+    const navigate = useNavigate();
     const [displayedText, setDisplayedText] = React.useState("");
     const fullText = subtitle || "";
 
@@ -124,10 +126,18 @@ const PageHero = ({ title, subtitle, ctaText, ctaLink, small = false }) => {
                     {ctaText && (
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                             <Button
+                                onClick={() => {
+                                    if (ctaLink) {
+                                        navigate(ctaLink);
+                                        window.scrollTo(0, 0); // Ensure scroll to top
+                                    } else {
+                                        navigate('/contact');
+                                        window.scrollTo(0, 0);
+                                    }
+                                }}
                                 variant="contained"
                                 color="secondary"
                                 size="large"
-                                href={ctaLink || "#"}
                                 sx={{
                                     fontWeight: 'bold',
                                     px: 5,

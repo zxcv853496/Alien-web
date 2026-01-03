@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, Container, Typography, Button, TextField, Grid, Paper } from '@mui/material';
+import { Box, Container, Typography, Button, TextField, Paper, CircularProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { supabase } from '../../lib/supabaseClient';
+import toast from 'react-hot-toast';
 
 const Contact = () => {
     const { t } = useTranslation();
@@ -11,21 +13,67 @@ const Contact = () => {
         email: '',
         message: ''
     });
+    const [sending, setSending] = React.useState(false);
+    const [touched, setTouched] = React.useState({ email: false });
+
+    const isValidEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [name]: value
         });
     };
 
-    const getMailtoLink = () => {
-        const subject = `[Website Inquiry] From ${formData.name || 'Visitor'}`;
-        const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0AMessage:%0D%0A${formData.message}`;
-        return `mailto:zxcv853496@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+    const handleBlur = (e) => {
+        setTouched({
+            ...touched,
+            [e.target.name]: true
+        });
     };
 
-    const isFormValid = Object.values(formData).every(value => value.trim() !== '');
+    const isFormValid = Object.values(formData).every(value => value.trim() !== '') && isValidEmail(formData.email);
+
+    const handleSubmit = async () => {
+        if (!isFormValid) return;
+
+        setSending(true);
+
+        try {
+            const { error } = await supabase
+                .from('messages')
+                .insert([
+                    {
+                        name: formData.name,
+                        email: formData.email,
+                        content: formData.message
+                    }
+                ]);
+
+            if (error) throw error;
+
+            toast.success((toastId) => (
+                <span onClick={() => toast.dismiss(toastId.id)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {t('contact.success', 'Message sent successfully! We will contact you soon.')}
+                    <button onClick={(e) => { e.stopPropagation(); toast.dismiss(toastId.id); }} style={{ background: 'transparent', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '1.2em', padding: '0 4px', lineHeight: 1 }}>✕</button>
+                </span>
+            ), { duration: 5000 });
+            setFormData({ name: '', email: '', message: '' });
+        } catch (error) {
+            console.error('Error sending message:', error);
+            toast.error((toastId) => (
+                <span onClick={() => toast.dismiss(toastId.id)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {t('contact.error', 'Failed to send message. Please try again later.')}
+                    <button onClick={(e) => { e.stopPropagation(); toast.dismiss(toastId.id); }} style={{ background: 'transparent', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: '1.2em', padding: '0 4px', lineHeight: 1 }}>✕</button>
+                </span>
+            ), { duration: 5000 });
+        } finally {
+            setSending(false);
+        }
+    };
 
     return (
         <Box
@@ -116,8 +164,11 @@ const Contact = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                     placeholder={t('contact.email.placeholder')}
                                     variant="outlined"
+                                    error={touched.email && !isValidEmail(formData.email)}
+                                    helperText={touched.email && !isValidEmail(formData.email) ? t('contact.email.error') : ''}
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '12px',
@@ -125,6 +176,9 @@ const Contact = () => {
                                             boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
                                             '& fieldset': { borderColor: '#e0e0e0' },
                                             '&:hover fieldset': { borderColor: 'primary.main' },
+                                        },
+                                        '& .MuiFormHelperText-root': {
+                                            marginLeft: 1
                                         }
                                     }}
                                 />
@@ -159,8 +213,9 @@ const Contact = () => {
                             <Button
                                 variant="contained"
                                 size="large"
-                                endIcon={<SendIcon />}
-                                disabled={!isFormValid}
+                                endIcon={!sending && <SendIcon />}
+                                disabled={!isFormValid || sending}
+                                onClick={handleSubmit}
                                 sx={{
                                     bgcolor: 'primary.main',
                                     color: 'white',
@@ -175,9 +230,8 @@ const Contact = () => {
                                         color: 'action.disabled'
                                     }
                                 }}
-                                href={isFormValid ? getMailtoLink() : undefined}
                             >
-                                {t('cta.button')}
+                                {sending ? <CircularProgress size={24} color="inherit" /> : t('cta.button')}
                             </Button>
                         </motion.div>
                     </Paper>

@@ -11,7 +11,7 @@ const Hero = () => {
                 title={t('hero.title')}
                 subtitle={t('hero.subtitle')}
                 ctaText={t('cta.title').split('！')[0]}
-                ctaLink="#contact"
+                ctaLink="/contact"
             />
         </div>
     );

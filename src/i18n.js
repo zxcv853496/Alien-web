@@ -139,7 +139,10 @@ const resources = {
             "ai.btn.try_again": "Generate Another",
             "ai.error.title": "Input Unrecognized",
             "ai.error.desc": "AI could not parse relevant keywords. Please enter a valid brand name.",
-            "ai.error.btn": "Try Again"
+            "ai.error.btn": "Try Again",
+            "contact.success": "Message sent successfully! We will contact you soon.",
+            "contact.error": "Failed to send message. Please try again later.",
+            "contact.email.error": "Please enter a valid email address"
         }
     },
     'zh-TW': {
@@ -278,7 +281,10 @@ const resources = {
             "ai.btn.try_again": "再玩一次",
             "ai.error.title": "無法識別輸入",
             "ai.error.desc": "AI 系統無法解析相關關鍵字，請輸入明確的品牌名稱。",
-            "ai.error.btn": "重新輸入"
+            "ai.error.btn": "重新輸入",
+            "contact.success": "訊息已成功發送！我們會盡快與您聯繫。",
+            "contact.error": "發送失敗，請稍後再試。",
+            "contact.email.error": "請輸入有效的電子郵件地址"
         }
     }
 };
