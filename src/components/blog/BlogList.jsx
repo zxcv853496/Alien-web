@@ -144,7 +144,7 @@ const BlogList = () => {
                             <LoadingState />
                         </Box>
                     ) : (
-                        <AnimatePresence mode='wait'>
+                        <AnimatePresence>
                             {filteredArticles.map((article, index) => (
                                 <Box key={article.id} sx={{ width: '100%' }}>
                                     <motion.div
