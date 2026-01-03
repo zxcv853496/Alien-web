@@ -1,5 +1,7 @@
 import React from 'react';
 import { Routes, Route, Outlet } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import MainLayout from './components/layout/MainLayout';
 import Home from './components/home/Home';
 import BlogList from './components/blog/BlogList';
@@ -23,8 +25,13 @@ import ArticleEditor from './components/admin/articles/ArticleEditor';
 import AdminLayout from './components/admin/AdminLayout';
 
 function App() {
+  const { t } = useTranslation();
   return (
     <AuthProvider>
+      <Helmet>
+        <title>{t('app.title')} | {t('hero.title')}</title>
+        <meta name="description" content={t('hero.subtitle')} />
+      </Helmet>
       <Toaster
         position="top-right"
         toastOptions={{
