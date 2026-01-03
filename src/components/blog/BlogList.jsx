@@ -149,28 +149,30 @@ const BlogList = () => {
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    py: 12,
-                                    gap: 3
+                                    minHeight: '400px',
+                                    py: 8,
+                                    gap: 2
                                 }}
                             >
                                 <CircularProgress
-                                    size={50}
+                                    size={40}
                                     thickness={4}
                                     sx={{
                                         color: 'primary.main',
-                                        filter: 'drop-shadow(0 0 8px rgba(33, 150, 243, 0.3))'
                                     }}
                                 />
                                 <Typography
-                                    variant="h6"
+                                    variant="body1"
                                     color="text.secondary"
                                     sx={{
                                         fontWeight: 500,
-                                        letterSpacing: 1,
-                                        animation: 'pulse 2s infinite'
+                                        letterSpacing: 2,
+                                        animation: 'pulse 1.5s infinite',
+                                        textTransform: 'uppercase',
+                                        fontSize: '0.875rem'
                                     }}
                                 >
-                                    {t('loading.articles') || 'Loading Articles...'}
+                                    {t('loading.articles') || 'Loading...'}
                                 </Typography>
                                 <style>
                                     {`
