@@ -3,11 +3,15 @@ import { AppBar, Toolbar, Typography, Button, IconButton, Box, Menu, MenuItem, u
 import MenuIcon from '@mui/icons-material/Menu';
 import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../contexts/AuthContext';
+import PersonIcon from '@mui/icons-material/Person';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
     const { t, i18n } = useTranslation();
+    const { user } = useAuth();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -86,12 +90,31 @@ const Header = () => {
                 })}
             </List>
 
-            {/* Drawer Footer decoration */}
-            <Box sx={{ p: 2, bgcolor: 'grey.100' }}>
-                <Typography variant="caption" color="text.secondary">
+            {/* Bottom Actions */}
+            <Box sx={{ p: 2, mt: 'auto', bgcolor: 'grey.50' }}>
+                <Button
+                    fullWidth
+                    variant="contained"
+                    onClick={() => handleNavigation(user ? '/admin' : '/login')}
+                    startIcon={user ? <DashboardIcon /> : <PersonIcon />}
+                    sx={{
+                        mb: 2,
+                        py: 1.5,
+                        borderRadius: '12px',
+                        fontWeight: 'bold',
+                        textTransform: 'none',
+                        fontSize: '1rem',
+                        boxShadow: '0 4px 12px rgba(33, 150, 243, 0.3)'
+                    }}
+                >
+                    {user ? "Dashboard" : "Login"}
+                </Button>
+                <Typography variant="caption" color="text.secondary" display="block">
                     {t('drawer.copyright')}
                 </Typography>
             </Box>
+
+
         </Box>
     );
 
@@ -163,6 +186,23 @@ const Header = () => {
                             </Button>
                         );
                     })}
+                </Box>
+
+                {/* Desktop Auth Button */}
+                <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }}>
+                    <Button
+                        variant={user ? "contained" : "outlined"}
+                        onClick={() => handleNavigation(user ? '/admin' : '/login')}
+                        startIcon={user ? <DashboardIcon /> : <PersonIcon />}
+                        sx={{
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            borderRadius: '20px',
+                            px: 3
+                        }}
+                    >
+                        {user ? "Dashboard" : "Login"}
+                    </Button>
                 </Box>
 
                 {/* Language Switcher */}

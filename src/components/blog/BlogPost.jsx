@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Box, Container, Typography, Button, Paper, Divider } from '@mui/material';
+import { Box, Container, Typography, Button, Paper, Divider, CircularProgress } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
-import { articles } from '../../data/articles';
+import { articles as legacyArticles } from '../../data/articles';
+import { supabase } from '../../lib/supabaseClient';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PageHero from '../layout/PageHero';
 import ReactMarkdown from 'react-markdown';
@@ -11,13 +12,52 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 const BlogPost = () => {
     const { id } = useParams();
-    const article = articles.find(a => a.id === id);
+    const [article, setArticle] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, {
         stiffness: 100,
         damping: 30,
         restDelta: 0.001
     });
+
+    useEffect(() => {
+        const fetchArticle = async () => {
+            // 1. Try Legacy First (Instant Load)
+            const legacyOne = legacyArticles.find(a => a.id === id);
+
+            // 2. Try DB (Overwrite if exists)
+            try {
+                const { data, error } = await supabase
+                    .from('articles')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (data) {
+                    setArticle(data);
+                } else {
+                    setArticle(legacyOne);
+                }
+            } catch (err) {
+                console.error("DB Fetch error", err);
+                setArticle(legacyOne);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchArticle();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     if (!article) {
         return (

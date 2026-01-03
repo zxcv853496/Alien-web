@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
 import Home from './components/home/Home';
 import BlogList from './components/blog/BlogList';
@@ -13,9 +13,18 @@ import AIPage from './components/ai/AIPage';
 
 import { Toaster } from 'react-hot-toast';
 
+import { AuthProvider } from './contexts/AuthContext';
+import Login from './components/auth/Login';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import Dashboard from './components/admin/Dashboard';
+import Messages from './components/admin/Messages';
+import ArticleList from './components/admin/articles/ArticleList';
+import ArticleEditor from './components/admin/articles/ArticleEditor';
+import AdminLayout from './components/admin/AdminLayout';
+
 function App() {
   return (
-    <MainLayout>
+    <AuthProvider>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -47,15 +56,30 @@ function App() {
         }}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/articles" element={<BlogList />} />
-        <Route path="/articles/:id" element={<BlogPost />} />
-        <Route path="/ai-strategy" element={<AIPage />} />
+        {/* Public Routes with MainLayout */}
+        <Route element={<MainLayout><Outlet /><FloatingCTA /></MainLayout>}>
+          <Route path="/" element={<Home />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/articles" element={<BlogList />} />
+          <Route path="/articles/:id" element={<BlogPost />} />
+          <Route path="/ai-strategy" element={<AIPage />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+
+
+
+        {/* Protected Admin Routes with AdminLayout */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin/messages" element={<Messages />} />
+            <Route path="/admin/articles" element={<ArticleList />} />
+            <Route path="/admin/articles/:id" element={<ArticleEditor />} />
+          </Route>
+        </Route>
       </Routes>
-      <FloatingCTA />
-    </MainLayout>
+    </AuthProvider>
   );
 }
 

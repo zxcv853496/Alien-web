@@ -1,19 +1,56 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack } from '@mui/material';
-import { articles } from '../../data/articles';
+import { articles as legacyArticles } from '../../data/articles';
+import { supabase } from '../../lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageHero from '../layout/PageHero';
 
 const BlogList = () => {
     const navigate = useNavigate();
+    const [articles, setArticles] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchArticles();
+    }, []);
+
+    const fetchArticles = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('articles')
+                .select('*')
+                .order('date', { ascending: false });
+
+            if (error) throw error;
+
+            // Hybrid Merge Strategy:
+            // 1. Start with Legacy Articles
+            // 2. Overwrite/Add DB Articles
+            const articleMap = new Map();
+            legacyArticles.forEach(a => articleMap.set(a.id, a));
+            if (data) {
+                data.forEach(a => articleMap.set(a.id, a));
+            }
+
+            const combinedAuthors = Array.from(articleMap.values());
+            setArticles(combinedAuthors);
+
+        } catch (error) {
+            console.error('Error fetching articles:', error);
+            // Fallback on error - use legacy only
+            setArticles(legacyArticles);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Extract unique tags
     const allTags = useMemo(() => {
         const tags = new Set(articles.flatMap(article => article.tags || []));
         return ['All', ...Array.from(tags)];
-    }, []);
+    }, [articles]);
 
     // Toggle tag selection
     const handleTagClick = (tag) => {
@@ -44,7 +81,7 @@ const BlogList = () => {
 
         // Sort by date (Newest first)
         return result.sort((a, b) => new Date(b.date) - new Date(a.date));
-    }, [selectedTags]);
+    }, [articles, selectedTags]);
 
     return (
         <Box sx={{ minHeight: '80vh', bgcolor: 'grey.50' }}>
