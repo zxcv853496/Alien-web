@@ -11,7 +11,7 @@ import FloatingCTA from './components/common/FloatingCTA';
 
 import AIPage from './components/ai/AIPage';
 
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 
 import { AuthProvider } from './contexts/AuthContext';
 import Login from './components/auth/Login';
