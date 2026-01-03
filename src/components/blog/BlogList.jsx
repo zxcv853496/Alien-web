@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack, Skeleton } from '@mui/material';
 import { articles as legacyArticles } from '../../data/articles';
 import { supabase } from '../../lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
@@ -83,6 +83,29 @@ const BlogList = () => {
         return result.sort((a, b) => new Date(b.date) - new Date(a.date));
     }, [articles, selectedTags]);
 
+    // Loading Skeleton Component
+    const ArticleSkeleton = () => (
+        <Grid item xs={12}>
+            <Card sx={{
+                height: '100%',
+                borderRadius: 4,
+                overflow: 'hidden',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+            }}>
+                <Box sx={{ p: 4 }}>
+                    <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+                        <Skeleton variant="rounded" width={60} height={24} sx={{ borderRadius: 1 }} />
+                        <Skeleton variant="rounded" width={60} height={24} sx={{ borderRadius: 1 }} />
+                    </Stack>
+                    <Skeleton variant="text" width="30%" height={20} sx={{ mb: 1 }} />
+                    <Skeleton variant="text" width="80%" height={40} sx={{ mb: 1 }} />
+                    <Skeleton variant="text" width="100%" height={20} />
+                    <Skeleton variant="text" width="90%" height={20} />
+                </Box>
+            </Card>
+        </Grid>
+    );
+
     return (
         <Box sx={{ minHeight: '80vh', bgcolor: 'grey.50' }}>
             <PageHero
@@ -135,61 +158,66 @@ const BlogList = () => {
                 </Stack>
 
                 <Grid container spacing={4}>
-                    <AnimatePresence mode='wait'>
-                        {filteredArticles.map((article, index) => (
-                            <Grid item xs={12} md={6} key={article.id}>
-                                <motion.div
-                                    layout
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <Card sx={{
-                                        height: '100%',
-                                        borderRadius: 4,
-                                        overflow: 'hidden',
-                                        boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-                                        transition: '0.3s',
-                                        '&:hover': { translateY: -5, boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }
-                                    }}>
-                                        <CardActionArea
-                                            component={Link}
-                                            to={`/articles/${article.id}`}
-                                            sx={{ height: '100%', p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start' }}
-                                        >
-                                            <CardContent sx={{ width: '100%' }}>
-                                                <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-                                                    {article.tags?.map(tag => (
-                                                        <Chip
-                                                            key={tag}
-                                                            label={`#${tag}`}
-                                                            size="small"
-                                                            sx={{
-                                                                bgcolor: 'primary.50',
-                                                                color: 'primary.main',
-                                                                fontWeight: 'bold',
-                                                                fontSize: '0.75rem'
-                                                            }}
-                                                        />
-                                                    ))}
-                                                </Stack>
-                                                <Typography variant="caption" color="text.secondary" fontWeight="bold">
-                                                    {article.date}
-                                                </Typography>
-                                                <Typography variant="h5" component="h2" gutterBottom fontWeight="bold" sx={{ mt: 1 }}>
-                                                    {article.title}
-                                                </Typography>
-                                                <Typography variant="body1" color="text.secondary">
-                                                    {article.description}
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </motion.div>
-                            </Grid>
-                        ))}
-                    </AnimatePresence>
+                    {loading ? (
+                        // Show Skeletons while loading
+                        [1, 2, 3, 4].map((i) => <ArticleSkeleton key={i} />)
+                    ) : (
+                        <AnimatePresence mode='wait'>
+                            {filteredArticles.map((article, index) => (
+                                <Grid item xs={12} md={6} key={article.id}>
+                                    <motion.div
+                                        layout
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.9 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <Card sx={{
+                                            height: '100%',
+                                            borderRadius: 4,
+                                            overflow: 'hidden',
+                                            boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+                                            transition: '0.3s',
+                                            '&:hover': { translateY: -5, boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }
+                                        }}>
+                                            <CardActionArea
+                                                component={Link}
+                                                to={`/articles/${article.id}`}
+                                                sx={{ height: '100%', p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start' }}
+                                            >
+                                                <CardContent sx={{ width: '100%' }}>
+                                                    <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+                                                        {article.tags?.map(tag => (
+                                                            <Chip
+                                                                key={tag}
+                                                                label={`#${tag}`}
+                                                                size="small"
+                                                                sx={{
+                                                                    bgcolor: 'primary.50',
+                                                                    color: 'primary.main',
+                                                                    fontWeight: 'bold',
+                                                                    fontSize: '0.75rem'
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </Stack>
+                                                    <Typography variant="caption" color="text.secondary" fontWeight="bold">
+                                                        {article.date}
+                                                    </Typography>
+                                                    <Typography variant="h5" component="h2" gutterBottom fontWeight="bold" sx={{ mt: 1 }}>
+                                                        {article.title}
+                                                    </Typography>
+                                                    <Typography variant="body1" color="text.secondary">
+                                                        {article.description}
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    </motion.div>
+                                </Grid>
+                            ))}
+                        </AnimatePresence>
+                    )}
                 </Grid>
             </Container>
         </Box>
