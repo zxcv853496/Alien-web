@@ -28,33 +28,85 @@ function App() {
       <Toaster
         position="top-right"
         toastOptions={{
+          duration: 4000,
           style: {
             background: '#333',
             color: '#fff',
             fontFamily: '"Inter", sans-serif',
             fontSize: '14px',
-            borderRadius: '8px',
+            borderRadius: '12px',
+            padding: '12px 16px',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
           },
           success: {
             style: {
-              background: '#4caf50',
+              background: '#059669', // Emerald 600
             },
             iconTheme: {
               primary: '#fff',
-              secondary: '#4caf50',
+              secondary: '#059669',
             },
           },
           error: {
             style: {
-              background: '#f44336',
+              background: '#dc2626', // Red 600
             },
             iconTheme: {
               primary: '#fff',
-              secondary: '#f44336',
+              secondary: '#dc2626',
             },
           },
         }}
-      />
+      >
+        {(t) => (
+          <div
+            style={{
+              opacity: t.visible ? 1 : 0,
+              transform: t.visible ? 'translateY(0)' : 'translateY(-20px)',
+              transition: 'all 0.2s ease-in-out',
+              background: t.type === 'success' ? '#059669' : t.type === 'error' ? '#dc2626' : '#333',
+              color: '#fff',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+              fontFamily: '"Inter", sans-serif',
+              fontSize: '14px',
+              fontWeight: 500,
+            }}
+          >
+            {t.icon}
+            <div style={{ flex: 1 }}>
+              {typeof t.message === 'function' ? t.message(t) : t.message}
+            </div>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: 'none',
+                color: '#fff',
+                borderRadius: '50%',
+                width: '20px',
+                height: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                fontSize: '14px',
+                lineHeight: 1,
+                paddingBottom: '2px',
+                transition: 'background 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)')}
+            >
+              ×
+            </button>
+          </div>
+        )}
+      </Toaster>
       <Routes>
         {/* Public Routes with MainLayout */}
         <Route element={<MainLayout><Outlet /><FloatingCTA /></MainLayout>}>
