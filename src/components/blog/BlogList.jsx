@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack, Skeleton } from '@mui/material';
+import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack, CircularProgress } from '@mui/material';
 import { articles as legacyArticles } from '../../data/articles';
 import { supabase } from '../../lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
@@ -83,28 +83,6 @@ const BlogList = () => {
         return result.sort((a, b) => new Date(b.date) - new Date(a.date));
     }, [articles, selectedTags]);
 
-    // Loading Skeleton Component
-    const ArticleSkeleton = () => (
-        <Grid item xs={12}>
-            <Card sx={{
-                height: '100%',
-                borderRadius: 4,
-                overflow: 'hidden',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-            }}>
-                <Box sx={{ p: 4 }}>
-                    <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-                        <Skeleton variant="rounded" width={60} height={24} sx={{ borderRadius: 1 }} />
-                        <Skeleton variant="rounded" width={60} height={24} sx={{ borderRadius: 1 }} />
-                    </Stack>
-                    <Skeleton variant="text" width="30%" height={20} sx={{ mb: 1 }} />
-                    <Skeleton variant="text" width="80%" height={40} sx={{ mb: 1 }} />
-                    <Skeleton variant="text" width="100%" height={20} />
-                    <Skeleton variant="text" width="90%" height={20} />
-                </Box>
-            </Card>
-        </Grid>
-    );
 
     return (
         <Box sx={{ minHeight: '80vh', bgcolor: 'grey.50' }}>
@@ -159,8 +137,11 @@ const BlogList = () => {
 
                 <Grid container spacing={4}>
                     {loading ? (
-                        // Show Skeletons while loading
-                        [1, 2, 3, 4].map((i) => <ArticleSkeleton key={i} />)
+                        <Grid item xs={12}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+                                <CircularProgress size={60} thickness={4} sx={{ color: 'primary.main' }} />
+                            </Box>
+                        </Grid>
                     ) : (
                         <AnimatePresence mode='wait'>
                             {filteredArticles.map((article, index) => (
