@@ -3,6 +3,7 @@ import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Ch
 import { articles as legacyArticles } from '../../data/articles';
 import { supabase } from '../../lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageHero from '../layout/PageHero';
 
