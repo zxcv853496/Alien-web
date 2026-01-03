@@ -62,6 +62,7 @@ const Contact = () => {
                 </span>
             ), { duration: 5000 });
             setFormData({ name: '', email: '', message: '' });
+            setTouched({ email: false });
         } catch (error) {
             console.error('Error sending message:', error);
             toast.error((toastId) => (
@@ -167,8 +168,8 @@ const Contact = () => {
                                     onBlur={handleBlur}
                                     placeholder={t('contact.email.placeholder')}
                                     variant="outlined"
-                                    error={touched.email && !isValidEmail(formData.email)}
-                                    helperText={touched.email && !isValidEmail(formData.email) ? t('contact.email.error') : ''}
+                                    error={touched.email && formData.email && !isValidEmail(formData.email)}
+                                    helperText={touched.email && formData.email && !isValidEmail(formData.email) ? t('contact.email.error') : ''}
                                     sx={{
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '12px',
