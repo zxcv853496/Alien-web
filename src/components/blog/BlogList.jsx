@@ -138,15 +138,15 @@ const BlogList = () => {
                     })}
                 </Stack>
 
-                <Grid container spacing={4}>
+                <Stack spacing={4}>
                     {loading ? (
-                        <Grid item xs={12}>
+                        <Box sx={{ width: '100%' }}>
                             <LoadingState />
-                        </Grid>
+                        </Box>
                     ) : (
                         <AnimatePresence mode='wait'>
                             {filteredArticles.map((article, index) => (
-                                <Grid item xs={12} key={article.id}>
+                                <Box key={article.id} sx={{ width: '100%' }}>
                                     <motion.div
                                         layout
                                         initial={{ opacity: 0, y: 20 }}
@@ -196,11 +196,11 @@ const BlogList = () => {
                                             </CardActionArea>
                                         </Card>
                                     </motion.div>
-                                </Grid>
+                                </Box>
                             ))}
                         </AnimatePresence>
                     )}
-                </Grid>
+                </Stack>
             </Container>
         </Box>
     );
