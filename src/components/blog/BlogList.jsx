@@ -138,8 +138,47 @@ const BlogList = () => {
                 <Grid container spacing={4}>
                     {loading ? (
                         <Grid item xs={12}>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-                                <CircularProgress size={60} thickness={4} sx={{ color: 'primary.main' }} />
+                            <Box
+                                component={motion.div}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    py: 12,
+                                    gap: 3
+                                }}
+                            >
+                                <CircularProgress
+                                    size={50}
+                                    thickness={4}
+                                    sx={{
+                                        color: 'primary.main',
+                                        filter: 'drop-shadow(0 0 8px rgba(33, 150, 243, 0.3))'
+                                    }}
+                                />
+                                <Typography
+                                    variant="h6"
+                                    color="text.secondary"
+                                    sx={{
+                                        fontWeight: 500,
+                                        letterSpacing: 1,
+                                        animation: 'pulse 2s infinite'
+                                    }}
+                                >
+                                    {t('loading.articles') || 'Loading Articles...'}
+                                </Typography>
+                                <style>
+                                    {`
+                                        @keyframes pulse {
+                                            0% { opacity: 0.5; }
+                                            50% { opacity: 1; }
+                                            100% { opacity: 0.5; }
+                                        }
+                                    `}
+                                </style>
                             </Box>
                         </Grid>
                     ) : (

@@ -143,6 +143,7 @@ const resources = {
             "contact.success": "Message sent successfully! We will contact you soon.",
             "contact.error": "Failed to send message. Please try again later.",
             "contact.email.error": "Please enter a valid email address",
+            "loading.articles": "AI is fetching articles...",
             // Admin
             "admin.dashboard": "Dashboard",
             "admin.messages": "Messages",
@@ -324,6 +325,7 @@ const resources = {
             "contact.success": "訊息已成功發送！我們會盡快與您聯繫。",
             "contact.error": "發送失敗，請稍後再試。",
             "contact.email.error": "請輸入有效的電子郵件地址",
+            "loading.articles": "AI 正在為您讀取文章...",
             // Admin
             "admin.dashboard": "儀表板",
             "admin.messages": "留言管理",
