@@ -21,7 +21,12 @@ import {
     Chip,
     Divider,
     ToggleButton,
-    ToggleButtonGroup
+    ToggleButtonGroup,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions
 } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import AddIcon from '@mui/icons-material/Add';
@@ -34,6 +39,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { styled } from '@mui/material/styles';
 import { toast } from 'react-hot-toast';
 import { supabase } from '../../../lib/supabaseClient';
+import LoadingState from '../../common/LoadingState';
 
 // --- Custom Styled Switch (iOS Style) ---
 const IOSSwitch = styled((props) => (
@@ -111,9 +117,22 @@ const CustomInput = ({ label, ...props }) => (
 
 // --- Sub-Component: Plan Editor ---
 const PlanEditor = ({ plan, onSave, onCancel }) => {
+    // Logic: 
+    // If DB has originalPrice, it means it's on sale. 
+    //   -> Input Regular = DB originalPrice
+    //   -> Input Sale = DB price
+    // If DB has NO originalPrice, it's regular price.
+    //   -> Input Regular = DB price
+    //   -> Input Sale = ''
+
+    const initialRegularPrice = plan.originalPrice ? plan.originalPrice : plan.price;
+    const initialSalePrice = plan.originalPrice ? plan.price : '';
+
     const [formData, setFormData] = useState({
         ...plan,
-        recommendationLevel: plan.recommendationLevel ?? (plan.isRecommended ? 1 : 0) // Migration handling
+        regularPriceInput: initialRegularPrice,
+        salePriceInput: initialSalePrice,
+        recommendationLevel: plan.recommendationLevel ?? (plan.isRecommended ? 1 : 0)
     });
     const [newFeature, setNewFeature] = useState('');
 
@@ -143,6 +162,22 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
         }
     };
 
+    const handleSave = () => {
+        // Transform Inputs back to DB Schema
+        const isSale = !!formData.salePriceInput && formData.salePriceInput.trim() !== '';
+
+        const finalData = {
+            ...formData,
+            // If Sale input exists: Price = Sale, Original = Regular, Special = true
+            // If Sale input empty: Price = Regular, Original = null, Special = false
+            price: isSale ? formData.salePriceInput : formData.regularPriceInput,
+            originalPrice: isSale ? formData.regularPriceInput : null,
+            isSpecial: isSale
+        };
+
+        onSave(finalData);
+    };
+
     return (
         <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, gap: 2 }}>
@@ -156,7 +191,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                 <Button
                     variant="contained"
                     startIcon={<SaveIcon />}
-                    onClick={() => onSave(formData)}
+                    onClick={handleSave}
                     sx={{ borderRadius: 2, px: 3 }}
                 >
                     儲存產品
@@ -191,19 +226,19 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                             <Stack direction="row" spacing={2}>
                                 <Box sx={{ width: '50%' }}>
                                     <CustomInput
-                                        label="特價 (顯示金額)"
-                                        placeholder="例如：35,000"
-                                        value={formData.price}
-                                        onChange={(e) => handleChange('price', e.target.value)}
+                                        label="原價 (Regular Price)"
+                                        placeholder="例如：50,000"
+                                        value={formData.regularPriceInput}
+                                        onChange={(e) => handleChange('regularPriceInput', e.target.value)}
                                         InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                                     />
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
                                     <CustomInput
-                                        label="原價 (劃掉金額)"
-                                        placeholder="例如：50,000"
-                                        value={formData.originalPrice}
-                                        onChange={(e) => handleChange('originalPrice', e.target.value)}
+                                        label="特價 (Sale Price - Optional)"
+                                        placeholder="例如：35,000 (可選)"
+                                        value={formData.salePriceInput}
+                                        onChange={(e) => handleChange('salePriceInput', e.target.value)}
                                         InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                                     />
                                 </Box>
@@ -220,20 +255,9 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
 
                             <Box sx={{ p: 3, bgcolor: 'white', borderRadius: 3, border: '1px solid #f0f0f0' }}>
                                 <Typography variant="subtitle2" component="div" sx={{ mb: 2, fontWeight: 'bold', color: 'text.secondary' }}>
-                                    標籤與推薦設定
+                                    推薦設定
                                 </Typography>
                                 <Stack spacing={3}>
-                                    <FormControlLabel
-                                        control={<IOSSwitch checked={formData.isSpecial} onChange={(e) => handleChange('isSpecial', e.target.checked)} />}
-                                        label={
-                                            <Typography variant="body2" fontWeight="bold">
-                                                顯示「特價中」標記 (Special Offer)
-                                            </Typography>
-                                        }
-                                        sx={{ ml: 0, width: '100%', justifyContent: 'space-between', flexDirection: 'row-reverse' }}
-                                    />
-                                    <Divider />
-
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography variant="body2" fontWeight="bold">
                                             推薦程度 (Recommendation Level)
@@ -371,12 +395,18 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
 // --- Main Component: Product List Manager ---
 const TransparencySettings = () => {
     const [plans, setPlans] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [view, setView] = useState('list'); // 'list' | 'edit'
     const [editingPlan, setEditingPlan] = useState(null);
+
+    // Delete Confirmation State
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [planToDelete, setPlanToDelete] = useState(null);
 
     // Fetch Products from Supabase
     const fetchPlans = async () => {
         try {
+            setLoading(true);
             const { data, error } = await supabase
                 .from('products')
                 .select('*')
@@ -396,6 +426,8 @@ const TransparencySettings = () => {
         } catch (error) {
             console.error('Error fetching plans:', error);
             toast.error('無法載入產品資料');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -459,11 +491,46 @@ const TransparencySettings = () => {
         }
     };
 
+    // Delete Logic
+    const confirmDelete = (e, plan) => {
+        e.stopPropagation(); // Prevent card click (edit)
+        setPlanToDelete(plan);
+        setDeleteDialogOpen(true);
+    };
+
+    const handleDelete = async () => {
+        if (!planToDelete) return;
+
+        const loadingToast = toast.loading('Deleting...');
+        try {
+            const { error } = await supabase
+                .from('products')
+                .delete()
+                .eq('id', planToDelete.id);
+
+            if (error) throw error;
+
+            toast.dismiss(loadingToast);
+            toast.success('刪除成功');
+            setDeleteDialogOpen(false);
+            setPlanToDelete(null);
+            fetchPlans();
+        } catch (error) {
+            console.error('Error deleting plan:', error);
+            toast.dismiss(loadingToast);
+            toast.error('刪除失敗');
+        }
+    };
+
     // Grouping Logic
     const seriesGroups = ['Series A: Quick Launch', 'Series B: Corporate Brand'];
 
     if (view === 'edit') {
         return <PlanEditor plan={editingPlan} onSave={handleSavePlan} onCancel={() => setView('list')} />;
+    }
+
+    if (loading) {
+        return <LoadingState minHeight="400px" />;
     }
 
     return (
@@ -506,6 +573,8 @@ const TransparencySettings = () => {
                                             <Grid item xs={12} md={4} key={plan.id}>
                                                 <Card sx={{
                                                     height: '100%',
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
                                                     borderRadius: 4,
                                                     transition: '0.3s',
                                                     position: 'relative',
@@ -526,7 +595,7 @@ const TransparencySettings = () => {
                                                         boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
                                                     }
                                                 }}>
-                                                    <CardActionArea onClick={() => handleEdit(plan)} sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+                                                    <CardActionArea onClick={() => handleEdit(plan)} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
                                                         <CardContent sx={{ flexGrow: 1 }}>
                                                             <Stack direction="row" justifyContent="space-between" alignItems="start" sx={{ mb: 2 }}>
                                                                 {isRecommended ? (
@@ -569,16 +638,27 @@ const TransparencySettings = () => {
                                                                 )}
                                                             </Stack>
                                                         </CardContent>
-
-                                                        <Box sx={{ p: 2, bgcolor: isPremium ? 'rgba(0, 198, 255, 0.05)' : 'grey.50', borderTop: '1px solid #eee' }}>
-                                                            <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                                                <Typography variant="caption" color="text.secondary">
-                                                                    {plan.features.length} features
-                                                                </Typography>
-                                                                <EditIcon fontSize="small" color="action" />
-                                                            </Stack>
-                                                        </Box>
                                                     </CardActionArea>
+
+                                                    <Box sx={{ p: 2, px: 3, bgcolor: isPremium ? 'rgba(0, 198, 255, 0.05)' : 'grey.50', borderTop: '1px solid #eee' }}>
+                                                        <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                                            <Typography variant="caption" color="text.secondary">
+                                                                {plan.features.length} features
+                                                            </Typography>
+                                                            <Box>
+                                                                <IconButton
+                                                                    size="small"
+                                                                    onClick={(e) => confirmDelete(e, plan)}
+                                                                    sx={{ mr: 1, color: 'text.secondary', '&:hover': { color: 'error.main', bgcolor: 'error.lighter' } }}
+                                                                >
+                                                                    <DeleteIcon fontSize="small" />
+                                                                </IconButton>
+                                                                <IconButton size="small" onClick={() => handleEdit(plan)}>
+                                                                    <EditIcon fontSize="small" color="action" />
+                                                                </IconButton>
+                                                            </Box>
+                                                        </Stack>
+                                                    </Box>
                                                 </Card>
                                             </Grid>
                                         );
@@ -589,6 +669,25 @@ const TransparencySettings = () => {
                     );
                 })}
             </Stack>
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog
+                open={deleteDialogOpen}
+                onClose={() => setDeleteDialogOpen(false)}
+            >
+                <DialogTitle>確認刪除產品？</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        您確定要刪除「{planToDelete?.name}」嗎？此動作無法復原。
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteDialogOpen(false)}>取消</Button>
+                    <Button onClick={handleDelete} color="error" autoFocus>
+                        確定刪除
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };
