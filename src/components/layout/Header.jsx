@@ -39,7 +39,7 @@ const Header = () => {
         { label: t('nav.pricing'), path: '/pricing' },
         { label: t('nav.articles'), path: '/articles' },
         { label: t('nav.contact'), path: '/contact' },
-        { label: 'AI Tool', path: '/ai-strategy' },
+        { label: t('nav.ai_tool'), path: '/ai-strategy' },
     ];
 
     const handleNavigation = (path) => {
@@ -107,7 +107,7 @@ const Header = () => {
                         boxShadow: '0 4px 12px rgba(33, 150, 243, 0.3)'
                     }}
                 >
-                    {user ? "Dashboard" : "Login"}
+                    {user ? t('admin.dashboard') : t('auth.login')}
                 </Button>
                 <Typography variant="caption" color="text.secondary" display="block">
                     {t('drawer.copyright')}
@@ -201,7 +201,7 @@ const Header = () => {
                             px: 3
                         }}
                     >
-                        {user ? "Dashboard" : "Login"}
+                        {user ? t('admin.dashboard') : t('auth.login')}
                     </Button>
                 </Box>
 

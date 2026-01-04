@@ -9,7 +9,9 @@ import MessageIcon from '@mui/icons-material/Message';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import ArticleIcon from '@mui/icons-material/Article';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
 import PersonIcon from '@mui/icons-material/Person';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -133,6 +135,7 @@ const AdminLayout = () => {
     const menuItems = [
         { text: t('admin.dashboard'), icon: <DashboardIcon />, path: '/admin' },
         { text: t('admin.articles'), icon: <ArticleIcon />, path: '/admin/articles' },
+        { text: t('admin.products'), icon: <Inventory2Icon />, path: '/admin/transparency' },
         { text: t('admin.messages'), icon: <MessageIcon />, path: '/admin/messages' },
     ];
 
@@ -154,7 +157,7 @@ const AdminLayout = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-                        Admin Console
+                        {t('admin.console_title')}
                     </Typography>
                     <div>
                         <Button

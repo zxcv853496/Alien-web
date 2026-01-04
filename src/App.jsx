@@ -22,6 +22,7 @@ import Dashboard from './components/admin/Dashboard';
 import Messages from './components/admin/Messages';
 import ArticleList from './components/admin/articles/ArticleList';
 import ArticleEditor from './components/admin/articles/ArticleEditor';
+import TransparencySettings from './components/admin/transparency/TransparencySettings';
 import AdminLayout from './components/admin/AdminLayout';
 
 function App() {
@@ -135,6 +136,7 @@ function App() {
             <Route path="/admin/messages" element={<Messages />} />
             <Route path="/admin/articles" element={<ArticleList />} />
             <Route path="/admin/articles/:id" element={<ArticleEditor />} />
+            <Route path="/admin/transparency" element={<TransparencySettings />} />
           </Route>
         </Route>
       </Routes>

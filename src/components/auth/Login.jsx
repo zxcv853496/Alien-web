@@ -24,11 +24,11 @@ const Login = () => {
             const { error } = await login(email, password);
             if (error) throw error;
 
-            toast.success('Welcome back, Admin!');
+            toast.success(t('auth.login.success'));
             navigate(from, { replace: true });
         } catch (error) {
             console.error(error);
-            toast.error(error.message || 'Failed to login');
+            toast.error(error.message || t('auth.login.failed'));
         } finally {
             setLoading(false);
         }
@@ -73,18 +73,18 @@ const Login = () => {
                         <LockIcon sx={{ color: 'white' }} />
                     </Box>
                     <Typography component="h1" variant="h5" fontWeight="bold" gutterBottom color="primary">
-                        Admin Login
+                        {t('auth.login.title')}
                     </Typography>
                     <Box component="form" onSubmit={handleLogin} sx={{ mt: 1, width: '100%' }}>
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
-                                Email Address
+                                {t('auth.email.label')}
                             </Typography>
                             <TextField
                                 required
                                 fullWidth
                                 id="email"
-                                placeholder="Enter your email"
+                                placeholder={t('auth.email.placeholder')}
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
@@ -104,13 +104,13 @@ const Login = () => {
                         </Box>
                         <Box sx={{ mb: 4 }}>
                             <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold' }}>
-                                Password
+                                {t('auth.password.label')}
                             </Typography>
                             <TextField
                                 required
                                 fullWidth
                                 name="password"
-                                placeholder="Enter your password"
+                                placeholder={t('auth.password.placeholder')}
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
@@ -141,7 +141,7 @@ const Login = () => {
                                 boxShadow: '0 4px 10px rgba(33, 150, 243, 0.3)'
                             }}
                         >
-                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
+                            {loading ? <CircularProgress size={24} color="inherit" /> : t('auth.btn.signin')}
                         </Button>
                     </Box>
                 </Paper>
