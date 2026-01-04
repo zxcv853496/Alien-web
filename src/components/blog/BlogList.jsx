@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack, CircularProgress } from '@mui/material';
-import { articles as legacyArticles } from '../../data/articles';
 import { supabase } from '../../lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -28,22 +27,13 @@ const BlogList = () => {
 
             if (error) throw error;
 
-            // Hybrid Merge Strategy:
-            // 1. Start with Legacy Articles
-            // 2. Overwrite/Add DB Articles
-            const articleMap = new Map();
-            legacyArticles.forEach(a => articleMap.set(a.id, a));
             if (data) {
-                data.forEach(a => articleMap.set(a.id, a));
+                setArticles(data);
             }
-
-            const combinedAuthors = Array.from(articleMap.values());
-            setArticles(combinedAuthors);
 
         } catch (error) {
             console.error('Error fetching articles:', error);
-            // Fallback on error - use legacy only
-            setArticles(legacyArticles);
+            setArticles([]);
         } finally {
             setLoading(false);
         }

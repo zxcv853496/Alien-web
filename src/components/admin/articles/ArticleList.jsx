@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Paper, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Chip, Tooltip, Stack } from '@mui/material';
 import { supabase } from '../../../lib/supabaseClient';
-import { articles as legacyArticles } from '../../../data/articles'; // Import legacy for seeding
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
+
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import LoadingState from '../../common/LoadingState';
@@ -41,6 +40,8 @@ const ArticleList = () => {
         }
     };
 
+
+
     const handleDelete = async (id) => {
         if (!window.confirm(t('admin.delete_confirm'))) return;
 
@@ -59,33 +60,6 @@ const ArticleList = () => {
         }
     };
 
-    const handleSeed = async () => {
-        if (!window.confirm(`This will import ${legacyArticles.length} articles from your legacy file. Continue?`)) return;
-
-        try {
-            const formattedData = legacyArticles.map(article => ({
-                id: article.id, // Keep old IDs for SEO url compatibility
-                title: article.title,
-                description: article.description,
-                content: article.content,
-                tags: article.tags || [],
-                date: article.date,
-                created_at: new Date().toISOString()
-            }));
-
-            const { error } = await supabase
-                .from('articles')
-                .upsert(formattedData, { onConflict: 'id' });
-
-            if (error) throw error;
-            toast.success('Legacy articles imported successfully!');
-            fetchArticles();
-        } catch (error) {
-            console.error('Seed error:', error);
-            toast.error('Failed to import articles. Did you run the SQL to create the table?');
-        }
-    };
-
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
@@ -93,15 +67,6 @@ const ArticleList = () => {
                     {t('admin.articles.title')}
                 </Typography>
                 <Stack direction="row" spacing={2}>
-                    {articles.length === 0 && (
-                        <Button
-                            variant="outlined"
-                            startIcon={<SaveAltIcon />}
-                            onClick={handleSeed}
-                        >
-                            {t('admin.articles.import')}
-                        </Button>
-                    )}
                     <Button
                         variant="contained"
                         startIcon={<AddIcon />}
@@ -133,7 +98,7 @@ const ArticleList = () => {
                             ) : articles.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={4} align="center">
-                                        No articles found. Import legacy data to get started.
+                                        No articles found.
                                     </TableCell>
                                 </TableRow>
                             ) : (

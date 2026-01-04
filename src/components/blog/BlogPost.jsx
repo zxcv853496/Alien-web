@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Box, Container, Typography, Button, Paper, Divider, CircularProgress } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
-import { articles as legacyArticles } from '../../data/articles';
+
 import { supabase } from '../../lib/supabaseClient';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PageHero from '../layout/PageHero';
@@ -24,10 +24,6 @@ const BlogPost = () => {
 
     useEffect(() => {
         const fetchArticle = async () => {
-            // 1. Try Legacy First (Instant Load)
-            const legacyOne = legacyArticles.find(a => a.id === id);
-
-            // 2. Try DB (Overwrite if exists)
             try {
                 const { data, error } = await supabase
                     .from('articles')
@@ -35,14 +31,14 @@ const BlogPost = () => {
                     .eq('id', id)
                     .single();
 
+                if (error) throw error;
+
                 if (data) {
                     setArticle(data);
-                } else {
-                    setArticle(legacyOne);
                 }
             } catch (err) {
                 console.error("DB Fetch error", err);
-                setArticle(legacyOne);
+                setArticle(null);
             } finally {
                 setLoading(false);
             }
@@ -50,6 +46,8 @@ const BlogPost = () => {
 
         fetchArticle();
     }, [id]);
+
+
 
     if (loading) {
         return (
@@ -188,9 +186,13 @@ const BlogPost = () => {
                         <Typography variant="caption" color="text.secondary">
                             發布日期：{article.date}
                         </Typography>
-                        <Typography variant="caption" sx={{ bgcolor: 'secondary.main', color: 'white', px: 1, py: 0.5, borderRadius: 1 }}>
-                            科技觀點
-                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 1 }}>
+                            {article.tags?.map(tag => (
+                                <Typography key={tag} variant="caption" sx={{ bgcolor: 'secondary.main', color: 'white', px: 1, py: 0.5, borderRadius: 1 }}>
+                                    {tag}
+                                </Typography>
+                            ))}
+                        </Box>
                     </Box>
 
                     <Divider sx={{ mb: 6 }} />

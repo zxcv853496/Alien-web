@@ -11,7 +11,6 @@ import { HashRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <HelmetProvider>
       <HashRouter>
         <ThemeProvider theme={theme}>
@@ -19,6 +18,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <App />
         </ThemeProvider>
       </HashRouter>
-    </HelmetProvider>
-  </React.StrictMode>,
+    </HelmetProvider>,
 )
