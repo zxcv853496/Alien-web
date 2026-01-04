@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack, CircularProgress } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { supabase } from '../../lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -220,23 +221,25 @@ export default function BlogList() {
                     })}
                     {!tagsFilterExpanded && allTags.length > TAG_FILTER_LIMIT && (
                         <Chip
-                            label="..."
+                            label="展開更多"
+                            icon={<ExpandMoreIcon />}
                             onClick={() => setTagsFilterExpanded(true)}
+                            clickable
                             sx={{
                                 borderRadius: '50px',
-                                fontSize: '0.95rem',
+                                fontSize: '0.9rem',
                                 height: 'auto',
-                                px: 1.5,
-                                py: 1,
-                                cursor: 'pointer',
-                                border: '1px solid transparent',
-                                bgcolor: '#F3F4F6',
+                                px: 1,
+                                py: 0.75,
+                                border: '1px dashed',
+                                borderColor: 'text.secondary',
+                                bgcolor: 'transparent',
                                 color: 'text.secondary',
-                                fontWeight: 600,
-                                transition: 'all 0.2s ease',
+                                transition: 'all 0.2s',
                                 '&:hover': {
-                                    bgcolor: '#E5E7EB',
-                                    boxShadow: 'none'
+                                    borderColor: 'primary.main',
+                                    color: 'primary.main',
+                                    bgcolor: 'primary.50'
                                 },
                             }}
                         />
