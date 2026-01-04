@@ -25,10 +25,13 @@ import ArticleEditor from './components/admin/articles/ArticleEditor';
 import TransparencySettings from './components/admin/transparency/TransparencySettings';
 import AdminLayout from './components/admin/AdminLayout';
 
+import ScrollProgress from './components/common/ScrollProgress';
+
 function App() {
   const { t } = useTranslation();
   return (
     <AuthProvider>
+      <ScrollProgress />
       <Helmet>
         <title>{t('app.title')} | {t('hero.title')}</title>
         <meta name="description" content={t('hero.subtitle')} />

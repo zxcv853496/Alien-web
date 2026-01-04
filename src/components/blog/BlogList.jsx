@@ -174,8 +174,8 @@ export default function BlogList() {
     return (
         <Box sx={{ minHeight: '80vh', bgcolor: 'grey.50' }}>
             <PageHero
-                title="精選文章"
-                subtitle="分享關於網頁設計、行銷科技與數位轉型的最新觀點。"
+                title={t('blog.title')}
+                subtitle={t('blog.subtitle')}
                 small
             />
 

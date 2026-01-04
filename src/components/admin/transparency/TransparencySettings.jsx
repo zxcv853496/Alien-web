@@ -38,6 +38,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { styled } from '@mui/material/styles';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../../lib/supabaseClient';
 import LoadingState from '../../common/LoadingState';
 
@@ -117,6 +118,7 @@ const CustomInput = ({ label, ...props }) => (
 
 // --- Sub-Component: Plan Editor ---
 const PlanEditor = ({ plan, onSave, onCancel }) => {
+    const { t } = useTranslation();
     // Logic: 
     // If DB has originalPrice, it means it's on sale. 
     //   -> Input Regular = DB originalPrice
@@ -185,7 +187,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                     <ArrowBackIcon />
                 </IconButton>
                 <Typography variant="h4" fontWeight="bold" color="primary.main">
-                    {plan.id ? '編輯產品內容' : '新增產品'}
+                    {plan.id ? t('admin.products.edit') : t('admin.products.add')}
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
                 <Button
@@ -194,7 +196,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                     onClick={handleSave}
                     sx={{ borderRadius: 2, px: 3 }}
                 >
-                    儲存產品
+                    {t('admin.products.save')}
                 </Button>
             </Box>
 
@@ -202,11 +204,11 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                 <Grid item xs={12} md={6}>
                     <Paper sx={{ p: 4, borderRadius: 4, height: '100%', bgcolor: '#FAFAFA' }}>
                         <Typography variant="h6" gutterBottom fontWeight="bold" sx={{ mb: 3 }}>
-                            基本資訊
+                            {t('admin.products.basic_info')}
                         </Typography>
                         <Stack spacing={1}>
                             <CustomInput
-                                label="所屬系列 (Series)"
+                                label={t('admin.products.series')}
                                 select
                                 SelectProps={{ native: true }}
                                 value={formData.series}
@@ -217,8 +219,8 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                             </CustomInput>
 
                             <CustomInput
-                                label="產品名稱"
-                                placeholder="例如：Basic Landing Page"
+                                label={t('admin.products.name')}
+                                placeholder={t('admin.products.name_placeholder')}
                                 value={formData.name}
                                 onChange={(e) => handleChange('name', e.target.value)}
                             />
@@ -226,7 +228,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                             <Stack direction="row" spacing={2}>
                                 <Box sx={{ width: '50%' }}>
                                     <CustomInput
-                                        label="原價 (Regular Price)"
+                                        label={t('admin.products.regular_price')}
                                         placeholder="例如：50,000"
                                         value={formData.regularPriceInput}
                                         onChange={(e) => handleChange('regularPriceInput', e.target.value)}
@@ -235,7 +237,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
                                     <CustomInput
-                                        label="特價 (Sale Price - Optional)"
+                                        label={t('admin.products.sale_price')}
                                         placeholder="例如：35,000 (可選)"
                                         value={formData.salePriceInput}
                                         onChange={(e) => handleChange('salePriceInput', e.target.value)}
@@ -245,8 +247,8 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                             </Stack>
 
                             <CustomInput
-                                label="產品簡介"
-                                placeholder="請輸入簡短的描述..."
+                                label={t('admin.products.desc')}
+                                placeholder={t('admin.products.desc_placeholder')}
                                 multiline
                                 rows={3}
                                 value={formData.description}
@@ -255,12 +257,12 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
 
                             <Box sx={{ p: 3, bgcolor: 'white', borderRadius: 3, border: '1px solid #f0f0f0' }}>
                                 <Typography variant="subtitle2" component="div" sx={{ mb: 2, fontWeight: 'bold', color: 'text.secondary' }}>
-                                    推薦設定
+                                    {t('admin.products.recommendation')}
                                 </Typography>
                                 <Stack spacing={3}>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography variant="body2" fontWeight="bold">
-                                            推薦程度 (Recommendation Level)
+                                            {t('admin.products.recommendation_level')}
                                         </Typography>
                                         <ToggleButtonGroup
                                             value={formData.recommendationLevel}
@@ -282,7 +284,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                                                 }
                                             }}
                                         >
-                                            <ToggleButton value={0}>無</ToggleButton>
+                                            <ToggleButton value={0}>{t('admin.products.recommendation_none')}</ToggleButton>
                                             <ToggleButton value={1}>
                                                 <StarIcon fontSize="small" />
                                             </ToggleButton>
@@ -301,18 +303,18 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                 <Grid item xs={12} md={6}>
                     <Paper sx={{ p: 4, borderRadius: 4, height: '100%', bgcolor: '#FAFAFA' }}>
                         <Typography variant="h6" gutterBottom fontWeight="bold" sx={{ mb: 3 }}>
-                            產品特色 (Features)
+                            {t('admin.products.features')}
                         </Typography>
 
                         <Box sx={{ mb: 3 }}>
                             <Typography variant="subtitle2" sx={{ mb: 1, ml: 1, fontWeight: 'bold', color: 'text.secondary' }}>
-                                新增特色項目
+                                {t('admin.products.add_feature')}
                             </Typography>
                             <Box sx={{ display: 'flex', gap: 1 }}>
                                 <TextField
                                     fullWidth
                                     size="medium"
-                                    placeholder="輸入特色內容..."
+                                    placeholder={t('admin.products.feature_placeholder')}
                                     value={newFeature}
                                     variant="outlined"
                                     onChange={(e) => setNewFeature(e.target.value)}
@@ -380,7 +382,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                                                 }
                                             }
                                         }}
-                                        placeholder="輸入文字..."
+                                        placeholder={t('admin.products.feature_input_placeholder')}
                                     />
                                 </ListItem>
                             ))}
@@ -394,6 +396,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
 
 // --- Main Component: Product List Manager ---
 const TransparencySettings = () => {
+    const { t } = useTranslation();
     const [plans, setPlans] = useState([]);
     const [loading, setLoading] = useState(true);
     const [view, setView] = useState('list'); // 'list' | 'edit'
@@ -425,7 +428,7 @@ const TransparencySettings = () => {
             setPlans(formattedData || []);
         } catch (error) {
             console.error('Error fetching plans:', error);
-            toast.error('無法載入產品資料');
+            // toast.error('無法載入產品資料');
         } finally {
             setLoading(false);
         }
@@ -481,13 +484,13 @@ const TransparencySettings = () => {
             if (error) throw error;
 
             toast.dismiss(loadingToast);
-            toast.success('儲存成功！');
+            toast.success(t('admin.products.save_success'));
             setView('list');
             fetchPlans(); // Refresh list to get new IDs/Data
         } catch (error) {
             console.error('Error saving plan:', error);
             toast.dismiss(loadingToast);
-            toast.error('儲存失敗');
+            toast.error(t('admin.delete_failed') || 'Failed to save');
         }
     };
 
@@ -511,14 +514,14 @@ const TransparencySettings = () => {
             if (error) throw error;
 
             toast.dismiss(loadingToast);
-            toast.success('刪除成功');
+            toast.success(t('admin.products.delete_success'));
             setDeleteDialogOpen(false);
             setPlanToDelete(null);
             fetchPlans();
         } catch (error) {
             console.error('Error deleting plan:', error);
             toast.dismiss(loadingToast);
-            toast.error('刪除失敗');
+            toast.error(t('admin.delete_failed') || 'Delete failed');
         }
     };
 
@@ -537,7 +540,7 @@ const TransparencySettings = () => {
         <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
                 <Typography variant="h4" fontWeight="bold" color="primary.main">
-                    產品管理 (Product Inventory)
+                    {t('admin.products.title')}
                 </Typography>
                 <Button
                     variant="contained"
@@ -545,7 +548,7 @@ const TransparencySettings = () => {
                     onClick={handleCreate}
                     sx={{ borderRadius: 2, px: 3, py: 1 }}
                 >
-                    新增產品
+                    {t('admin.products.add')}
                 </Button>
             </Box>
 
@@ -561,7 +564,7 @@ const TransparencySettings = () => {
                             </Stack>
 
                             {groupPlans.length === 0 ? (
-                                <Typography color="text.secondary" sx={{ py: 2 }}>此系列尚無產品</Typography>
+                                <Typography color="text.secondary" sx={{ py: 2 }}>{t('admin.products.empty_series')}</Typography>
                             ) : (
                                 <Grid container spacing={3}>
                                     {groupPlans.map(plan => {
@@ -643,7 +646,7 @@ const TransparencySettings = () => {
                                                     <Box sx={{ p: 2, px: 3, bgcolor: isPremium ? 'rgba(0, 198, 255, 0.05)' : 'grey.50', borderTop: '1px solid #eee' }}>
                                                         <Stack direction="row" justifyContent="space-between" alignItems="center">
                                                             <Typography variant="caption" color="text.secondary">
-                                                                {plan.features.length} features
+                                                                {plan.features.length} {t('admin.products.features_count')}
                                                             </Typography>
                                                             <Box>
                                                                 <IconButton
@@ -675,16 +678,16 @@ const TransparencySettings = () => {
                 open={deleteDialogOpen}
                 onClose={() => setDeleteDialogOpen(false)}
             >
-                <DialogTitle>確認刪除產品？</DialogTitle>
+                <DialogTitle>{t('admin.products.delete_confirm_title')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        您確定要刪除「{planToDelete?.name}」嗎？此動作無法復原。
+                        {t('admin.products.delete_confirm_desc', { name: planToDelete?.name })}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setDeleteDialogOpen(false)}>取消</Button>
+                    <Button onClick={() => setDeleteDialogOpen(false)}>{t('admin.products.cancel')}</Button>
                     <Button onClick={handleDelete} color="error" autoFocus>
-                        確定刪除
+                        {t('admin.products.delete_confirm_btn')}
                     </Button>
                 </DialogActions>
             </Dialog>
