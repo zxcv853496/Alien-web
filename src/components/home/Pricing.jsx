@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabaseClient';
 import { Box, Container, Typography, Card, CardContent, CardActions, Button, Grid, Chip, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -145,37 +146,52 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
 const Pricing = () => {
     const { t } = useTranslation();
 
-    const plans = [
-        {
-            title: t('pricing.a2.title'),
-            price: t('pricing.a2.price'),
-            originalPrice: t('pricing.a2.originalPrice'),
-            description: t('pricing.a2.desc'),
-            features: t('pricing.a2.features').split(','),
-            popular: true, // Reuse popular style for A2
-            openingSpecial: true,
-            badgeTitle: t('badge.opening'),
-            delay: 0.1
-        },
-        {
-            title: t('pricing.b1.title'),
-            price: t('pricing.b1.price'),
-            originalPrice: t('pricing.b1.originalPrice'),
-            description: t('pricing.b1.desc'),
-            features: t('pricing.b1.features').split(','),
-            premium: true,
-            openingSpecial: true,
-            badgeTitle: t('badge.opening'),
-            delay: 0.2
-        },
-        {
-            title: t('pricing.b2.title'),
-            price: t('pricing.b2.price'),
-            description: t('pricing.b2.desc'),
-            features: t('pricing.b2.features').split(','),
-            delay: 0.3
-        }
-    ];
+    // State for products
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .order('id', { ascending: true });
+
+                if (error) throw error;
+                setProducts(data || []);
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    // Process products for display
+    const processedPlans = products.map(p => ({
+        ...p,
+        // Map DB fields to UI props
+        title: p.name,
+        price: p.price,
+        originalPrice: p.original_price,
+        description: p.description,
+        features: Array.isArray(p.features) ? p.features.map(f => f.text) : [],
+
+        // Map Recommendation Levels
+        popular: p.recommendation_level === 1,
+        premium: p.recommendation_level === 2,
+
+        // Badge Logic
+        openingSpecial: p.is_special,
+        badgeTitle: t('badge.opening'),
+
+        // Animation Delay (stagger based on ID/Order)
+        delay: 0.1 * (p.id || 1)
+    }));
+
+    // Split into Series
+    const seriesA = processedPlans.filter(p => p.series && p.series.includes('Series A'));
+    const seriesB = processedPlans.filter(p => p.series && p.series.includes('Series B'));
 
     return (
         <Box id="pricing" sx={{ py: 6, bgcolor: '#fafafa' }}>
@@ -190,7 +206,7 @@ const Pricing = () => {
                 </Box>
 
                 <Grid container spacing={8} justifyContent="center">
-                    {/* Series A Column - Single Card */}
+                    {/* Series A Column - Single Card or List */}
                     <Grid item xs={12} lg={4}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
                             <Typography variant="h6" color="primary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
@@ -199,13 +215,15 @@ const Pricing = () => {
                             </Typography>
                         </Box>
                         <Grid container spacing={3} justifyContent="center">
-                            <Grid item xs={12}>
-                                <PricingCard {...plans[0]} contactLink={t('cta.button')} />
-                            </Grid>
+                            {seriesA.map((plan, index) => (
+                                <Grid item xs={12} key={plan.id || index}>
+                                    <PricingCard {...plan} contactLink={t('cta.button')} />
+                                </Grid>
+                            ))}
                         </Grid>
                     </Grid>
 
-                    {/* Series B Column - Two Cards */}
+                    {/* Series B Column - List */}
                     <Grid item xs={12} lg={8}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
                             <Typography variant="h6" color="secondary" fontWeight="bold" sx={{ display: 'flex', alignItems: 'center' }}>
@@ -214,8 +232,8 @@ const Pricing = () => {
                             </Typography>
                         </Box>
                         <Grid container spacing={3} justifyContent="center">
-                            {plans.slice(1, 3).map((plan, index) => (
-                                <Grid item xs={12} md={6} key={index}>
+                            {seriesB.map((plan, index) => (
+                                <Grid item xs={12} md={6} key={plan.id || index}>
                                     <PricingCard {...plan} contactLink={t('cta.button')} />
                                 </Grid>
                             ))}
