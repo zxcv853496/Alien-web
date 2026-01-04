@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import { Box, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, CssBaseline, Avatar, Tooltip } from '@mui/material';
+import { Box, Drawer as MuiDrawer, AppBar as MuiAppBar, Toolbar, List, Typography, Divider, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, CssBaseline, Avatar, Tooltip, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -10,6 +10,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import ArticleIcon from '@mui/icons-material/Article';
 import PersonIcon from '@mui/icons-material/Person';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +29,7 @@ const openedMixin = (theme) => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
-    backgroundColor: '#1E293B', // Dark slate blue
+    backgroundColor: '#0d47a1', // Deep Admin Blue
     color: '#ffffff',
 });
 
@@ -37,7 +40,7 @@ const closedMixin = (theme) => ({
     }),
     overflowX: 'hidden',
     width: collapsedWidth,
-    backgroundColor: '#1E293B',
+    backgroundColor: '#0d47a1', // Deep Admin Blue
     color: '#ffffff',
     [theme.breakpoints.up('sm')]: {
         width: collapsedWidth,
@@ -58,8 +61,8 @@ const AppBar = styled(MuiAppBar, {
 })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: '#ffffff',
-    color: '#334155',
-    boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)', // Subtle shadow
+    color: '#0d47a1', // Use blue for text/icons on white header
+    boxShadow: '0 1px 4px 0 rgba(0,0,0,0.1)', // Slightly softer shadow
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -154,18 +157,29 @@ const AdminLayout = () => {
                         Admin Console
                     </Typography>
                     <div>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
+                        <Button
                             onClick={handleMenu}
                             color="inherit"
+                            endIcon={Boolean(anchorEl) ? <KeyboardArrowUpIcon sx={{ color: '#64748b' }} /> : <KeyboardArrowDownIcon sx={{ color: '#64748b' }} />}
+                            sx={{
+                                textTransform: 'none',
+                                border: '1px solid #e2e8f0',
+                                borderRadius: '20px',
+                                px: 1.5,
+                                py: 0.5,
+                                bgcolor: '#fff',
+                                color: '#334155',
+                                '&:hover': {
+                                    backgroundColor: '#f8fafc',
+                                    borderColor: '#cbd5e1'
+                                }
+                            }}
                         >
-                            <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main' }}>
-                                <PersonIcon />
-                            </Avatar>
-                        </IconButton>
+                            <AccountCircleOutlinedIcon sx={{ mr: 1, color: '#334155' }} />
+                            <Typography variant="body2" sx={{ mr: 0.5, fontWeight: 500, color: '#334155' }}>
+                                {user?.email || 'Admin'}
+                            </Typography>
+                        </Button>
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorEl}
@@ -180,28 +194,51 @@ const AdminLayout = () => {
                             }}
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
+                            PaperProps={{
+                                elevation: 0,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 4px 12px rgba(0,0,0,0.1))',
+                                    mt: 1.5,
+                                    borderRadius: 3,
+                                    minWidth: 240,
+                                    border: '1px solid #f1f5f9',
+                                    '& .MuiMenuItem-root': {
+                                        px: 2.5,
+                                        py: 1.2,
+                                        fontSize: '0.925rem',
+                                        color: '#334155',
+                                        '&:hover': {
+                                            backgroundColor: '#f8fafc',
+                                        },
+                                    },
+                                    '& .MuiListItemIcon-root': {
+                                        minWidth: 36,
+                                        color: '#64748b'
+                                    }
+                                },
+                            }}
                         >
                             <MenuItem onClick={() => { handleClose(); navigate('/'); }}>
                                 <ListItemIcon>
                                     <HomeIcon fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText>{t('admin.home')}</ListItemText>
+                                <ListItemText primary={t('admin.home')} />
                             </MenuItem>
-                            <Divider />
                             <MenuItem onClick={changeLanguage}>
                                 <ListItemIcon>
                                     <TranslateIcon fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText>
-                                    {i18n.language === 'en' ? '繁體中文' : 'English'}
-                                </ListItemText>
+                                <ListItemText
+                                    primary={i18n.language === 'en' ? '繁體中文' : 'English'}
+                                />
                             </MenuItem>
-                            <Divider />
+                            <Divider sx={{ my: 1, borderColor: '#f1f5f9' }} />
                             <MenuItem onClick={handleLogout}>
                                 <ListItemIcon>
-                                    <LogoutIcon fontSize="small" color="error" />
+                                    <LogoutIcon fontSize="small" sx={{ color: '#64748b' }} />
                                 </ListItemIcon>
-                                <ListItemText sx={{ color: 'error.main' }}>{t('admin.logout')}</ListItemText>
+                                <ListItemText primary={t('admin.logout')} />
                             </MenuItem>
                         </Menu>
                     </div>
@@ -228,10 +265,11 @@ const AdminLayout = () => {
                                     justifyContent: open ? 'initial' : 'center',
                                     px: 2.5,
                                     '&.Mui-selected': {
-                                        bgcolor: 'rgba(255,255,255,0.08)',
-                                        '&:hover': { bgcolor: 'rgba(255,255,255,0.12)' }
+                                        bgcolor: 'rgba(255,255,255,0.2)',
+                                        borderLeft: '4px solid #fff',
+                                        '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' }
                                     },
-                                    '&:hover': { bgcolor: 'rgba(255,255,255,0.04)' }
+                                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
                                 }}
                             >
                                 <ListItemIcon
