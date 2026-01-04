@@ -23,7 +23,7 @@ const Footer = () => {
                     Alien's Freelance Website
                 </Typography>
                 <Typography variant="body2" align="center" color="primary" sx={{ mb: 1, fontWeight: 'bold' }}>
-                    {t('footer.contactLabel')}: zxcv853496@gmail.com
+                    {t('footer.contactLabel')}: contact@alienaistudio.tw
                 </Typography>
                 <Typography variant="body2" color="text.secondary" align="center">
                     {t('footer.rights')}
