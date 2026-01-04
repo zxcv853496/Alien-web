@@ -6,6 +6,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import StarIcon from '@mui/icons-material/Star';
 import { motion } from 'framer-motion';
+import LoadingState from '../common/LoadingState';
 
 
 
@@ -148,6 +149,7 @@ const Pricing = () => {
 
     // State for products
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -161,11 +163,17 @@ const Pricing = () => {
                 setProducts(data || []);
             } catch (error) {
                 console.error('Error loading products:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchProducts();
     }, []);
+
+    if (loading) {
+        return <LoadingState minHeight="600px" />;
+    }
 
     // Process products for display
     const processedPlans = products.map(p => ({
