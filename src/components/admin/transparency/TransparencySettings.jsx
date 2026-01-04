@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Paper,
@@ -33,6 +33,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { styled } from '@mui/material/styles';
 import { toast } from 'react-hot-toast';
+import { supabase } from '../../../lib/supabaseClient';
 
 // --- Custom Styled Switch (iOS Style) ---
 const IOSSwitch = styled((props) => (
@@ -332,60 +333,38 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
 
 // --- Main Component: Product List Manager ---
 const TransparencySettings = () => {
-    // Mock Data with Recommendation Levels (Synced with Frontend i18n)
-    const [plans, setPlans] = useState([
-        {
-            id: 1,
-            series: 'Series A: Quick Launch',
-            name: 'AI 銷售導購版 (AI Sales Landing)',
-            price: '12,000',
-            originalPrice: '15,000',
-            isSpecial: true,
-            recommendationLevel: 1, // Popular
-            description: '為了「成交」而生的頁面。一頁式網站設計，專注於產品引流與高轉換率。',
-            features: [
-                { id: 1, text: '一頁式網站 (One-Page)' },
-                { id: 2, text: '整合社群連結 (Social Media)' },
-                { id: 3, text: '3天極速上線 (Rapid Launch)' },
-                { id: 4, text: 'RWD 手機完美適配' }
-            ]
-        },
-        {
-            id: 2,
-            series: 'Series B: Corporate Brand',
-            name: '極致靜態版 (Static Elite)',
-            price: '32,000',
-            originalPrice: '40,000',
-            isSpecial: true,
-            recommendationLevel: 2, // Premium
-            description: '頂級的形象與速度。企業官網的最佳選擇，無後台設計確保最高資安等級。',
-            features: [
-                { id: 1, text: '5-8 頁完整形象官網' },
-                { id: 2, text: '無後台架構 (駭客無法入侵)' },
-                { id: 3, text: '秒開級載入速度 (Ultra Fast)' },
-                { id: 4, text: '每年贈送 2 次文字微調' }
-            ]
-        },
-        {
-            id: 3,
-            series: 'Series B: Corporate Brand',
-            name: '動態管理版 (Dynamic CMS)',
-            price: '68,000', // Update to 68,000 to match i18n
-            originalPrice: '',
-            isSpecial: false,
-            recommendationLevel: 0,
-            description: '隨時掌握品牌話語權，自主更新。適合需要經營部落格或最新消息的品牌。',
-            features: [
-                { id: 1, text: 'Smart AI 後台管理系統' },
-                { id: 2, text: '部落格 / 最新消息功能' },
-                { id: 3, text: '可自訂 SEO 標籤' },
-                { id: 4, text: '可擴充系統架構' }
-            ]
-        }
-    ]);
-
+    const [plans, setPlans] = useState([]);
     const [view, setView] = useState('list'); // 'list' | 'edit'
     const [editingPlan, setEditingPlan] = useState(null);
+
+    // Fetch Products from Supabase
+    const fetchPlans = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('products')
+                .select('*')
+                .order('id', { ascending: true });
+
+            if (error) throw error;
+
+            // Map DB snake_case to UI camelCase
+            const formattedData = data.map(plan => ({
+                ...plan,
+                originalPrice: plan.original_price, // Database column: original_price
+                isSpecial: plan.is_special,         // Database column: is_special
+                recommendationLevel: plan.recommendation_level // Database column: recommendation_level
+            }));
+
+            setPlans(formattedData || []);
+        } catch (error) {
+            console.error('Error fetching plans:', error);
+            toast.error('無法載入產品資料');
+        }
+    };
+
+    useEffect(() => {
+        fetchPlans();
+    }, []);
 
     const handleEdit = (plan) => {
         setEditingPlan(plan);
@@ -407,21 +386,40 @@ const TransparencySettings = () => {
         setView('edit');
     };
 
-    const handleSavePlan = (updatedPlan) => {
+    const handleSavePlan = async (updatedPlan) => {
         const loadingToast = toast.loading('Saving...');
-        setTimeout(() => {
+        try {
+            // Prepare payload for DB (convert camelCase to snake_case)
+            const payload = {
+                series: updatedPlan.series,
+                name: updatedPlan.name,
+                price: updatedPlan.price,
+                original_price: updatedPlan.originalPrice,
+                description: updatedPlan.description,
+                features: updatedPlan.features, // JSONB
+                recommendation_level: updatedPlan.recommendationLevel,
+                is_special: updatedPlan.isSpecial
+            };
+
             if (updatedPlan.id) {
-                // Update existing
-                setPlans(prev => prev.map(p => p.id === updatedPlan.id ? updatedPlan : p));
-            } else {
-                // Create new
-                const newPlan = { ...updatedPlan, id: Date.now() };
-                setPlans(prev => [...prev, newPlan]);
+                payload.id = updatedPlan.id;
             }
+
+            const { error } = await supabase
+                .from('products')
+                .upsert(payload);
+
+            if (error) throw error;
+
             toast.dismiss(loadingToast);
             toast.success('儲存成功！');
             setView('list');
-        }, 600);
+            fetchPlans(); // Refresh list to get new IDs/Data
+        } catch (error) {
+            console.error('Error saving plan:', error);
+            toast.dismiss(loadingToast);
+            toast.error('儲存失敗');
+        }
     };
 
     // Grouping Logic
