@@ -351,6 +351,7 @@ const resources = {
             "admin.articles.import": "匯入舊資料",
             "admin.articles.save": "儲存文章",
             "admin.articles.saving": "儲存中...",
+            "admin.articles.is_sticky": "置頂文章",
             "admin.articles.save_success": "文章儲存成功",
             "admin.articles.title_label": "文章標題",
             "admin.articles.slug_label": "文章網址 (ID)",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Paper, TextField, Button, Grid, Chip, Stack, IconButton } from '@mui/material';
+import { Box, Typography, Paper, TextField, Button, Grid, Chip, Stack, IconButton, FormControlLabel, Checkbox } from '@mui/material';
 import { supabase } from '../../../lib/supabaseClient';
 import { useNavigate, useParams } from 'react-router-dom';
 import SaveIcon from '@mui/icons-material/Save';
@@ -43,7 +43,8 @@ const ArticleEditor = () => {
         description: '',
         content: '',
         date: new Date().toISOString().split('T')[0],
-        tags: []
+        tags: [],
+        is_sticky: false
     });
 
     useEffect(() => {
@@ -186,6 +187,18 @@ const ArticleEditor = () => {
                                         value={formData.date}
                                         onChange={handleChange}
                                         sx={inputStyle}
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={formData.is_sticky || false}
+                                                onChange={(e) => setFormData({ ...formData, is_sticky: e.target.checked })}
+                                                name="is_sticky"
+                                                color="primary"
+                                            />
+                                        }
+                                        label={t('admin.articles.is_sticky') || "Pin to Top"}
+                                        sx={{ mt: 2, display: 'block' }}
                                     />
                                 </Box>
                             </Grid>

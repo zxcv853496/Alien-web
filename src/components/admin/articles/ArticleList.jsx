@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Paper, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Chip, Tooltip, Stack } from '@mui/material';
 import { supabase } from '../../../lib/supabaseClient';
 import { useNavigate } from 'react-router-dom';
+import PushPinIcon from '@mui/icons-material/PushPin';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -32,7 +33,18 @@ const ArticleList = () => {
                 // If table doesn't exist, this might error. We catch it.
                 console.error('Error fetching articles:', error);
             }
-            setArticles(data || []);
+
+            let processedData = data || [];
+            if (processedData.length > 0) {
+                // Sort: Sticky first, then Date DESC
+                processedData.sort((a, b) => {
+                    if (a.is_sticky === b.is_sticky) {
+                        return new Date(b.date) - new Date(a.date);
+                    }
+                    return a.is_sticky ? -1 : 1;
+                });
+            }
+            setArticles(processedData);
         } catch (error) {
             console.error('Unexpected error:', error);
         } finally {
@@ -103,9 +115,14 @@ const ArticleList = () => {
                                 </TableRow>
                             ) : (
                                 articles.map((article) => (
-                                    <TableRow key={article.id} hover>
+                                    <TableRow key={article.id} hover sx={article.is_sticky ? { bgcolor: 'rgba(33, 150, 243, 0.08)' } : {}}>
                                         <TableCell sx={{ whiteSpace: 'nowrap' }}>{article.date}</TableCell>
-                                        <TableCell sx={{ fontWeight: 500 }}>{article.title}</TableCell>
+                                        <TableCell sx={{ fontWeight: 500 }}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                {article.is_sticky && <PushPinIcon fontSize="small" color="primary" sx={{ transform: 'rotate(45deg)' }} />}
+                                                {article.title}
+                                            </Box>
+                                        </TableCell>
                                         <TableCell>
                                             <Stack direction="row" spacing={0.5}>
                                                 {article.tags?.slice(0, 3).map(tag => (
