@@ -97,7 +97,9 @@ export default function BlogList() {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [articles, setArticles] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]); // Restore selectedTags
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [tagsFilterExpanded, setTagsFilterExpanded] = useState(false);
+    const TAG_FILTER_LIMIT = 12;
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -178,7 +180,7 @@ export default function BlogList() {
             <Container maxWidth="lg" sx={{ py: 8 }}>
                 {/* Restore Tag Filter UI */}
                 <Stack direction="row" spacing={1} sx={{ mb: 6, flexWrap: 'wrap', gap: 1 }}>
-                    {allTags.map((tag) => {
+                    {(tagsFilterExpanded ? allTags : allTags.slice(0, TAG_FILTER_LIMIT)).map((tag) => {
                         const isSelected = tag === 'All'
                             ? selectedTags.length === 0
                             : selectedTags.includes(tag);
@@ -216,6 +218,29 @@ export default function BlogList() {
                             />
                         );
                     })}
+                    {!tagsFilterExpanded && allTags.length > TAG_FILTER_LIMIT && (
+                        <Chip
+                            label="..."
+                            onClick={() => setTagsFilterExpanded(true)}
+                            sx={{
+                                borderRadius: '50px',
+                                fontSize: '0.95rem',
+                                height: 'auto',
+                                px: 1.5,
+                                py: 1,
+                                cursor: 'pointer',
+                                border: '1px solid transparent',
+                                bgcolor: '#F3F4F6',
+                                color: 'text.secondary',
+                                fontWeight: 600,
+                                transition: 'all 0.2s ease',
+                                '&:hover': {
+                                    bgcolor: '#E5E7EB',
+                                    boxShadow: 'none'
+                                },
+                            }}
+                        />
+                    )}
                 </Stack>
 
                 <Stack spacing={4}>
