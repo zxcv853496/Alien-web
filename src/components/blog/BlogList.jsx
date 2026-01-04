@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, CardActionArea, Chip, Stack, CircularProgress } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'; // Added Import
 import { supabase } from '../../lib/supabaseClient';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -181,6 +182,7 @@ export default function BlogList() {
             <Container maxWidth="lg" sx={{ py: 8 }}>
                 {/* Restore Tag Filter UI */}
                 <Stack direction="row" spacing={1} sx={{ mb: 6, flexWrap: 'wrap', gap: 1 }}>
+                    {/* Rendering Tags */}
                     {(tagsFilterExpanded ? allTags : allTags.slice(0, TAG_FILTER_LIMIT)).map((tag) => {
                         const isSelected = tag === 'All'
                             ? selectedTags.length === 0
@@ -219,11 +221,13 @@ export default function BlogList() {
                             />
                         );
                     })}
-                    {!tagsFilterExpanded && allTags.length > TAG_FILTER_LIMIT && (
+
+                    {/* Toggle Button (Show More / Show Less) */}
+                    {allTags.length > TAG_FILTER_LIMIT && (
                         <Chip
-                            label="展開更多"
-                            icon={<ExpandMoreIcon />}
-                            onClick={() => setTagsFilterExpanded(true)}
+                            label={tagsFilterExpanded ? "收起標籤" : "展開更多"}
+                            icon={tagsFilterExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                            onClick={() => setTagsFilterExpanded(!tagsFilterExpanded)}
                             clickable
                             sx={{
                                 borderRadius: '50px',
@@ -231,15 +235,18 @@ export default function BlogList() {
                                 height: 'auto',
                                 px: 1,
                                 py: 0.75,
-                                border: '1px dashed',
-                                borderColor: 'text.secondary',
-                                bgcolor: 'transparent',
-                                color: 'text.secondary',
+                                border: '1px solid',
+                                borderColor: 'primary.100', // Subtle border
+                                bgcolor: 'white', // Clean white background
+                                color: 'primary.main',
+                                fontWeight: 600,
+                                boxShadow: '0 2px 8px rgba(33, 150, 243, 0.1)', // Soft shadow for depth
                                 transition: 'all 0.2s',
                                 '&:hover': {
+                                    bgcolor: 'primary.50',
                                     borderColor: 'primary.main',
-                                    color: 'primary.main',
-                                    bgcolor: 'primary.50'
+                                    boxShadow: '0 4px 12px rgba(33, 150, 243, 0.2)',
+                                    transform: 'translateY(-1px)'
                                 },
                             }}
                         />
