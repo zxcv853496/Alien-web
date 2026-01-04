@@ -235,18 +235,15 @@ export default function BlogList() {
                                 height: 'auto',
                                 px: 1,
                                 py: 0.75,
-                                border: '1px solid',
-                                borderColor: 'primary.100', // Subtle border
-                                bgcolor: 'white', // Clean white background
-                                color: 'primary.main',
-                                fontWeight: 600,
-                                boxShadow: '0 2px 8px rgba(33, 150, 243, 0.1)', // Soft shadow for depth
+                                border: '1px dashed',
+                                borderColor: 'text.secondary',
+                                bgcolor: 'transparent',
+                                color: 'text.secondary',
                                 transition: 'all 0.2s',
                                 '&:hover': {
-                                    bgcolor: 'primary.50',
                                     borderColor: 'primary.main',
-                                    boxShadow: '0 4px 12px rgba(33, 150, 243, 0.2)',
-                                    transform: 'translateY(-1px)'
+                                    color: 'primary.main',
+                                    bgcolor: 'rgba(33, 150, 243, 0.04)' // Softer hover
                                 },
                             }}
                         />
