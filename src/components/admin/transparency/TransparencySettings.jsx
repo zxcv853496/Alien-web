@@ -130,6 +130,13 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
         setFormData(prev => ({ ...prev, features: prev.features.filter(f => f.id !== id) }));
     };
 
+    const handleUpdateFeature = (id, newText) => {
+        setFormData(prev => ({
+            ...prev,
+            features: prev.features.map(f => f.id === id ? { ...f, text: newText } : f)
+        }));
+    };
+
     const handleRecommendationChange = (event, newLevel) => {
         if (newLevel !== null) {
             setFormData(prev => ({ ...prev, recommendationLevel: newLevel }));
@@ -311,16 +318,46 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                                 <ListItem
                                     key={item.id}
                                     secondaryAction={
-                                        <IconButton edge="end" onClick={() => handleRemoveFeature(item.id)}>
+                                        <IconButton edge="end" onClick={() => handleRemoveFeature(item.id)} sx={{ color: 'error.main' }}>
                                             <DeleteIcon fontSize="small" />
                                         </IconButton>
                                     }
-                                    sx={{ borderBottom: '1px solid #f0f0f0' }}
+                                    sx={{
+                                        borderBottom: '1px solid #f5f5f5',
+                                        py: 0.5,
+                                        px: 1,
+                                        mb: 0.5
+                                    }}
                                 >
                                     <ListItemIcon sx={{ minWidth: 36 }}>
                                         <CheckCircleIcon color="success" fontSize="small" />
                                     </ListItemIcon>
-                                    <ListItemText primary={item.text} />
+                                    <TextField
+                                        fullWidth
+                                        variant="standard"
+                                        value={item.text}
+                                        onChange={(e) => handleUpdateFeature(item.id, e.target.value)}
+                                        onKeyPress={(e) => e.key === 'Enter' && e.target.blur()}
+                                        InputProps={{
+                                            disableUnderline: true,
+                                            sx: {
+                                                fontSize: '0.875rem',
+                                                padding: '4px 8px',
+                                                borderRadius: '6px',
+                                                transition: 'all 0.2s ease',
+                                                '&.Mui-focused': {
+                                                    bgcolor: '#fff',
+                                                    boxShadow: '0 0 0 1px #2196F3',
+                                                    border: '1px solid #2196F3',
+                                                    mx: -1, // Adjust for border
+                                                },
+                                                '&:not(.Mui-focused)': {
+                                                    border: '1px solid transparent'
+                                                }
+                                            }
+                                        }}
+                                        placeholder="輸入文字..."
+                                    />
                                 </ListItem>
                             ))}
                         </List>
