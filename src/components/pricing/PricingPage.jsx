@@ -15,7 +15,6 @@ const PricingPage = () => {
         rows: [
             { feature: t('compare.b.row1.feat'), values: [t('compare.b.row1.v1'), t('compare.b.row1.v2')] },
             { feature: t('compare.b.row2.feat'), values: [t('compare.b.row2.v1'), t('compare.b.row2.v2')] },
-            { feature: t('compare.b.row3.feat'), values: [t('compare.b.row3.v1'), t('compare.b.row3.v2')] },
             { feature: t('compare.b.row4.feat'), values: [t('compare.b.row4.v1'), t('compare.b.row4.v2')] },
         ]
     };
