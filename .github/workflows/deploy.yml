@@ -34,7 +34,7 @@ jobs:
       # 第 3 步：執行 React 專案的打包流程
       - name: Install and Build 🏗️
         run: |
-          npm ci          # 根據 package-lock.json 乾淨地安裝所有依賴套件
+          npm ci --legacy-peer-deps  # 根據 package-lock.json 乾淨地安裝所有依賴套件，並忽略 peer dependency 衝突
           npm run build   # 執行 Vite 的打包指令，產出靜態檔案到 dist 資料夾
 
       # 第 4 步：將編譯好的檔案推送到指定的分支進行部署
