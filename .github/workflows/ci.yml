@@ -36,3 +36,27 @@ jobs:
       # 5. 打包測試 (Build)
       - name: Build Check 🏗️
         run: npm run build
+
+      - name: Generate CI Summary 📋
+        if: success()
+        run: |
+          # Calculate Metrics
+          BUILD_SIZE=$(du -sh dist | cut -f1)
+          FILE_COUNT=$(find dist -type f | wc -l)
+          
+          echo "# ✅ CI 檢查通過 (CI Passed)" >> $GITHUB_STEP_SUMMARY
+          
+          echo "## 📊 建置數據 (Metrics)" >> $GITHUB_STEP_SUMMARY
+          echo "| 指標 | 數值 |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **總檔案大小 (Total Size)** | **$BUILD_SIZE** 📦 |" >> $GITHUB_STEP_SUMMARY
+          echo "| **檔案數量 (File Count)** | **$FILE_COUNT** files 📄 |" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🛠️ 詳細資訊 (Details)" >> $GITHUB_STEP_SUMMARY
+          echo "| 項目 | 內容 |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Lint Check** | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Build Check** | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
