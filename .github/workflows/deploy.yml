@@ -1,0 +1,48 @@
+# 這個工作流程的名稱，會顯示在 GitHub Actions 的界面上
+name: Deploy to GitHub Pages
+
+# 設定「觸發條件」
+on:
+  push:
+    # 當你執行 git push 且目標是 main 分支時，才會啟動這個自動化流程
+    branches: [ "main" ]
+
+# 設定權限
+permissions:
+  # 允許這個腳本將編譯後的內容「寫入」你的 Repo 分支（這對部署到 gh-pages 分支至關重要）
+  contents: write
+
+# 定義要執行的工作內容
+jobs:
+  build-and-deploy:
+    # 指定自動化主機的作業系統，這裡使用 GitHub 提供的最新版 Ubuntu 虛擬機
+    runs-on: ubuntu-latest
+
+    # 工作中的具體步驟
+    steps:
+      # 第 1 步：將你的原始碼從 GitHub 下載到這台虛擬機中
+      - name: Checkout 🗄️
+        uses: actions/checkout@v4
+
+      # 第 2 步：安裝 Node.js 環境
+      - name: Setup Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 指定 Node 版本，建議與你本地開發版本一致
+          cache: 'npm'     # 開啟快取功能，下次執行時安裝 package 會快很多
+
+      # 第 3 步：執行 React 專案的打包流程
+      - name: Install and Build 🏗️
+        run: |
+          npm ci          # 根據 package-lock.json 乾淨地安裝所有依賴套件
+          npm run build   # 執行 Vite 的打包指令，產出靜態檔案到 dist 資料夾
+
+      # 第 4 步：將編譯好的檔案推送到指定的分支進行部署
+      - name: Deploy 🚀
+        # 使用社群推薦的部署工具
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          # 指定要把哪個資料夾的內容丟上網（Vite 預設是 dist）
+          folder: dist 
+          # 指定部署的目標分支，GitHub Pages 預設會讀取這個分支的內容來顯示網頁
+          branch: gh-pages
