@@ -5,4 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/',
   plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: './src/setupTests.js',
+    css: false,
+    alias: {
+      '@testing-library/dom': './node_modules/@testing-library/dom/dist/index.js',
+    },
+  },
 })

@@ -33,7 +33,11 @@ jobs:
       - name: Lint Check 🔍
         run: npm run lint
 
-      # 5. 打包測試 (Build)
+      # 5. 單元測試 (Unit Test)
+      - name: Test Check 🧪
+        run: npm run test
+
+      # 6. 打包測試 (Build)
       - name: Build Check 🏗️
         run: npm run build
 
@@ -50,7 +54,7 @@ jobs:
           
           # Determine Report Type
           if [ "${{ github.ref }}" == "refs/heads/develop" ] && [ "${{ github.event_name }}" == "push" ]; then
-            REPORT_TYPE="� 新功能發布 (Feature Release)"
+            REPORT_TYPE="📋 新功能發布 (Feature Release)"
             STATUS="✅ 已整合至 Develop (Merged)"
             CONTENT="$COMMIT_MSG"
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
