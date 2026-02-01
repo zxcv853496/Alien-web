@@ -51,7 +51,7 @@ const ArticleEditor = () => {
         if (!isNew) {
             fetchArticle();
         }
-    }, [id]);
+    }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const fetchArticle = async () => {
         setFetching(true);
