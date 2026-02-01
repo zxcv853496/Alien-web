@@ -42,28 +42,38 @@ jobs:
         run: npm run build
 
       - name: Generate CI Summary 📋
-        if: success()
+        if: always()
         run: |
           # Calculate Metrics
-          BUILD_SIZE=$(du -sh dist | cut -f1)
-          FILE_COUNT=$(find dist -type f | wc -l)
+          if [ -d "dist" ]; then
+            BUILD_SIZE=$(du -sh dist | cut -f1)
+            FILE_COUNT=$(find dist -type f | wc -l)
+          else
+            BUILD_SIZE="N/A"
+            FILE_COUNT="N/A"
+          fi
+          
           COMMIT_MSG=$(git log -1 --pretty=%B)
           BUILD_DATE=$(date "+%Y-%m-%d %H:%M:%S")
           
-          echo "# 🟢 建置成功 (Build Success)" >> $GITHUB_STEP_SUMMARY
+          # Check Job Status
+          if [ "${{ job.status }}" == "success" ]; then
+             echo "# 🟢 建置成功 (Build Success)" >> $GITHUB_STEP_SUMMARY
+             STATUS_ICON="✅"
+          else
+             echo "# 🔴 建置失敗 (Build Failed)" >> $GITHUB_STEP_SUMMARY
+             STATUS_ICON="❌"
+          fi
           
-          # Determine Report Type
+          # Determine Report Type (Release vs Review vs Dev)
           if [ "${{ github.ref }}" == "refs/heads/develop" ] && [ "${{ github.event_name }}" == "push" ]; then
-            REPORT_TYPE="📋 新功能發布 (Feature Release)"
-            STATUS="✅ 已整合至 Develop (Merged)"
+            REPORT_TYPE="� 新功能發布 (Feature Release)"
             CONTENT="$COMMIT_MSG"
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             REPORT_TYPE="⏳ 功能審核 (Feature Review)"
-            STATUS="👀 等待審核 (Pending Review)"
             CONTENT="${{ github.event.pull_request.title }}"
           else
             REPORT_TYPE="📝 開發提交 (Dev Commit)"
-            STATUS="🔄 開發中 (In Progress)"
             CONTENT="$COMMIT_MSG"
           fi
 
@@ -72,8 +82,22 @@ jobs:
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
           echo "| **負責人員 (Actor)** | @${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
           echo "| **主要內容 (Content)** | $CONTENT |" >> $GITHUB_STEP_SUMMARY
-          echo "| **當前狀態 (Status)** | $STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| **執行結果 (Result)** | $STATUS_ICON ${{ job.status }} |" >> $GITHUB_STEP_SUMMARY
           echo "| **時間 (Time)** | $BUILD_DATE |" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🧪 測試與驗證 (Tests & Validation)" >> $GITHUB_STEP_SUMMARY
+          echo "| 測試項目 (Test Components) | 類型 (Type) |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          
+          # Extract Test Descriptions
+          # Find all test files and grep for 'describe' blocks
+          grep -r "describe" src | grep ".test.jsx" | while read -r line ; do
+            # Clean up the line to get just the text inside quotes
+            DESC=$(echo "$line" | sed -E "s/.*describe\(['\"](.+)['\"].*/\1/")
+            FILE=$(echo "$line" | cut -d: -f1 | xargs basename)
+            echo "| **$DESC** ($FILE) | Integration / Smoke |" >> $GITHUB_STEP_SUMMARY
+          done
           
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## 📊 系統指標 (System Metrics)" >> $GITHUB_STEP_SUMMARY
