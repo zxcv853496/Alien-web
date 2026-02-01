@@ -92,7 +92,14 @@ const PricingCard = ({ title, price, description, features, popular, premium, de
                     {title}
                 </Typography>
                 <Typography variant="h4" component="div" fontWeight="800" sx={{ mb: 1, color: popular ? '#2196F3' : 'inherit' }}>
-                    {price}
+                    {(() => {
+                        const numPrice = Number(price);
+                        // Checks if it IS a number (not NaN) AND the original wasn't already non-numeric text like "Contact Us"
+                        if (!isNaN(numPrice) && price !== 'Contact Us') {
+                            return `NT$ ${numPrice.toLocaleString()}`;
+                        }
+                        return price;
+                    })()}
                 </Typography>
                 {props.originalPrice && (
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, mt: -0.5 }}>
