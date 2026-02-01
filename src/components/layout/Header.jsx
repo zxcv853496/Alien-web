@@ -39,7 +39,7 @@ const Header = () => {
         { label: t('nav.pricing'), path: '/pricing' },
         { label: t('nav.articles'), path: '/articles' },
         { label: t('nav.contact'), path: '/contact' },
-        { label: t('nav.ai_tool'), path: '/ai-strategy' },
+
     ];
 
     const handleNavigation = (path) => {
