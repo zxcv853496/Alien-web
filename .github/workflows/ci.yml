@@ -67,7 +67,7 @@ jobs:
           
           # Determine Report Type (Release vs Review vs Dev)
           if [ "${{ github.ref }}" == "refs/heads/develop" ] && [ "${{ github.event_name }}" == "push" ]; then
-            REPORT_TYPE="� 新功能發布 (Feature Release)"
+            REPORT_TYPE="新功能發布 (Feature Release)"
             CONTENT="$COMMIT_MSG"
           elif [ "${{ github.event_name }}" == "pull_request" ]; then
             REPORT_TYPE="⏳ 功能審核 (Feature Review)"
