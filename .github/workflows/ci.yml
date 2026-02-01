@@ -43,20 +43,37 @@ jobs:
           # Calculate Metrics
           BUILD_SIZE=$(du -sh dist | cut -f1)
           FILE_COUNT=$(find dist -type f | wc -l)
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          BUILD_DATE=$(date "+%Y-%m-%d %H:%M:%S")
           
-          echo "# ✅ CI 檢查通過 (CI Passed)" >> $GITHUB_STEP_SUMMARY
+          echo "# 🟢 建置成功 (Build Success)" >> $GITHUB_STEP_SUMMARY
           
-          echo "## 📊 建置數據 (Metrics)" >> $GITHUB_STEP_SUMMARY
+          # Determine Report Type
+          if [ "${{ github.ref }}" == "refs/heads/develop" ] && [ "${{ github.event_name }}" == "push" ]; then
+            REPORT_TYPE="� 新功能發布 (Feature Release)"
+            STATUS="✅ 已整合至 Develop (Merged)"
+            CONTENT="$COMMIT_MSG"
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            REPORT_TYPE="⏳ 功能審核 (Feature Review)"
+            STATUS="👀 等待審核 (Pending Review)"
+            CONTENT="${{ github.event.pull_request.title }}"
+          else
+            REPORT_TYPE="📝 開發提交 (Dev Commit)"
+            STATUS="🔄 開發中 (In Progress)"
+            CONTENT="$COMMIT_MSG"
+          fi
+
+          echo "## 📋 $REPORT_TYPE" >> $GITHUB_STEP_SUMMARY
+          echo "| 項目 | 內容 |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **負責人員 (Actor)** | @${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **主要內容 (Content)** | $CONTENT |" >> $GITHUB_STEP_SUMMARY
+          echo "| **當前狀態 (Status)** | $STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| **時間 (Time)** | $BUILD_DATE |" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 系統指標 (System Metrics)" >> $GITHUB_STEP_SUMMARY
           echo "| 指標 | 數值 |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
           echo "| **總檔案大小 (Total Size)** | **$BUILD_SIZE** 📦 |" >> $GITHUB_STEP_SUMMARY
           echo "| **檔案數量 (File Count)** | **$FILE_COUNT** files 📄 |" >> $GITHUB_STEP_SUMMARY
-          
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## 🛠️ 詳細資訊 (Details)" >> $GITHUB_STEP_SUMMARY
-          echo "| 項目 | 內容 |" >> $GITHUB_STEP_SUMMARY
-          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Lint Check** | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Build Check** | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
