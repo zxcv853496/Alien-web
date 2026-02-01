@@ -270,7 +270,7 @@ const Pricing = () => {
                             borderRadius: 4,
                             display: 'flex',
                             flexDirection: { xs: 'column', md: 'row' },
-                            alignItems: 'center',
+                            alignItems: { xs: 'center', md: 'flex-end' },
                             justifyContent: 'space-between'
                         }}>
                             <Box>
