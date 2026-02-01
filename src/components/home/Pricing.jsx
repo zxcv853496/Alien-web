@@ -270,10 +270,10 @@ const Pricing = () => {
                             borderRadius: 4,
                             display: 'flex',
                             flexDirection: { xs: 'column', md: 'row' },
-                            alignItems: { xs: 'center', md: 'flex-end' },
+                            alignItems: 'center',
                             justifyContent: 'space-between'
                         }}>
-                            <Box>
+                            <Box sx={{ flex: 1, mr: { md: 4 } }}>
                                 <Typography variant="h5" fontWeight="bold" gutterBottom>
                                     {t('pricing.c1.title')}
                                 </Typography>
@@ -281,17 +281,25 @@ const Pricing = () => {
                                     {t('pricing.c1.desc')} • {t('pricing.c1.features').replaceAll(',', ' • ')}
                                 </Typography>
                             </Box>
-                            <Button
-                                variant="contained"
-                                color="inherit"
-                                onClick={() => {
-                                    window.location.hash = '#/contact';
-                                    window.scrollTo(0, 0);
-                                }}
-                                sx={{ color: '#263238', fontWeight: 'bold', px: 4, whiteSpace: 'nowrap', minWidth: 'fit-content' }}
-                            >
-                                {t('pricing.contact')}
-                            </Button>
+
+                            <Box sx={{
+                                borderLeft: { md: '1px solid rgba(255,255,255,0.2)' },
+                                pl: { md: 4 },
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}>
+                                <Button
+                                    variant="contained"
+                                    color="inherit"
+                                    onClick={() => {
+                                        window.location.hash = '#/contact';
+                                        window.scrollTo(0, 0);
+                                    }}
+                                    sx={{ color: '#263238', fontWeight: 'bold', px: 4, whiteSpace: 'nowrap', minWidth: 'fit-content' }}
+                                >
+                                    {t('pricing.contact')}
+                                </Button>
+                            </Box>
                         </Card>
                     </motion.div>
                 </Box>
