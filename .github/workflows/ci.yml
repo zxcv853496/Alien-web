@@ -91,12 +91,22 @@ jobs:
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
           
           # Extract Test Descriptions
-          # Find all test files and grep for 'describe' blocks
-          grep -r "describe" src | grep ".test.jsx" | while read -r line ; do
-            # Clean up the line to get just the text inside quotes
-            DESC=$(echo "$line" | sed -E "s/.*describe\(['\"](.+)['\"].*/\1/")
+          # Find 'describe(' blocks, excluding imports
+          grep -r "describe(" src | grep ".test.jsx" | grep -v "import" | while read -r line ; do
+            # Extract text inside quotes
+            RAW_DESC=$(echo "$line" | sed -E "s/.*describe\(['\"]([^'\"]+)['\"].*/\1/")
             FILE=$(echo "$line" | cut -d: -f1 | xargs basename)
-            echo "| **$DESC** ($FILE) | Integration / Smoke |" >> $GITHUB_STEP_SUMMARY
+            
+            # Colloquial Translation Logic
+            if [[ "$RAW_DESC" == *"Smoke Test"* ]]; then
+               DESC_ZH="🟢 系統核心啟動檢查"
+               TYPE="🛡️ 冒煙測試 (Smoke)"
+            else
+               DESC_ZH="🧪 $RAW_DESC"
+               TYPE="整合測試 (Integration)"
+            fi
+            
+            echo "| **$DESC_ZH** <br> <span style='color:gray;font-size:12px'>$RAW_DESC</span> | $TYPE |" >> $GITHUB_STEP_SUMMARY
           done
           
           echo "" >> $GITHUB_STEP_SUMMARY
