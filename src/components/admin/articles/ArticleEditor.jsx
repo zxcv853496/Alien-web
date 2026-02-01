@@ -48,29 +48,29 @@ const ArticleEditor = () => {
     });
 
     useEffect(() => {
+        const fetchArticle = async () => {
+            setFetching(true);
+            try {
+                const { data, error } = await supabase
+                    .from('articles')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error) throw error;
+                if (data) setFormData(data);
+            } catch (error) {
+                console.error('Error fetching article:', error);
+                toast.error('Could not load article');
+            } finally {
+                setFetching(false);
+            }
+        };
+
         if (!isNew) {
             fetchArticle();
         }
-    }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
-
-    const fetchArticle = async () => {
-        setFetching(true);
-        try {
-            const { data, error } = await supabase
-                .from('articles')
-                .select('*')
-                .eq('id', id)
-                .single();
-
-            if (error) throw error;
-            if (data) setFormData(data);
-        } catch (error) {
-            console.error('Error fetching article:', error);
-            toast.error('Could not load article');
-        } finally {
-            setFetching(false);
-        }
-    };
+    }, [id, isNew]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
