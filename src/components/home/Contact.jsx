@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Container, Typography, Button, TextField, Paper, CircularProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
 import { supabase } from '../../lib/supabaseClient';
 import toast from 'react-hot-toast';
 

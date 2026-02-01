@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Container, Typography, TextField, MenuItem, Button, Grid, Paper, Tooltip } from '@mui/material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion'; // eslint-disable-line no-unused-vars
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -86,7 +86,7 @@ const AIPage = () => {
     const [formData, setFormData] = useState({ name: '', industry: 'tech' });
     const [result, setResult] = useState(null);
     const [logs, setLogs] = useState([]);
-    const [error, setError] = useState(false);
+    const [, setError] = useState(false);
 
     const industries = [
         { value: 'tech', label: t('ai.industry.tech') },
@@ -148,7 +148,6 @@ const AIPage = () => {
                 clearInterval(interval);
                 setTimeout(() => {
                     if (isValid) {
-                        const target = industries.find(ind => ind.value === formData.industry) || industries[0];
                         // Simulation Logic
                         const strategies = {
                             tech: {

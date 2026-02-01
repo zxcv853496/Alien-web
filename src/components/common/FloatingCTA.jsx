@@ -1,7 +1,7 @@
 import React from 'react';
 import { Fab, Tooltip, Zoom, Typography } from '@mui/material';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
 
 const FloatingCTA = () => {
     // Line ID Add Link

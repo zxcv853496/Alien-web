@@ -4,7 +4,7 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'; // Added Import
 import { supabase } from '../../lib/supabaseClient';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageHero from '../layout/PageHero';
@@ -49,7 +49,7 @@ const ArticleCard = ({ article }) => {
                     )}
 
                     <Box sx={{ mb: 2 }} onClick={(e) => {
-                        // Stop propagation to prevent card click
+                        e.stopPropagation(); // Stop propagation to prevent card click
                     }}>
                         <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: 1 }}>
                             {displayedTags?.map(tag => (
@@ -97,7 +97,7 @@ const ArticleCard = ({ article }) => {
 
 export default function BlogList() {
     const { t } = useTranslation();
-    const navigate = useNavigate();
+    // const navigate = useNavigate(); // Removed unused
     const [articles, setArticles] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const [tagsFilterExpanded, setTagsFilterExpanded] = useState(false);

@@ -163,7 +163,7 @@ const AdminLayout = () => {
                         <Button
                             onClick={handleMenu}
                             color="inherit"
-                            endIcon={Boolean(anchorEl) ? <KeyboardArrowUpIcon sx={{ color: '#64748b' }} /> : <KeyboardArrowDownIcon sx={{ color: '#64748b' }} />}
+                            endIcon={anchorEl ? <KeyboardArrowUpIcon sx={{ color: '#64748b' }} /> : <KeyboardArrowDownIcon sx={{ color: '#64748b' }} />}
                             sx={{
                                 textTransform: 'none',
                                 border: '1px solid #e2e8f0',

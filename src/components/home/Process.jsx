@@ -8,7 +8,6 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 
 const ProcessStep = ({ title, description, icon, index, steps }) => {
     const theme = useTheme();
-    const isEven = index % 2 === 0;
 
     // Animation Config
     const STEP_DURATION = 0.5;

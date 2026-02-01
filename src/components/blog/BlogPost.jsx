@@ -7,7 +7,7 @@ import { supabase } from '../../lib/supabaseClient';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PageHero from '../layout/PageHero';
 import ReactMarkdown from 'react-markdown';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion'; // eslint-disable-line no-unused-vars
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 const BlogPost = () => {
@@ -70,7 +70,7 @@ const BlogPost = () => {
 
     // Custom Markdown Components
     const MarkdownComponents = {
-        h2: ({ node, ...props }) => (
+        h2: ({ ...props }) => (
             <Typography
                 variant="h4"
                 component="h2"
@@ -87,7 +87,7 @@ const BlogPost = () => {
                 {...props}
             />
         ),
-        h3: ({ node, ...props }) => (
+        h3: ({ ...props }) => (
             <Typography
                 variant="h5"
                 component="h3"
@@ -96,7 +96,7 @@ const BlogPost = () => {
                 {...props}
             />
         ),
-        p: ({ node, ...props }) => (
+        p: ({ ...props }) => (
             <Typography
                 variant="body1"
                 paragraph
@@ -104,12 +104,12 @@ const BlogPost = () => {
                 {...props}
             />
         ),
-        strong: ({ node, ...props }) => (
+        strong: ({ ...props }) => (
             <Box component="span" sx={{ fontWeight: 'bold', color: 'primary.main', bgcolor: 'rgba(33, 150, 243, 0.1)', px: 0.5, borderRadius: 1 }}>
                 {props.children}
             </Box>
         ),
-        blockquote: ({ node, ...props }) => (
+        blockquote: ({ ...props }) => (
             <Paper
                 elevation={0}
                 sx={{
@@ -134,7 +134,7 @@ const BlogPost = () => {
                 </Box>
             </Paper>
         ),
-        li: ({ node, ...props }) => (
+        li: ({ ...props }) => (
             <Box component="li" sx={{ mb: 1 }}>
                 <Typography variant="body1" component="span" sx={{ lineHeight: 1.8, fontSize: '1.1rem', color: 'text.secondary' }}>
                     {props.children}

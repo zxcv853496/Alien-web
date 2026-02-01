@@ -340,7 +340,7 @@ const PlanEditor = ({ plan, onSave, onCancel }) => {
                         </Box>
 
                         <List sx={{ bgcolor: 'white', borderRadius: 3, maxHeight: 400, overflow: 'auto', border: '1px solid #eee' }}>
-                            {formData.features.map((item, index) => (
+                            {formData.features.map((item) => (
                                 <ListItem
                                     key={item.id}
                                     secondaryAction={
