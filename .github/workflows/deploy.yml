@@ -46,3 +46,23 @@ jobs:
           folder: dist 
           # 指定部署的目標分支，GitHub Pages 預設會讀取這個分支的內容來顯示網頁
           branch: gh-pages
+
+      # 第 5 步：產生部署報告 (Job Summary)
+      - name: Generate Deployment Summary 📋
+        if: success()
+        run: |
+          echo "# 🚀 部署成功！ (Deployment Successful)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**您的網站已更新至:** [https://alienaistudio.tw](https://alienaistudio.tw)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 部署詳細資訊 (Details)" >> $GITHUB_STEP_SUMMARY
+          echo "| 項目 | 內容 |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **狀態 (Status)** | ✅ 成功 (Success) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **分支 (Branch)** | \`${{ github.ref_name }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **版本 (Commit)** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **執行者 (Actor)** | @${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> [!TIP]" >> $GITHUB_STEP_SUMMARY
+          echo "> 網站更新可能需要幾分鐘才會在瀏覽器中生效，請嘗試強制重新整理 (Ctrl + F5)。" >> $GITHUB_STEP_SUMMARY
